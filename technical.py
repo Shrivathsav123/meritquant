@@ -3,6 +3,7 @@ import yfinance as yf
 import pandas as pd
 import numpy as np
 import ta
+import time
 from datetime import datetime
 
 # ── Your RSI Rules ────────────────────────────────────────────
@@ -61,8 +62,9 @@ def get_rsi_score(ticker):
 
     for tf_name, interval, period in timeframe_checks:
         try:
-            data = yf.download(ticker, interval=interval, period=period,
-                             progress=False, auto_adjust=True)
+            time.sleep(1)
+        data = yf.download(ticker, interval=interval, period=period,
+                             progress=False, auto_adjust=True, threads=False, threads=False)
             if data.empty or len(data) < 15:
                 continue
 
@@ -108,8 +110,9 @@ def get_ma_score(ticker):
     details = {}
 
     try:
+        time.sleep(1)
         data = yf.download(ticker, interval="1d", period="1y",
-                          progress=False, auto_adjust=True)
+                          progress=False, auto_adjust=True, threads=False, threads=False)
         if data.empty or len(data) < 50:
             return 0, {}
 
@@ -173,8 +176,9 @@ def get_ad_score(ticker):
     details = {}
 
     try:
+        time.sleep(1)
         data = yf.download(ticker, interval="1d", period="3mo",
-                          progress=False, auto_adjust=True)
+                          progress=False, auto_adjust=True, threads=False, threads=False)
         if data.empty or len(data) < 20:
             return 0, {}
 
@@ -232,8 +236,9 @@ def detect_patterns(ticker):
     details = {}
 
     try:
+        time.sleep(1)
         data = yf.download(ticker, interval="1d", period="6mo",
-                          progress=False, auto_adjust=True)
+                          progress=False, auto_adjust=True, threads=False, threads=False)
         if data.empty or len(data) < 20:
             return patterns, details
 
@@ -474,7 +479,9 @@ def analyze_ticker(ticker, name=""):
 
         # Get current price
         try:
-            data = yf.download(ticker, period="1d", interval="1m", progress=False)
+            time.sleep(1)
+        time.sleep(1)
+        data = yf.download(ticker, period="1d", interval="1m", progress=False, threads=False)
             if not data.empty:
                 result["price"] = round(float(data["Close"].iloc[-1]), 2)
         except:
