@@ -11,47 +11,31 @@ RSI_OVERSOLD_STRONG = 35
 RSI_OVERSOLD_MAX    = 50
 RSI_OVERBOUGHT      = 70
 
-# ── Stooq ticker map ─────────────────────────────────────────
-# Stooq uses slightly different ticker formats
 def stooq_ticker(ticker):
-    """Convert standard ticker to Stooq format."""
-    # NSE India stocks
     if ticker.endswith(".NS"):
         return ticker.replace(".NS", ".IN")
-    # US indices
     fixes = {
         "^VIX":    "^VIX",
         "^TNX":    "^TNX",
         "^GSPC":   "^SPX",
         "^IXIC":   "^NDQ",
         "^DJI":    "^DJI",
-        "DX-Y.NYB":"UUP",   # Use UUP ETF as DXY proxy
+        "DX-Y.NYB":"UUP",
     }
     return fixes.get(ticker, ticker)
 
-def safe_download(ticker, interval="1d", period_days=365):
-    """
-    Download price data from Stooq via pandas-datareader.
-    Falls back gracefully if data unavailable.
-    """
+def safe_download(ticker, period_days=500):
     try:
         from pandas_datareader import data as pdr
         end   = datetime.today()
         start = end - timedelta(days=period_days)
         stk   = stooq_ticker(ticker)
-
-        df = pdr.DataReader(stk, "stooq", start=start, end=end)
-
+        df    = pdr.DataReader(stk, "stooq", start=start, end=end)
         if df is None or df.empty:
             return pd.DataFrame()
-
-        # Stooq returns newest first — reverse it
         df = df.sort_index()
-
-        # Rename columns to standard format
         df.columns = [c.capitalize() for c in df.columns]
         return df
-
     except Exception as e:
         return pd.DataFrame()
 
@@ -68,14 +52,13 @@ def get_ad(high, low, close, volume):
         return pd.Series([0] * len(close))
 
 def get_rsi_score(ticker):
-    score         = 0
-    details       = {}
+    score          = 0
+    details        = {}
     oversold_count = 0
 
-    # For different timeframes we use different period lengths
     timeframe_checks = [
-        ("daily",  365),
-        ("weekly", 730),
+        ("daily",  500),
+        ("weekly", 1000),
     ]
 
     for tf_name, period_days in timeframe_checks:
@@ -84,7 +67,6 @@ def get_rsi_score(ticker):
             if data.empty or len(data) < 15:
                 continue
 
-            # Resample to weekly if needed
             if tf_name == "weekly":
                 data = data.resample("W").agg({
                     "Open":  "first",
@@ -99,9 +81,9 @@ def get_rsi_score(ticker):
             prev_rsi    = float(rsi_series.iloc[-2]) if len(rsi_series) > 1 else current_rsi
 
             details[tf_name] = {
-                "rsi":           round(current_rsi, 1),
-                "direction":     "↑" if current_rsi > prev_rsi else "↓",
-                "oversold":      current_rsi <= RSI_OVERSOLD_MAX,
+                "rsi":             round(current_rsi, 1),
+                "direction":       "↑" if current_rsi > prev_rsi else "↓",
+                "oversold":        current_rsi <= RSI_OVERSOLD_MAX,
                 "strong_oversold": current_rsi <= RSI_OVERSOLD_STRONG,
             }
 
@@ -127,7 +109,7 @@ def get_ma_score(ticker):
     details = {}
 
     try:
-        data = safe_download(ticker, period_days=400)
+        data = safe_download(ticker, period_days=600)
         if data.empty or len(data) < 50:
             return 0, {}
 
@@ -180,7 +162,7 @@ def get_ad_score(ticker):
     details = {}
 
     try:
-        data = safe_download(ticker, period_days=90)
+        data = safe_download(ticker, period_days=120)
         if data.empty or len(data) < 20:
             return 0, {}
 
@@ -214,7 +196,7 @@ def detect_patterns(ticker):
     details  = {}
 
     try:
-        data = safe_download(ticker, period_days=180)
+        data = safe_download(ticker, period_days=200)
         if data.empty or len(data) < 20:
             return patterns, details
 
@@ -291,31 +273,23 @@ def detect_patterns(ticker):
     return patterns, details
 
 def get_fundamentals_score(ticker):
-    """Use basic financial ratios from free sources."""
     score   = 0
     details = {}
-
     try:
-        # Use requests to get basic Yahoo Finance quote (less rate limited than download)
         url     = f"https://query1.finance.yahoo.com/v8/finance/chart/{ticker}?range=1d&interval=1d"
         headers = {"User-Agent": "Mozilla/5.0"}
         resp    = requests.get(url, headers=headers, timeout=8)
-
         if resp.status_code == 200:
             data  = resp.json()
             meta  = data.get("chart", {}).get("result", [{}])[0].get("meta", {})
             price = meta.get("regularMarketPrice", 0)
             if price:
                 details["price"] = price
-                score += 0  # Price alone doesn't score
-
     except Exception as e:
         details["error"] = str(e)
-
     return min(int(score), 2), details
 
 def analyze_ticker(ticker, name=""):
-    """Full analysis of a single ticker."""
     print(f"  Analyzing {ticker}...")
     result = {
         "ticker":       ticker,
