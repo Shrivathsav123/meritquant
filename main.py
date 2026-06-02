@@ -143,6 +143,8 @@ def main():
                 mark_sent(ticker, score, sent)
                 alerts_sent += 1
         else:
+            print(f"  Score breakdown: {ticker} = {result['score']} | RSI:{result.get('rsi',{})} | MA:{result.get('ma',{}).get('ma_signal','?')}")
+
             print(f"  [DRY RUN] Would send: {result['buy_rating']} {ticker} (score {score})")
 
     save_sent(sent)
