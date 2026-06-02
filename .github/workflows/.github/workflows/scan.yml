@@ -1,0 +1,71 @@
+name: Alpha Scanner
+
+on:
+  schedule:
+    - cron: "0 6 * * 1-5"
+    - cron: "0 10 * * 1-5"
+    - cron: "0 14 * * 1-5"
+    - cron: "0 20 * * 1-5"
+    - cron: "0 2 * * 1-5"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Scan mode"
+        required: false
+        default: "default"
+        type: choice
+        options:
+          - default
+          - etfs
+          - us
+          - nse
+          - startup
+          - dry-run
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Restore cache
+        uses: actions/cache@v4
+        with:
+          path: data/
+          key: alpha-data-${{ github.run_id }}
+          restore-keys: alpha-data-
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: pip-alpha-${{ hashFiles('requirements.txt') }}
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run Alpha Scanner
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          MODE="${{ github.event.inputs.mode }}"
+          if [ "$MODE" = "startup" ]; then
+            python main.py --startup
+          elif [ "$MODE" = "dry-run" ]; then
+            python main.py --dry-run
+          elif [ "$MODE" = "etfs" ]; then
+            python main.py --etfs
+          elif [ "$MODE" = "us" ]; then
+            python main.py --us
+          elif [ "$MODE" = "nse" ]; then
+            python main.py --nse
+          else
+            python main.py
+          fi
+      - name: Save cache
+        if: always()
+        uses: actions/cache@v4
+        with:
+          path: data/
+          key: alpha-data-${{ github.run_id }}
