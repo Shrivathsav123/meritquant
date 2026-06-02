@@ -1,8 +1,66 @@
-# macro.py — VIX, DXY, Bond Yields, CPI, Fed statements
+# macro.py — VIX, DXY, Bond Yields, CPI, Fed statements + FRED API
 import yfinance as yf
 import requests
 import feedparser
+import os
 from datetime import datetime, timedelta
+
+FRED_API_KEY = os.environ.get("FRED_API_KEY", "")
+FRED_BASE    = "https://api.stlouisfed.org/fred/series/observations"
+
+def get_fred_data(series_id):
+    """Fetch latest 2 data points from FRED API."""
+    if not FRED_API_KEY:
+        return None, None
+    try:
+        resp = requests.get(FRED_BASE, params={
+            "series_id": series_id,
+            "api_key":   FRED_API_KEY,
+            "file_type": "json",
+            "sort_order":"desc",
+            "limit":     2,
+        }, timeout=10)
+        obs = resp.json().get("observations", [])
+        if len(obs) >= 2:
+            return float(obs[0]["value"]), float(obs[1]["value"])
+        elif len(obs) == 1:
+            return float(obs[0]["value"]), float(obs[0]["value"])
+    except:
+        pass
+    return None, None
+
+def get_fred_macro():
+    """Pull real macro data from Federal Reserve (FRED API)."""
+    fred = {}
+    alerts = []
+
+    # CPI Inflation
+    cpi, cpi_prev = get_fred_data("CPIAUCSL")
+    if cpi and cpi_prev:
+        change = ((cpi - cpi_prev) / cpi_prev) * 100
+        fred["cpi"] = {"value": round(cpi,2), "change": round(change,3)}
+        if change > 0.3:
+            alerts.append(f"🔴 CPI RISING {cpi:.2f} (+{change:.2f}%) — Inflation up, Fed may hike")
+        elif change < -0.1:
+            alerts.append(f"✅ CPI FALLING {cpi:.2f} ({change:.2f}%) — Fed may cut rates")
+
+    # Fed Funds Rate
+    fed, fed_prev = get_fred_data("FEDFUNDS")
+    if fed:
+        fred["fed_rate"] = {"value": round(fed,2), "change": round(fed-(fed_prev or fed),2)}
+        if fed > 5.0:
+            alerts.append(f"⚠️ Fed Rate {fed:.2f}% — High, headwind for growth stocks")
+        elif fed < 3.0:
+            alerts.append(f"✅ Fed Rate {fed:.2f}% — Low, bullish for equities")
+
+    # 10yr Treasury
+    t10, t10_prev = get_fred_data("DGS10")
+    if t10:
+        fred["treasury_10yr"] = {"value": round(t10,3), "change": round(t10-(t10_prev or t10),3)}
+
+    return fred, alerts
+
+
 
 def get_macro_environment():
     """
@@ -93,6 +151,23 @@ def get_macro_environment():
 
     except Exception as e:
         macro["dxy"]["error"] = str(e)
+
+
+    # ── FRED Official Data ────────────────────────────────────
+    try:
+        fred_data, fred_alerts = get_fred_macro()
+        macro["fred"] = fred_data
+        macro["alerts"].extend(fred_alerts)
+        if fred_data.get("cpi", {}).get("change", 0) > 0.3:
+            bearish_count += 1
+        elif fred_data.get("cpi", {}).get("change", 0) < -0.1:
+            bullish_count += 1
+        if fred_data.get("fed_rate", {}).get("value", 5) > 5.0:
+            bearish_count += 1
+        elif fred_data.get("fed_rate", {}).get("value", 5) < 3.0:
+            bullish_count += 1
+    except Exception as e:
+        macro["fred"] = {}
 
     # ── Bond Yields (10yr Treasury) ───────────────────────────
     try:
