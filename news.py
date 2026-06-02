@@ -1,39 +1,23 @@
-# news.py — Scans news and adds to stock score
+# news.py — Ticker-specific news scanner
 import feedparser
 import requests
 from datetime import datetime, timezone, timedelta
 from universe import ALL_US, NSE_STOCKS, STOCK_TO_ETF
 
-NEWS_SOURCES = [
-    "https://news.google.com/rss/search?q=stock+earnings+contract+government+2026&hl=en-US&gl=US&ceid=US:en",
-    "https://news.google.com/rss/search?q=Trump+company+stock+deal+tariff+2026&hl=en-US&gl=US&ceid=US:en",
-    "https://news.google.com/rss/search?q=earnings+beat+guidance+raised+2026&hl=en-US&gl=US&ceid=US:en",
-    "https://news.google.com/rss/search?q=government+contract+awarded+billion+2026&hl=en-US&gl=US&ceid=US:en",
-    "https://feeds.reuters.com/reuters/businessNews",
-]
-
-NSE_NEWS_SOURCES = [
-    "https://economictimes.indiatimes.com/markets/stocks/rssfeeds/2146842.cms",
-    "https://news.google.com/rss/search?q=NSE+India+earnings+results+contract+2026&hl=en-IN&gl=IN&ceid=IN:en",
-    "https://news.google.com/rss/search?q=FII+buying+India+bulk+deal+2026&hl=en-IN&gl=IN&ceid=IN:en",
-]
-
 HIGH_IMPACT_KEYWORDS = [
     "earnings beat", "beats estimates", "guidance raised", "record profit",
     "trump", "executive order", "government contract", "pentagon contract",
-    "billion dollar contract", "fda approval", "drug approved",
-    "acquisition", "merger", "buyback", "dividend increase",
-    "upgrade", "buy rating", "target raised", "outperform",
+    "billion dollar", "fda approval", "drug approved", "acquisition",
+    "merger", "buyback", "dividend increase", "upgrade", "buy rating",
+    "target raised", "outperform", "rate cut", "stimulus",
     "fii buying", "bulk deal", "promoter buying",
-    "rate cut", "stimulus", "infrastructure bill",
 ]
 
 NEGATIVE_KEYWORDS = [
     "earnings miss", "guidance lowered", "profit warning",
-    "sebi notice", "fraud", "investigation", "downgrade",
-    "sell rating", "target cut", "underperform",
-    "contract cancelled", "doge cut", "budget cut",
-    "fine", "penalty", "lawsuit",
+    "fraud", "investigation", "downgrade", "sell rating",
+    "target cut", "underperform", "contract cancelled",
+    "doge cut", "fine", "penalty", "lawsuit", "recall",
 ]
 
 def is_recent(entry, hours=24):
@@ -44,59 +28,79 @@ def is_recent(entry, hours=24):
         return True
 
 def scan_news_for_ticker(ticker, company_name=""):
-    """Scan all news sources for mentions of a specific ticker."""
+    """
+    Search Google News specifically for this ticker and company.
+    Only returns news that directly mentions the stock.
+    """
     news_signals = []
-    news_score = 0
-    company_lower = (company_name or ticker).lower()
-    ticker_lower = ticker.lower().replace(".ns", "").replace(".bo", "")
+    news_score   = 0
 
-    all_sources = NEWS_SOURCES
+    # Clean up ticker for search
+    clean_ticker  = ticker.replace(".NS", "").replace(".BO", "").replace("^", "")
+    clean_company = (company_name or clean_ticker).split(" ")[0]  # First word of company name
+
+    # Build specific search queries for this ticker
     if ".NS" in ticker or ".BO" in ticker:
-        all_sources = NSE_NEWS_SOURCES
+        # Indian stock — search with NSE/BSE context
+        queries = [
+            f"{clean_company} NSE stock results earnings",
+            f"{clean_ticker} India stock news",
+        ]
+    else:
+        # US stock — search with ticker symbol
+        queries = [
+            f"{clean_ticker} stock news earnings",
+            f"{clean_company} stock analyst",
+        ]
 
-    for url in all_sources:
+    for query in queries:
         try:
+            url  = f"https://news.google.com/rss/search?q={query}&hl=en-US&gl=US&ceid=US:en"
             feed = feedparser.parse(url)
-            for entry in feed.entries[:20]:
-                if not is_recent(entry): continue
-                title = entry.get("title", "").lower()
-                summary = entry.get("summary", "").lower()
-                full = f"{title} {summary}"
 
-                # Check if this news is about our ticker
-                if ticker_lower not in full and company_lower[:8] not in full:
+            for entry in feed.entries[:5]:
+                if not is_recent(entry):
                     continue
+
+                title   = entry.get("title", "")
+                summary = entry.get("summary", "")
+                full    = f"{title} {summary}".lower()
+
+                # STRICT CHECK — ticker or company must be in the article
+                ticker_mentioned  = clean_ticker.lower() in full
+                company_mentioned = clean_company.lower() in full
+
+                if not ticker_mentioned and not company_mentioned:
+                    continue  # Skip — not about this stock
 
                 # Score the news
                 article_score = 0
-                matched_positive = []
-                matched_negative = []
+                matched_pos   = []
+                matched_neg   = []
 
                 for kw in HIGH_IMPACT_KEYWORDS:
                     if kw in full:
                         article_score += 2 if kw in ["earnings beat", "trump", "government contract", "fda approval"] else 1
-                        matched_positive.append(kw)
+                        matched_pos.append(kw)
 
                 for kw in NEGATIVE_KEYWORDS:
                     if kw in full:
                         article_score -= 2
-                        matched_negative.append(kw)
+                        matched_neg.append(kw)
 
-                if article_score != 0 or ticker_lower in full:
-                    news_signals.append({
-                        "title":    entry.get("title", "")[:120],
-                        "score":    article_score,
-                        "positive": matched_positive[:3],
-                        "negative": matched_negative[:3],
-                        "url":      entry.get("link", ""),
-                        "time":     entry.get("published", ""),
-                    })
-                    news_score += max(article_score, 0)
+                news_signals.append({
+                    "title":    title[:120],
+                    "score":    article_score,
+                    "positive": matched_pos[:3],
+                    "negative": matched_neg[:3],
+                    "url":      entry.get("link", ""),
+                    "time":     entry.get("published", ""),
+                })
+                news_score += max(article_score, 0)
 
         except Exception as e:
             pass
 
-    # Cap news score at 3
     return min(news_score, 3), news_signals[:3]
 
 
