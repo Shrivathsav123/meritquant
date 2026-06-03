@@ -22,21 +22,36 @@ on:
           - startup
           - dry-run
 
+permissions:
+  contents: write
+
 jobs:
   scan:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
+      - name: Restore cache
+        uses: actions/cache@v4
+        with:
+          path: data/
+          key: alpha-data-${{ github.run_id }}
+          restore-keys: alpha-data-
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: pip-alpha-${{ hashFiles('requirements.txt') }}
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Run Alpha Scanner
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
         run: |
           MODE="${{ github.event.inputs.mode }}"
           if [ "$MODE" = "startup" ]; then
@@ -52,3 +67,18 @@ jobs:
           else
             python main.py
           fi
+      - name: Commit scan results
+        if: always()
+        run: |
+          git config user.name "Alpha Scanner Bot"
+          git config user.email "scanner@alpha.bot"
+          mkdir -p data
+          git add data/ || true
+          git diff --staged --quiet || git commit -m "Scanner results $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git push || true
+      - name: Save cache
+        if: always()
+        uses: actions/cache@v4
+        with:
+          path: data/
+          key: alpha-data-${{ github.run_id }}
