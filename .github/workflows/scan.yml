@@ -31,22 +31,27 @@ jobs:
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
+
       - name: Restore cache
         uses: actions/cache@v4
         with:
           path: data/
           key: alpha-data-${{ github.run_id }}
           restore-keys: alpha-data-
+
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+
       - name: Cache pip
         uses: actions/cache@v4
         with:
           path: ~/.cache/pip
           key: pip-alpha-${{ hashFiles('requirements.txt') }}
+
       - name: Install dependencies
         run: pip install -r requirements.txt
+
       - name: Run Alpha Scanner
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
@@ -67,14 +72,15 @@ jobs:
           else
             python main.py
           fi
-                - name: Run AI Trader
-        if: always()
+
+      - name: Run AI Trader
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
         run: python trading/trader.py
+
       - name: Commit scan results
         if: always()
         run: |
@@ -84,6 +90,7 @@ jobs:
           git add data/ || true
           git diff --staged --quiet || git commit -m "Scanner results $(date -u '+%Y-%m-%d %H:%M UTC')"
           git push || true
+
       - name: Save cache
         if: always()
         uses: actions/cache@v4
