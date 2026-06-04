@@ -5,7 +5,7 @@ from datetime import datetime
 from universe import ALL_US, NSE_STOCKS, SECTOR_ETFS, US_STOCKS
 from technical import analyze_ticker
 from macro import get_macro_environment, format_macro_alert
-from news import scan_news_for_ticker, get_related_etfs
+from src.news import get_news_for_scanner as scan_news_for_ticker
 from telegram_alerts import send, format_stock_alert, format_scan_summary, send_startup_message
 
 try:
