@@ -58,9 +58,14 @@ def run_scan(tickers_dict, market="US"):
     for ticker, name in tickers_dict.items():
         try:
             result = analyze_ticker(ticker, name)
-            news_score, news_signals = scan_news_for_ticker(ticker, name)
-            result["score"]        += news_score
-            result["news_signals"]  = news_signals
+            _news_result = scan_news_for_ticker(ticker, name)
+            if isinstance(_news_result, tuple):
+                news_signals, news_score = _news_result
+            else:
+                news_signals = _news_result
+                news_score = 0
+            result["score"]        += int(news_score or 0)
+            result["news_signals"]  = news_signals if isinstance(news_signals, list) else []
             result["market"]        = market
 
             s = result["score"]
@@ -198,7 +203,7 @@ def main():
 
     # Run global news scan — fetch from CNBC, Reuters, MarketWatch etc
     try:
-        from src.news import scan_global_news, save_news_feed
+        from news import scan_global_news, save_news_feed
         print("[News] Scanning CNBC, Reuters, MarketWatch, Yahoo Finance...")
         all_news = scan_global_news()
         save_news_feed(all_news)
