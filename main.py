@@ -8,6 +8,18 @@ from macro import get_macro_environment, format_macro_alert
 from news import scan_news_for_ticker, get_related_etfs
 from telegram_alerts import send, format_stock_alert, format_scan_summary, send_startup_message
 
+try:
+    from reddit_scanner import run_reddit_scan
+except Exception as e:
+    print(f"Reddit import error: {e}")
+    run_reddit_scan = None
+
+try:
+    from nse_scanner import run_nse_scan
+except Exception as e:
+    print(f"NSE import error: {e}")
+    run_nse_scan = None
+
 DATA_DIR   = "data"
 STORE_FILE = f"{DATA_DIR}/scan_results.json"
 SENT_FILE  = f"{DATA_DIR}/sent_alerts.json"
