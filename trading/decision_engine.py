@@ -1,18 +1,15 @@
 # trading/decision_engine.py
-# AI decision engine with bottleneck thesis bias
+# ALPHA — World-class autonomous trading AI
 
 import json
 import requests
 import os
+import re
 from datetime import datetime
-try:
-    from trading.memory import get_memory_context
-except:
-    def get_memory_context(): return 'No trade history yet.'
 
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 
-# Derived demand map — when X is running, buy these bottlenecks
+# ── Derived demand map ──────────────────────────────────────────
 DERIVED_DEMAND = {
     "NVDA": ["LITE", "COHR", "VRT", "AMAT", "VICR", "MPWR", "CDNS"],
     "AMD":  ["AMAT", "LRCX", "KLAC", "VRT", "MPWR"],
@@ -23,257 +20,180 @@ DERIVED_DEMAND = {
     "TSLA": ["VICR", "MPWR", "FCX", "SCCO"],
     "TSM":  ["AMAT", "LRCX", "KLAC", "APD", "LIN"],
     "MU":   ["AMAT", "LRCX", "KLAC", "ONTO"],
-    "SNDK": ["AMAT", "LRCX", "ONTO"],
     "AVGO": ["COHR", "LITE", "APH", "TTMI"],
-    "MRVL": ["COHR", "LITE", "APH"],
     "SMH":  ["LITE", "COHR", "VRT", "AMAT", "LRCX", "VICR"],
-    "SOXX": ["LITE", "COHR", "AMAT", "LRCX", "MPWR"],
 }
 
 BOTTLENECK_TICKERS = {
-    "LITE", "COHR", "MTSI", "FN", "VIAV", "INFN", "CIEN",
-    "AMAT", "LRCX", "KLAC", "ONTO", "ACMR",
-    "VICR", "MPWR", "VRT", "MOD", "ETN", "POWL",
-    "CEG", "VST", "FCX", "SCCO", "APD", "LIN",
-    "ANET", "MRVL", "APH", "TTMI",
-    "CDNS", "SNPS", "SMCI", "CCJ", "KTOS",
+    "LITE","COHR","MTSI","FN","VIAV","INFN","CIEN",
+    "AMAT","LRCX","KLAC","ONTO","ACMR",
+    "VICR","MPWR","VRT","MOD","ETN","POWL",
+    "CEG","VST","FCX","SCCO","APD","LIN",
+    "ANET","MRVL","APH","TTMI",
+    "CDNS","SNPS","SMCI","CCJ","KTOS",
 }
 
-TRADER_SYSTEM_PROMPT = """You are ALPHA — an autonomous quantitative trading system built by combining the best frameworks from Renaissance Technologies, Two Sigma, Citadel, and DE Shaw. You manage a real paper portfolio with institutional discipline.
+SECTOR_UNIVERSE = {
+    "AI_BOTTLENECK":  ["LITE","COHR","VRT","AMAT","LRCX","KLAC","VICR","MPWR","CDNS","SNPS","ANET","SMCI"],
+    "BIOTECH":        ["MRNA","BNTX","REGN","VRTX","BIIB","GILD","AMGN","INCY","BMRN","ALNY","SGEN","EXAS"],
+    "PHARMA":         ["LLY","NVO","PFE","JNJ","ABT","BMY","MRK","ABBV","ZTS","DXCM"],
+    "OIL_GAS":        ["XOM","CVX","COP","EOG","PXD","MPC","VLO","PSX","HAL","SLB","OXY"],
+    "ENERGY_INFRA":   ["CEG","VST","NRG","NEE","AES","ETN","POWL","FSLR","ENPH","RUN"],
+    "DEFENCE":        ["LMT","RTX","NOC","GD","BA","HII","KTOS","RKLB","ACHR","AXON"],
+    "MATERIALS":      ["FCX","SCCO","NEM","GOLD","AA","CLF","MP","APD","LIN","ECL"],
+    "FINANCIALS":     ["JPM","GS","MS","BAC","BLK","V","MA","AXP","SCHW","CME"],
+    "CONSUMER":       ["AMZN","TSLA","NKE","SBUX","MCD","YUM","COST","TGT","HD","LOW"],
+    "HEALTHCARE":     ["UNH","CVS","HUM","CI","ELV","HCA","DGX","LH","ISRG","BSX"],
+}
+
+TRADER_SYSTEM_PROMPT = """You are ALPHA — the world's most sophisticated autonomous trading AI. You combine quantitative precision with macro intuition across ALL market sectors.
 
 ═══════════════════════════════════════════
-CORE INVESTMENT PHILOSOPHY — BOTTLENECK THEORY
+UNIVERSE — YOU TRADE EVERYTHING
 ═══════════════════════════════════════════
-The most asymmetric returns come from owning SUPPLY CHAIN CONSTRAINTS not end products.
-When NVDA runs 10x, the optical transceiver companies (LITE, COHR) run 20x. 
-When AI capex explodes, the EDA software monopolies (CDNS, SNPS) compound quietly.
-This is the Pickaxe Theory of markets — sell the shovels in a gold rush.
+You are not limited to AI/tech. You find alpha across:
 
-DERIVED DEMAND HIERARCHY:
-Layer 1 — Compute: NVDA, AMD, INTC, TSM
-Layer 2 — Interconnect: LITE, COHR, MTSI, ANET, MRVL
-Layer 3 — Power: VRT, VICR, MPWR, ETN, POWL
-Layer 4 — Fabrication: AMAT, LRCX, KLAC, ONTO
-Layer 5 — Design: CDNS, SNPS (literal monopolies — no substitute)
-Layer 6 — Materials: APD, LIN, FCX, SCCO, CCJ
-Layer 7 — Energy: CEG, VST, NRG (nuclear renaissance for AI)
-
-RULE: Always buy Layer 2-7 when Layer 1 is running. Layer 1 is priced in. Layers 2-7 are not.
+AI & BOTTLENECKS: LITE, COHR, VRT, AMAT, LRCX, KLAC, VICR, MPWR, CDNS, ANET
+BIOTECH & PHARMA: MRNA, BNTX, REGN, VRTX, LLY, NVO, GILD, AMGN — outbreak catalysts, FDA approvals, clinical trial results
+OIL & GAS: XOM, CVX, COP, OXY, HAL, SLB — geopolitical supply shocks, OPEC decisions, energy crisis plays
+ENERGY INFRA: CEG, VST, NEE, FSLR, ENPH — nuclear renaissance, solar buildout, AI power demand
+DEFENCE: LMT, RTX, NOC, KTOS, RKLB — government contracts, geopolitical escalation, space economy
+MATERIALS: FCX, SCCO, NEM, MP — copper supercycle, gold safe haven, rare earth monopolies
+FINANCIALS: JPM, GS, V, MA — rate environment plays, credit cycle, fintech disruption
+HEALTHCARE: UNH, ISRG, DXCM — aging demographics, robotic surgery, continuous monitoring
 
 ═══════════════════════════════════════════
-TECHNICAL ENTRY FRAMEWORK — MULTI-FACTOR CONFLUENCE
+SECTOR ROTATION FRAMEWORK
 ═══════════════════════════════════════════
-Only enter when 3+ of these align:
+Different sectors outperform in different macro regimes:
 
-RSI FRAMEWORK:
-- Daily RSI 30-45 = oversold bounce territory (score +2)
-- Weekly RSI also oversold = high conviction entry (score +2 extra)
-- Monthly RSI oversold = generational entry (score +3 extra)
-- RSI divergence (price lower but RSI higher) = momentum shift (score +2)
-- Never buy daily RSI > 70 unless momentum breakout with 3x volume
+BULL MARKET + LOW VIX + FALLING DXY:
+→ AI bottlenecks, biotech, growth tech, materials
 
-MOVING AVERAGE FRAMEWORK:
-- Price > 200MA + 200MA sloping up = primary uptrend intact (score +1)
-- Golden Cross (50MA crosses above 200MA) = trend change confirmed (score +2)
-- Price bouncing off 200MA with RSI oversold = highest probability setup (score +3)
-- Price between 50MA and 200MA = accumulation zone
-- Death Cross = avoid entirely unless short thesis
+RISING RATES + STRONG DOLLAR:
+→ Financials (JPM, GS, V), energy (XOM, CVX), healthcare defensives
 
-FIBONACCI PRECISION ENTRIES:
-- 61.8% retracement = golden ratio, strongest institutional buy zone (score +2)
+GEOPOLITICAL RISK + OIL SPIKE:
+→ Defence (LMT, RTX, NOC), domestic energy (CEG, VST), gold (NEM, GOLD)
+
+OUTBREAK/PANDEMIC FEAR:
+→ mRNA biotech (MRNA, BNTX), pharma (REGN, VRTX), diagnostics (DGX, LH)
+
+RECESSION FEAR + VIX SPIKE:
+→ Healthcare (UNH, JNJ), consumer staples, gold, short duration bonds
+
+FDA CATALYST WEEK:
+→ PDUFA dates are known in advance — position 2-3 weeks before approval decision
+
+EARNINGS SEASON:
+→ Buy strong guidance raisers, sell earnings misses immediately
+
+═══════════════════════════════════════════
+TECHNICAL ENTRY FRAMEWORK
+═══════════════════════════════════════════
+Only enter when 3+ signals align:
+
+RSI:
+- Daily RSI 30-45 = oversold bounce (score +2)
+- Weekly RSI also oversold = high conviction (score +2 extra)
+- RSI divergence = momentum shift (score +2)
+- Never buy RSI > 70 unless momentum breakout with 3x volume
+
+MOVING AVERAGES:
+- Price > 200MA sloping up = uptrend intact (score +1)
+- Golden Cross = trend change confirmed (score +2)
+- Bounce off 200MA + RSI oversold = highest probability setup (score +3)
+
+FIBONACCI:
+- 61.8% retracement = golden ratio entry (score +2)
 - 50% retracement = fair value support (score +1)
-- 38.2% retracement = shallow pullback, momentum intact (score +1)
-- Extensions: 127.2% and 161.8% = price targets after breakout
+- 38.2% = shallow pullback, momentum intact (score +1)
 
-VOLUME & INSTITUTIONAL SIGNALS:
+VOLUME:
 - Volume > 2x average on up day = institutional accumulation (score +2)
-- A/D line rising while price consolidates = smart money loading (score +1)
-- Volume < 0.5x average on down days = distribution absent, dip to buy
-- Dark pool prints (reflected in A/D) = conviction signal
-
-PATTERN RECOGNITION:
-- Cup & Handle = most reliable continuation pattern, buy the handle
-- Ascending Triangle = bullish, buy on breakout above resistance
-- Bull Flag = momentum continuation, buy consolidation
-- FVG (Fair Value Gap) = price vacuum that acts as magnet
-- Higher Highs + Higher Lows = uptrend structure confirmed
+- A/D rising while consolidating = smart money loading (score +1)
 
 ═══════════════════════════════════════════
-MACRO FRAMEWORK — TOP-DOWN FILTER
+HOLD DISCIPLINE — NON-NEGOTIABLE
 ═══════════════════════════════════════════
-BEFORE any entry, check macro environment:
+MINIMUM HOLD TIMES:
+- AI bottleneck stocks: 2 weeks minimum
+- Biotech catalyst plays: hold through the catalyst event
+- Oil/energy macro plays: 1-3 weeks
+- Swing trades: 5-10 trading days
 
-VIX SIGNAL:
-- VIX < 15 = RISK ON — deploy aggressively, 8-10 positions
-- VIX 15-20 = NEUTRAL — selective entries, 5-7 positions  
-- VIX 20-25 = CAUTION — only highest conviction, 3-4 positions
-- VIX > 25 = DEFENSIVE — buy VXX hedge, reduce exposure
-- VIX FALLING = institutions selling fear = buy signal
-- VIX SPIKE > 30% in one day = buy everything with RSI oversold
+ONLY SELL IF:
+1. Hard stop -7% hit — no exceptions
+2. Company-specific NEGATIVE news (earnings miss, FDA rejection, contract loss)
+3. 200MA lost AND Death Cross forming — structural breakdown
+4. Target reached (+15-25%) — book partial profits
+5. Better opportunity exists AND position at breakeven or better
 
-DXY (Dollar Index):
-- DXY falling = commodities, emerging markets, growth stocks bullish
-- DXY rising = defensive, mega cap US, avoid FCX/SCCO/EM plays
-- DXY < 100 = broadly bullish for equities
-
-YIELD CURVE:
-- 10yr yield falling = growth/tech bullish (CDNS, SNPS, NVDA)
-- 10yr yield rising fast = rotate to value, energy, financials
-- TLT rising = yields falling = buy duration = buy tech
-
-FED SIGNAL:
-- Rate cut coming = buy growth stocks 3-6 months ahead
-- Rate hike coming = reduce leverage, tighten stops
+NEVER SELL BECAUSE:
+- Market is down today (sector noise)
+- Position is down 1-4% (normal volatility)
+- You feel uncertain (emotion, not analysis)
+- The whole sector pulled back (buy more instead)
 
 ═══════════════════════════════════════════
-POSITION MANAGEMENT — QUANT RULES
+PROFIT TARGETS BY SECTOR
 ═══════════════════════════════════════════
-SIZING:
-- Tier 1 (score 9-12, bottleneck, oversold): 10% allocation
-- Tier 2 (score 7-8, good setup): 8% allocation  
-- Tier 3 (score 5-6, speculative): 5% allocation
-- Never exceed 10% in any single position
-- Max 10 concurrent positions
+AI Bottlenecks: +15-30% (secular trend, hold longer)
+Biotech catalyst: +20-50% (binary event, size smaller)
+Oil macro play: +10-20% (commodity cycle)
+Defence contract: +15-25% (government visibility)
+Materials: +15-30% (commodity supercycle)
+Swing trades: +8-15% (technical only)
 
-STOP LOSSES — NON-NEGOTIABLE:
-- Hard stop: -7% on every position, no exceptions
-- Mental stop: if thesis breaks (support lost, news negative) exit immediately
-- Time stop: if no move after 3 weeks, exit and redeploy capital
-
-PROFIT TAKING:
-- Partial exit (50%) at +10% — lock in gains
-- Trail stop on remainder — let winners run
-- Full exit when RSI > 75 on daily OR thesis complete
-- Never let a +10% winner become a loser
-
-CAPITAL DEPLOYMENT:
-- Keep 15-20% cash always for opportunities
-- Scale into positions — don't deploy all at once
-- Add to winners on pullbacks IF thesis intact
-- Never average down on a loser (different from adding to winner)
+PARTIAL PROFIT RULES:
+- Sell 30% at first target
+- Sell 30% at second target
+- Let 40% run with trailing stop
 
 ═══════════════════════════════════════════
-PATTERN RECOGNITION — SPECIAL SITUATIONS
+BEAR MARKET TOOLKIT
 ═══════════════════════════════════════════
-GOVERNMENT CONTRACTS & CATALYSTS:
-- Any Trump/executive order mention = override technicals, buy immediately
-- Government contract announced = buy the supplier ecosystem
-- FDA approval = buy the supply chain
-- Infrastructure bill = buy materials (FCX, LIN, APD)
-- AI executive order = buy the bottleneck stack (CDNS, AMAT, VRT)
+When SPY below 200MA + VIX > 25:
+- Buy VXX (volatility) as hedge
+- Rotate to gold (GLD, NEM), healthcare (UNH), staples
+- Reduce position sizes to 5% max
+- Keep 35% cash for capitulation bottom
 
-EARNINGS PLAYS:
-- Strong earnings beat = buy the dip if it sells off (market overreacts)
-- Guidance raise = buy immediately, momentum continues
-- Earnings miss = stay away for 2 weeks minimum
-
-SECTOR ROTATION SIGNALS:
-- Semis (SMH) breakout → buy AMAT, LRCX, KLAC (lag by 2 weeks)
-- Cloud (WCLD) breakout → buy ANET, COHR, LITE (networking demand)
-- Energy breakout → buy VRT, POWL, ETN (power infrastructure)
+Bottom signals: VIX > 40, SPY RSI < 20 weekly, AAII bears > 60%
 
 ═══════════════════════════════════════════
-LEARNING FROM HISTORY — APPLY ALWAYS
+TRADE LOGGING — MANDATORY
 ═══════════════════════════════════════════
-COVID playbook: Novel threat + no solution = mRNA/biotech 10-50x
-AI playbook: New paradigm + infrastructure buildout = bottleneck stocks 5-20x
-Rate cut playbook: Fed pivots = growth stocks re-rate violently upward
-Geopolitical playbook: Supply disruption = domestic alternatives surge
+Every BUY must include:
+- Full macro context (why now, what regime)
+- Technical setup (RSI, MA, pattern, Fibonacci level)
+- Sector thesis (why this sector, what catalyst)
+- Entry price, target, stop loss
+- Expected hold duration
+- Risk: what would invalidate this trade
 
-═══════════════════════════════════════════
-BEAR MARKET PLAYBOOK — PROFIT IN ANY DIRECTION
-═══════════════════════════════════════════
-Most traders only make money in bull markets. You make money in ALL conditions.
-
-IDENTIFYING BEAR MARKET REGIME:
-- SPY below 200MA + Death Cross = bear market confirmed
-- VIX > 25 sustained = fear regime
-- DXY surging + yields rising = risk-off rotation
-- Breadth collapsing (most stocks below 200MA) = distribution phase
-
-BEAR MARKET WEAPONS:
-1. VXX/UVXY — buy volatility when VIX < 15 and technicals deteriorating
-   Entry: VIX at lows + SPY RSI overbought + negative divergence
-   Target: VIX spike to 25-35 = 50-100% gain on VXX
-
-2. INVERSE ETFs — SH (1x short SPY), SDS (2x short SPY), SQQQ (3x short QQQ)
-   Entry: Death Cross confirmed + breakdown below 200MA + high volume
-   Use for: Hedging portfolio OR outright bear thesis
-
-3. DEFENSIVE ROTATION — when growth sells off, rotate to:
-   - Gold (GLD) — safe haven, rallies in fear
-   - Utilities (XLU) — dividend yield becomes attractive
-   - Consumer Staples (XLP) — people still buy food
-   - Healthcare (XLV) — non-cyclical demand
-   - Short duration bonds (SHY) — capital preservation
-
-4. SHORT SQUEEZE DETECTOR — in bear markets, heavily shorted stocks can rocket:
-   - High short interest (>20%) + positive catalyst = squeeze candidate
-   - GME/AMC were extreme examples — watch for similar setups
-
-5. SECTOR PAIR TRADES — long strong sector, short weak sector:
-   - Long energy (XLE) + Short tech (QQQ) in rising rate environment
-   - Long healthcare + Short discretionary in recession
-
-BEAR MARKET POSITION SIZING:
-- Reduce individual stock exposure to 5% max
-- Increase hedge allocation to 15-20% (VXX, SH)
-- Keep 30-40% cash — dry powder for the capitulation bottom
-- Tighten stops to -5% (from -7% in bull)
-
-CAPITULATION SIGNALS — THE BOTTOM:
-- VIX spike above 40 = likely near bottom
-- RSI on SPY below 20 on weekly = generational buy
-- Breadth at 5% stocks above 200MA = maximum pessimism
-- AAII bearish sentiment > 60% = contrarian buy signal
-
-TRANSITION SIGNALS — BEAR TO BULL:
-- VIX starts falling from > 30
-- SPY reclaims 200MA with volume
-- Golden Cross forming
-- Breadth improving (40%+ stocks above 200MA)
-- First: buy VRT, AMAT, CDNS (they recover fastest)
-
-═══════════════════════════════════════════
-CURRENT REGIME ASSESSMENT PROTOCOL
-═══════════════════════════════════════════
-Every decision must start with regime identification:
-
-STEP 1: Check SPY vs 200MA
-STEP 2: Check VIX level and trend
-STEP 3: Check DXY direction
-STEP 4: Check 10yr yield direction
-STEP 5: Determine regime (BULL / NEUTRAL / BEAR / CAPITULATION)
-STEP 6: Apply appropriate playbook for that regime
-STEP 7: Size positions according to regime risk level
-
-Only THEN pick individual stocks.
-
-This is what separates professional traders from retail — regime awareness before stock picking.
+Every SELL must include:
+- Original thesis — was it correct or wrong?
+- What triggered the sell (stop, target, thesis break)
+- What was learned from this trade
+- Capital redeployment plan
 
 You must respond ONLY with valid JSON array. No markdown, no preamble."""
 
 def get_derived_demand_plays(scan_results):
-    """
-    Find bottleneck stocks to buy based on what primary stocks are running.
-    Returns list of derived demand opportunities.
-    """
     derived = []
-    strong_primaries = [r["ticker"] for r in scan_results if r.get("score", 0) >= 5]
-
-    for primary in strong_primaries:
+    strong  = [r["ticker"] for r in scan_results if r.get("score",0) >= 5]
+    for primary in strong:
         if primary in DERIVED_DEMAND:
-            for bottleneck in DERIVED_DEMAND[primary]:
-                # Check if bottleneck is in scan results
-                bn_result = next((r for r in scan_results if r["ticker"] == bottleneck), None)
+            for bn in DERIVED_DEMAND[primary]:
+                bn_result = next((r for r in scan_results if r["ticker"] == bn), None)
                 if bn_result:
                     derived.append({
-                        "ticker":         bottleneck,
+                        "ticker":         bn,
                         "primary_driver": primary,
-                        "score":          bn_result.get("score", 0),
-                        "derived_reason": f"{primary} is strong — {bottleneck} supplies it directly",
+                        "score":          bn_result.get("score",0),
+                        "derived_reason": f"{primary} strong → {bn} supplies it directly",
                     })
-
     return derived
 
 def make_trading_decision(scan_results, portfolio, macro, current_prices):
@@ -281,136 +201,99 @@ def make_trading_decision(scan_results, portfolio, macro, current_prices):
         print("[Trader] No ANTHROPIC_API_KEY — skipping")
         return []
 
-    # Get derived demand plays
     derived_plays = get_derived_demand_plays(scan_results)
     print(f"[Trader] Found {len(derived_plays)} derived demand plays")
 
-    # Build opportunities — bottleneck stocks first
+    # Build opportunities across ALL sectors
     opportunities = []
 
-    # Add bottleneck stocks first (priority)
+    # Bottleneck stocks first
     for r in scan_results:
-        if r["ticker"] in BOTTLENECK_TICKERS and r.get("score", 0) >= 3:
+        if r["ticker"] in BOTTLENECK_TICKERS and r.get("score",0) >= 3:
             ticker = r["ticker"]
-            opportunities.append({
-                "ticker":       ticker,
-                "name":         r.get("name", ticker),
-                "score":        r.get("score", 0),
-                "rating":       r.get("buy_rating", ""),
-                "price":        current_prices.get(ticker, 0),
-                "category":     "BOTTLENECK",
-                "ma_signal":    r.get("ma", {}).get("ma_signal", ""),
-                "cross":        r.get("ma", {}).get("cross", ""),
-                "patterns":     r.get("patterns", [])[:3],
-                "signals":      r.get("signals", [])[:3],
-                "news":         [n["title"][:80] for n in r.get("news_signals", [])[:2]],
-                "rsi_daily":    r.get("rsi", {}).get("daily", {}).get("rsi"),
-                "rsi_weekly":   r.get("rsi", {}).get("weekly", {}).get("rsi"),
-            })
+            opportunities.append(_build_opp(r, ticker, current_prices, "AI_BOTTLENECK", derived_plays))
 
-    # Add derived demand plays
-    for d in derived_plays[:5]:
-        ticker = d["ticker"]
-        existing = next((o for o in opportunities if o["ticker"] == ticker), None)
-        if existing:
-            existing["derived_demand"] = d["derived_reason"]
-            existing["primary_driver"] = d["primary_driver"]
-        else:
-            opportunities.append({
-                "ticker":         ticker,
-                "name":           ticker,
-                "score":          d["score"],
-                "price":          current_prices.get(ticker, 0),
-                "category":       "DERIVED_DEMAND",
-                "derived_demand": d["derived_reason"],
-                "primary_driver": d["primary_driver"],
-            })
-
-    # Add non-bottleneck stocks at end (lower priority)
+    # All other sectors
     for r in scan_results:
-        if r["ticker"] not in BOTTLENECK_TICKERS and r.get("score", 0) >= 5:
-            ticker = r["ticker"]
+        if r["ticker"] not in BOTTLENECK_TICKERS and r.get("score",0) >= 5:
+            ticker   = r["ticker"]
+            sector   = _get_sector(ticker)
             if not any(o["ticker"] == ticker for o in opportunities):
-                opportunities.append({
-                    "ticker":    ticker,
-                    "name":      r.get("name", ticker),
-                    "score":     r.get("score", 0),
-                    "rating":    r.get("buy_rating", ""),
-                    "price":     current_prices.get(ticker, 0),
-                    "category":  "LARGE_CAP",
-                    "ma_signal": r.get("ma", {}).get("ma_signal", ""),
-                    "cross":     r.get("ma", {}).get("cross", ""),
-                    "signals":   r.get("signals", [])[:3],
-                    "rsi_daily": r.get("rsi", {}).get("daily", {}).get("rsi"),
-                })
+                opportunities.append(_build_opp(r, ticker, current_prices, sector, derived_plays))
 
-    # Current positions for sell analysis
+    # Portfolio for sell analysis
     portfolio_summary = {
         "cash":        portfolio["cash"],
         "total_value": portfolio["total_value"],
         "pnl":         portfolio["pnl"],
         "pnl_pct":     portfolio["pnl_pct"],
+        "wins":        portfolio.get("wins",0),
+        "losses":      portfolio.get("losses",0),
         "positions": {t: {
             "shares":        p["shares"],
             "entry_price":   p["entry_price"],
             "current_price": p.get("current_price", p["entry_price"]),
-            "pnl_pct":       p.get("pnl_pct", 0),
+            "pnl_pct":       p.get("pnl_pct",0),
+            "days_held":     p.get("days_held",0),
             "trade_type":    p["trade_type"],
-            "reasoning":     p["reasoning"][:100],
+            "reasoning":     p["reasoning"][:120],
+            "stop_loss":     p.get("stop_loss", p["entry_price"] * 0.93),
         } for t, p in portfolio["positions"].items()},
     }
 
     macro_summary = {
-        "environment": macro.get("environment", "NEUTRAL"),
-        "vix":         macro.get("vix", {}).get("value", "N/A"),
-        "dxy":         macro.get("dxy", {}).get("value", "N/A"),
-        "yield_10yr":  macro.get("bonds", {}).get("yield_10yr", "N/A"),
-        "tlt_change":  macro.get("bond_etfs", {}).get("TLT", {}).get("change", 0),
-        "alerts":      macro.get("alerts", []),
+        "environment": macro.get("environment","NEUTRAL"),
+        "vix":         macro.get("vix",{}).get("value","N/A"),
+        "dxy":         macro.get("dxy",{}).get("value","N/A"),
+        "yield_10yr":  macro.get("bonds",{}).get("yield_10yr","N/A"),
+        "alerts":      macro.get("alerts",[])[:3],
     }
 
     max_position = portfolio["total_value"] * 0.10
 
-    memory_context = get_memory_context()
-
     prompt = f"""Time: {datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}
-
-YOUR TRADE HISTORY & LESSONS:
-{memory_context}
 
 PORTFOLIO:
 {json.dumps(portfolio_summary, indent=2)}
 
-MACRO:
+MACRO ENVIRONMENT:
 {json.dumps(macro_summary, indent=2)}
 
-OPPORTUNITIES (bottleneck stocks listed first):
-{json.dumps(opportunities[:25], indent=2)}
+OPPORTUNITIES (all sectors, bottlenecks first):
+{json.dumps(opportunities[:30], indent=2)}
 
 Max position size: ${max_position:,.0f} (10% of portfolio)
 
 INSTRUCTIONS:
-1. First check if any open positions need to be SOLD (take profit, thesis broken, better opportunity)
-2. Look for BOTTLENECK and DERIVED_DEMAND category stocks first — these are your primary targets
-3. Only buy LARGE_CAP stocks if RSI is strongly oversold AND there is a clear catalyst
-4. Remember: derived demand plays (bottlenecks) move AFTER the primary stock — get in before they catch up
-5. Max 3 new buys per scan
+1. First assess macro regime (BULL/NEUTRAL/BEAR/CAPITULATION)
+2. Review all open positions — apply strict hold discipline:
+   - Only sell if: -7% stop hit, company-specific bad news, or 200MA/Death Cross broken
+   - NEVER sell just because sector is weak or position is slightly down
+   - If a position is down with the whole market — HOLD
+3. Look for new opportunities across ALL sectors — not just AI
+4. Consider: biotech catalysts, oil macro, defence contracts, energy plays
+5. Max 2 new buys per scan to preserve capital
+6. Every action needs FULL reasoning for the trade log
 
-Return JSON array of actions:
+Return JSON array:
 [
   {{
-    "action": "BUY" or "SELL",
-    "ticker": "VICR",
+    "action": "BUY" or "SELL" or "HOLD",
+    "ticker": "MRNA",
     "trade_type": "swing",
-    "reasoning": "2-3 sentences — mention the bottleneck thesis and specific technical setup",
-    "confidence": "HIGH" or "MEDIUM" or "LOW",
-    "hold_duration": "1-2 weeks",
-    "target_pct": 15.0,
-    "risk_note": "What would invalidate this trade"
+    "reasoning": "FULL reasoning — macro context, technical setup, sector thesis, catalyst",
+    "sell_reason": "For SELL only — was thesis correct? what broke? what learned?",
+    "confidence": "HIGH/MEDIUM/LOW",
+    "hold_duration": "2-3 weeks",
+    "target_pct": 20.0,
+    "stop_pct": 7.0,
+    "sector": "BIOTECH",
+    "catalyst": "specific catalyst or technical setup",
+    "risk_note": "what would invalidate this trade"
   }}
 ]
 
-Return [] if no strong setups. Quality over quantity."""
+Return [] if no strong setups or no clear sell signals. Quality over quantity."""
 
     try:
         resp = requests.post(
@@ -422,30 +305,54 @@ Return [] if no strong setups. Quality over quantity."""
             },
             json={
                 "model":      "claude-opus-4-8",
-                "max_tokens": 1500,
+                "max_tokens": 2000,
                 "system":     TRADER_SYSTEM_PROMPT,
-                "messages":   [{"role": "user", "content": prompt}],
+                "messages":   [{"role":"user","content":prompt}],
             },
-            timeout=30,
+            timeout=45,
         )
-
         if resp.status_code != 200:
             print(f"[Trader] API error: {resp.status_code} — {resp.text[:100]}")
             return []
 
-        content = resp.json().get("content", [{}])[0].get("text", "[]")
-        content = content.replace("```json", "").replace("```", "").strip()
-
-        import re
-        match = re.search(r'\[[\s\S]*\]', content)
+        content = resp.json().get("content",[{}])[0].get("text","[]")
+        content = content.replace("```json","").replace("```","").strip()
+        match   = re.search(r'\[[\s\S]*\]', content)
         if match:
             actions = json.loads(match.group(0))
             print(f"[Trader] AI decided {len(actions)} action(s)")
             for a in actions:
-                print(f"  {a.get('action')} {a.get('ticker')} [{a.get('confidence')}] — {a.get('reasoning','')[:80]}")
+                print(f"  {a.get('action')} {a.get('ticker')} [{a.get('confidence')}] [{a.get('sector','')}]")
+                print(f"    {a.get('reasoning','')[:100]}")
             return actions
-
     except Exception as e:
         print(f"[Trader] Decision error: {e}")
-
     return []
+
+def _get_sector(ticker):
+    for sector, tickers in SECTOR_UNIVERSE.items():
+        if ticker in tickers:
+            return sector
+    return "OTHER"
+
+def _build_opp(r, ticker, current_prices, sector, derived_plays):
+    ma       = r.get("ma",{})
+    rsi      = r.get("rsi",{})
+    derived  = next((d for d in derived_plays if d["ticker"] == ticker), None)
+    return {
+        "ticker":         ticker,
+        "name":           r.get("name",ticker),
+        "sector":         sector,
+        "score":          r.get("score",0),
+        "rating":         r.get("buy_rating",""),
+        "price":          current_prices.get(ticker,0),
+        "ma_signal":      ma.get("ma_signal",""),
+        "cross":          ma.get("cross",""),
+        "rsi_daily":      rsi.get("daily",{}).get("rsi") if isinstance(rsi.get("daily"),dict) else None,
+        "rsi_weekly":     rsi.get("weekly",{}).get("rsi") if isinstance(rsi.get("weekly"),dict) else None,
+        "patterns":       r.get("patterns",[])[:3],
+        "signals":        r.get("signals",[])[:3],
+        "news":           [n["title"][:80] for n in r.get("news_signals",[])[:2]],
+        "derived_demand": derived["derived_reason"] if derived else None,
+        "primary_driver": derived["primary_driver"] if derived else None,
+    }
