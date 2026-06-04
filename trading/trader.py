@@ -20,6 +20,36 @@ HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/
 TELEGRAM_TOKEN   = os.environ.get("TELEGRAM_TOKEN", "")
 TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "")
 
+def log_trade(action, ticker, price, shares, reasoning, sell_reason=None, pnl=None, pnl_pct=None, sector=None, catalyst=None, risk_note=None):
+    """Write every trade to a detailed trade log file."""
+    os.makedirs("data", exist_ok=True)
+    log_file = "data/trade_log.json"
+    try:
+        logs = json.load(open(log_file)) if os.path.exists(log_file) else []
+    except:
+        logs = []
+
+    entry = {
+        "date":        datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC"),
+        "action":      action,
+        "ticker":      ticker,
+        "price":       price,
+        "shares":      shares,
+        "cost":        round(price * shares, 2) if action == "BUY" else None,
+        "pnl":         pnl,
+        "pnl_pct":     pnl_pct,
+        "sector":      sector or "UNKNOWN",
+        "catalyst":    catalyst or "",
+        "reasoning":   reasoning,
+        "sell_reason": sell_reason or "",
+        "risk_note":   risk_note or "",
+    }
+
+    logs.insert(0, entry)
+    logs = logs[:200]  # Keep last 200 trades
+    json.dump(logs, open(log_file, "w"), indent=2)
+    print(f"[TradeLog] Logged {action} {ticker} @ ${price}")
+
 def send_telegram(text):
     if not TELEGRAM_TOKEN or not TELEGRAM_CHAT_ID:
         print(text); return
@@ -172,6 +202,13 @@ def run_trader():
                 print(f"  BUY {ticker} — {shares} shares @ ${price} = ${cost:,.0f}")
                 trades_made.append(action)
                 stop_price = round(price * 0.93, 2)
+                log_trade(
+                    "BUY", ticker, price, shares,
+                    reasoning  = reasoning,
+                    sector     = action.get("sector",""),
+                    catalyst   = action.get("catalyst",""),
+                    risk_note  = action.get("risk_note",""),
+                )
                 alert  = f"<code>TRADE  |  {datetime.utcnow().strftime('%d %b %Y  %H:%M UTC')}</code>\n"
                 alert += "<code>" + "─"*35 + "</code>\n\n"
                 alert += f"<b>BUY  |  ${ticker}</b>  [{confidence}]\n"
@@ -210,6 +247,21 @@ def run_trader():
                     record_trade_outcome(trade_record, pnl_pct, held, macro.get("environment","NEUTRAL"))
                 except Exception as me:
                     print(f"  Memory record error: {me}")
+                log_trade(
+                    "BUY", ticker, price, shares,
+                    reasoning  = reasoning,
+                    sector     = action.get("sector",""),
+                    catalyst   = action.get("catalyst",""),
+                    risk_note  = action.get("risk_note",""),
+                )
+                log_trade(
+                    "SELL", ticker, price, pos["shares"],
+                    reasoning  = reasoning,
+                    sell_reason= action.get("sell_reason",""),
+                    pnl        = pnl,
+                    pnl_pct    = pnl_pct,
+                    sector     = action.get("sector",""),
+                )
                 alert  = f"<code>TRADE  |  {datetime.utcnow().strftime('%d %b %Y  %H:%M UTC')}</code>\n"
                 alert += "<code>" + "─"*35 + "</code>\n\n"
                 alert += f"<b>SELL  |  ${ticker}</b>\n"
