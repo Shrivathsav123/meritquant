@@ -128,8 +128,38 @@ def format_portfolio_update(portfolio):
     msg += "<i>Paper trading — Not financial advice</i>"
     return msg
 
+def is_nyse_open():
+    """NYSE is open Mon-Fri 9:30AM - 4:00PM ET (UTC-4 in summer)."""
+    from datetime import timezone, timedelta
+    now_utc = datetime.now(timezone.utc)
+    now_et  = now_utc + timedelta(hours=-4)  # EDT
+    wd  = now_et.weekday()   # 0=Mon 6=Sun
+    mins = now_et.hour * 60 + now_et.minute
+    if wd >= 5:
+        return False, "Weekend"
+    if mins < 570:   # before 9:30 AM
+        return False, f"Pre-market ({now_et.strftime('%H:%M')} ET)"
+    if mins >= 960:  # after 4:00 PM
+        return False, f"After-hours ({now_et.strftime('%H:%M')} ET)"
+    return True, f"NYSE OPEN {now_et.strftime('%H:%M')} ET"
+
 def run_trader():
     print(f"\n[Trader] Starting — {datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}")
+    open_status, open_msg = is_nyse_open()
+    print(f"[Trader] Market: {open_msg}")
+    if not open_status:
+        print(f"[Trader] NYSE closed — updating prices only, no trades")
+        try:
+            portfolio = load_portfolio()
+            if portfolio["positions"]:
+                tickers = list(portfolio["positions"].keys())
+                prices  = get_prices(tickers)
+                portfolio = update_position_prices(portfolio, prices)
+                save_portfolio(portfolio)
+                print(f"[Trader] Prices updated: ${portfolio['total_value']:,.0f}")
+        except Exception as e:
+            print(f"[Trader] Price update error: {e}")
+        return
 
     portfolio = load_portfolio()
     print(f"[Trader] Portfolio: ${portfolio['total_value']:,.0f} | Cash: ${portfolio['cash']:,.0f} | Positions: {len(portfolio['positions'])}")
