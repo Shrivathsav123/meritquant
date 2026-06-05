@@ -210,11 +210,33 @@ def main():
     except Exception as e:
         print(f"[News] Global scan error: {e}")
 
-    # Save live prices for app
+    # Save live prices for app (including macro tickers)
     try:
         price_data = {}
         import requests
         headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
+        # Add macro tickers first
+        macro_tickers = {
+            "%5EVIX": "VIX", "DX-Y.NYB": "DXY", "TLT": "TLT",
+            "%5ETNX": "TNX", "SPY": "SPY"
+        }
+        for raw_ticker, clean_name in macro_tickers.items():
+            try:
+                url = f"https://query1.finance.yahoo.com/v8/finance/chart/{raw_ticker}?range=1d&interval=1d"
+                resp = requests.get(url, headers=headers, timeout=5)
+                if resp.status_code == 200:
+                    d = resp.json()
+                    meta = d.get("chart",{}).get("result",[{}])[0].get("meta",{})
+                    price = meta.get("regularMarketPrice") or meta.get("previousClose")
+                    prev  = meta.get("previousClose") or meta.get("chartPreviousClose")
+                    if price:
+                        chg = ((float(price) - float(prev)) / float(prev) * 100) if prev else 0
+                        price_data[clean_name] = {
+                            "price":  round(float(price), 2),
+                            "change": round(chg, 2),
+                            "time":   datetime.utcnow().isoformat(),
+                        }
+            except: pass
         for r in results[:30]:
             ticker = r["ticker"]
             try:
