@@ -16,6 +16,21 @@ except Exception as e:
     print(f'Reporter import error: {e}')
     def send_trade_report(*a, **k): pass
 try:
+    from trading.excel_reporter import send_trade_excel
+except Exception as e:
+    print(f'Excel reporter error: {e}')
+    def send_trade_excel(*a, **k): pass
+try:
+    from trading.excel_reporter import send_trade_excel
+except Exception as e:
+    print(f'Reporter import error: {e}')
+    def send_trade_report(*a, **k): pass
+try:
+    from trading.excel_reporter import send_trade_excel
+except Exception as e:
+    print(f'Excel reporter error: {e}')
+    def send_trade_excel(*a, **k): pass
+try:
     from trading.memory import record_trade_outcome
 except:
     def record_trade_outcome(*a, **k): pass
@@ -302,6 +317,7 @@ def run_trader():
                     pnl=pnl, pnl_pct=pnl_pct,
                     lesson=action.get("lesson",""),
                 )
+                send_trade_excel(trigger_action='BUY', trigger_ticker=ticker)
                 trades_made.append(action)
                 # Record lesson for AI learning
                 try:
