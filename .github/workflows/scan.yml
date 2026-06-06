@@ -1,96 +1,89 @@
 name: Alpha Scanner
 
 on:
- schedule:
-   - cron: "30 13 * * 1-5"
-   - cron: "0 19 * * 1-5"
- workflow_dispatch:
-   inputs:
-     mode:
-       description: "Scan mode"
-       required: false
-       default: "default"
-       type: choice
-       options:
-         - default
-         - etfs
-         - us
-         - nse
-         - startup
-         - dry-run
+  schedule:
+    - cron: "0 11 * * 1-5"    # 6:00 AM ET  — Pre-market scan (no AI trades)
+    - cron: "35 13 * * 1-5"   # 9:35 AM ET  — Market open scan (AI TRADES)
+    - cron: "0 16 * * 1-5"    # 12:00 PM ET — Midday scan (no AI trades)
+    - cron: "30 19 * * 1-5"   # 3:30 PM ET  — Pre-close scan (AI TRADES)
+    - cron: "30 21 * * 1-5"   # 5:30 PM ET  — After-hours wrap (no AI trades)
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Scan mode"
+        required: false
+        default: "default"
+        type: choice
+        options:
+          - default
+          - dry-run
 
 permissions:
- contents: write
+  contents: write
 
 jobs:
- scan:
-   runs-on: ubuntu-latest
-   timeout-minutes: 25
-   steps:
-     - uses: actions/checkout@v4
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
 
-     - name: Restore cache
-       uses: actions/cache@v4
-       with:
-         path: data/
-         key: alpha-data-${{ github.run_id }}
-         restore-keys: alpha-data-
+      - name: Restore cache
+        uses: actions/cache@v4
+        with:
+          path: data/
+          key: alpha-data-${{ github.run_id }}
+          restore-keys: alpha-data-
 
-     - uses: actions/setup-python@v5
-       with:
-         python-version: "3.11"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
 
-     - name: Cache pip
-       uses: actions/cache@v4
-       with:
-         path: ~/.cache/pip
-         key: pip-alpha-${{ hashFiles('requirements.txt') }}
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: pip-alpha-${{ hashFiles('requirements.txt') }}
 
-     - name: Install dependencies
-       run: pip install -r requirements.txt
+      - name: Install dependencies
+        run: pip install -r requirements.txt
 
-     - name: Run Alpha Scanner
-       env:
-         TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-         FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
-       run: |
-         MODE="${{ github.event.inputs.mode }}"
-         if [ "$MODE" = "startup" ]; then
-           python main.py --startup
-         elif [ "$MODE" = "dry-run" ]; then
-           python main.py --dry-run
-         elif [ "$MODE" = "etfs" ]; then
-           python main.py --etfs
-         elif [ "$MODE" = "us" ]; then
-           python main.py --us
-         elif [ "$MODE" = "nse" ]; then
-           python main.py --nse
-         else
-           python main.py
-         fi
+      - name: Run Alpha Scanner
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+        run: python main.py
 
-     - name: Run AI Trader
-       env:
-         TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-         ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-         FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
-       run: python trading/trader.py
+      - name: Run AI Trader (open + pre-close only)
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+        run: |
+          HOUR=$(date -u +%H)
+          MINUTE=$(date -u +%M)
+          if [ "$HOUR" = "13" ] || [ "$HOUR" = "19" ]; then
+            echo "AI trading window — running trader"
+            python trading/trader.py
+          else
+            echo "Scan-only window at $HOUR:$MINUTE UTC — skipping AI trades"
+          fi
 
-     - name: Commit scan results
-       if: always()
-       run: |
-         git config user.name "Alpha Scanner Bot"
-         git config user.email "scanner@alpha.bot"
-         mkdir -p data
-         git add data/ || true
-         git diff --staged --quiet || git commit -m "Scanner results $(date -u '+%Y-%m-%d %H:%M UTC')"
-         git push || true
+      - name: Commit scan results
+        if: always()
+        run: |
+          git config user.name "Alpha Scanner Bot"
+          git config user.email "scanner@alpha.bot"
+          mkdir -p data
+          git add data/ || true
+          git diff --staged --quiet || git commit -m "Scan $(date -u '+%H:%M UTC %d %b')"
+          git push || true
 
-     - name: Save cache
-       if: always()
-       uses: actions/cache@v4
-       with:
-         path: data/
-         key: alpha-data-${{ github.run_id }}
+      - name: Save cache
+        if: always()
+        uses: actions/cache@v4
+        with:
+          path: data/
+          key: alpha-data-${{ github.run_id }}
