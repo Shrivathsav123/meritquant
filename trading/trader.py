@@ -11,6 +11,11 @@ from trading.portfolio import (
 )
 from trading.decision_engine import make_trading_decision
 try:
+    from trading.trade_reporter import send_trade_report
+except Exception as e:
+    print(f'Reporter import error: {e}')
+    def send_trade_report(*a, **k): pass
+try:
     from trading.memory import record_trade_outcome
 except:
     def record_trade_outcome(*a, **k): pass
@@ -231,6 +236,21 @@ def run_trader():
                 cost = price * shares
                 print(f"  BUY {ticker} — {shares} shares @ ${price} = ${cost:,.0f}")
                 trades_made.append(action)
+                send_trade_report(
+                    action="BUY", ticker=ticker, price=price, shares=shares,
+                    reasoning=reasoning,
+                    sector=action.get("sector",""),
+                    macro_env=action.get("macro_alignment","UNKNOWN"),
+                    probability_score=action.get("probability_score",0),
+                    macro_alignment=action.get("macro_alignment",""),
+                    catalyst=action.get("catalyst",""),
+                    risk_note=action.get("risk_note",""),
+                    portfolio_value=portfolio["total_value"],
+                    portfolio_pnl_pct=portfolio.get("pnl_pct",0),
+                    target_pct=action.get("target_pct",15),
+                    stop_pct=action.get("stop_pct",7),
+                    hold_duration=action.get("hold_duration","2-3 weeks"),
+                )
                 stop_price = round(price * 0.93, 2)
                 log_trade(
                     "BUY", ticker, price, shares,
@@ -267,6 +287,21 @@ def run_trader():
                 pnl     = round((price - pos["entry_price"]) * pos["shares"], 2)
                 pnl_pct = round((price - pos["entry_price"]) / pos["entry_price"] * 100, 2)
                 print(f"  SELL {ticker} @ ${price} | P&L: ${pnl:+,.0f} ({pnl_pct:+.1f}%)")
+                send_trade_report(
+                    action="SELL", ticker=ticker, price=price, shares=pos["shares"],
+                    reasoning=action.get("reasoning",""),
+                    sector=action.get("sector",""),
+                    macro_env=action.get("macro_alignment","UNKNOWN"),
+                    probability_score=action.get("probability_score",0),
+                    macro_alignment=action.get("macro_alignment",""),
+                    catalyst="",
+                    risk_note="",
+                    portfolio_value=portfolio["total_value"],
+                    portfolio_pnl_pct=portfolio.get("pnl_pct",0),
+                    sell_reason=action.get("sell_reason",""),
+                    pnl=pnl, pnl_pct=pnl_pct,
+                    lesson=action.get("lesson",""),
+                )
                 trades_made.append(action)
                 # Record lesson for AI learning
                 try:
