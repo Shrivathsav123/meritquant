@@ -1,173 +1,141 @@
-# trading/memory.py — AI Trade Memory & Learning System
+# trading/memory.py — AI persistent memory and lesson system
 import json
 import os
 from datetime import datetime
 
-DATA_DIR   = "data"
-MEMORY_FILE = f"{DATA_DIR}/trade_memory.json"
-LESSONS_FILE = f"{DATA_DIR}/lessons.json"
+DATA_DIR    = "data"
+MEMORY_FILE = f"{DATA_DIR}/ai_memory.json"
 
 def load_memory():
-    """Load all trade memories and lessons."""
+    os.makedirs(DATA_DIR, exist_ok=True)
     try:
         if os.path.exists(MEMORY_FILE):
             return json.load(open(MEMORY_FILE))
     except:
         pass
     return {
-        "lessons":        [],
-        "winning_setups": [],
-        "losing_setups":  [],
-        "stats":          {},
-        "updated":        datetime.utcnow().isoformat(),
+        "lessons":          [],   # lessons from losing trades
+        "winning_patterns": [],   # patterns from winning trades
+        "macro_mistakes":   [],   # macro misreads
+        "sector_notes":     {},   # per-sector lessons
+        "banned_setups":    [],   # setups that repeatedly fail
+        "last_updated":     None,
     }
 
 def save_memory(memory):
-    os.makedirs(DATA_DIR, exist_ok=True)
-    memory["updated"] = datetime.utcnow().isoformat()
-    json.dump(memory, open(MEMORY_FILE, "w"), indent=2, default=str)
+    memory["last_updated"] = datetime.utcnow().isoformat()
+    json.dump(memory, open(MEMORY_FILE, "w"), indent=2)
 
-def record_trade_outcome(trade, outcome_pct, held_days, macro_env):
-    """
-    Record what happened with a trade so AI can learn.
-    Called when a position is closed.
-    """
+def record_lesson(ticker, action, pnl_pct, reasoning, sell_reason, macro_env, sector):
+    """Record a lesson from a closed trade — wins and losses."""
     memory = load_memory()
-    won    = outcome_pct > 0
-
-    # Build lesson
-    lesson = {
-        "date":       datetime.utcnow().isoformat(),
-        "ticker":     trade.get("ticker", ""),
-        "trade_type": trade.get("trade_type", "swing"),
-        "entry":      trade.get("entry_price", 0),
-        "exit":       trade.get("sell_price", 0),
-        "pnl_pct":    outcome_pct,
-        "held_days":  held_days,
-        "won":        won,
-        "reasoning":  trade.get("reasoning", ""),
-        "macro":      macro_env,
-        "lesson":     _generate_lesson(trade, outcome_pct, held_days),
+    entry  = {
+        "date":       datetime.utcnow().strftime("%Y-%m-%d"),
+        "ticker":     ticker,
+        "action":     action,
+        "pnl_pct":    pnl_pct,
+        "reasoning":  reasoning[:200] if reasoning else "",
+        "sell_reason":sell_reason[:200] if sell_reason else "",
+        "macro_env":  macro_env,
+        "sector":     sector,
     }
 
-    memory["lessons"].insert(0, lesson)
-    memory["lessons"] = memory["lessons"][:50]  # Keep last 50
+    if pnl_pct is not None and pnl_pct < -3:
+        # Extract the core lesson
+        lesson = {
+            **entry,
+            "lesson": _extract_lesson(ticker, pnl_pct, reasoning, sell_reason, macro_env),
+        }
+        memory["lessons"].insert(0, lesson)
+        memory["lessons"] = memory["lessons"][:50]  # keep last 50
 
-    if won:
-        memory["winning_setups"].insert(0, {
-            "ticker":    trade.get("ticker"),
-            "pnl_pct":  outcome_pct,
-            "reasoning": trade.get("reasoning", "")[:150],
-            "setup":     _extract_setup(trade.get("reasoning", "")),
+        # Track macro mistakes
+        if macro_env in ["BEARISH", "VOLATILE", "RATE_HIKE_FEAR"]:
+            memory["macro_mistakes"].insert(0, {
+                "date": entry["date"],
+                "mistake": f"Bought {ticker} ({sector}) in {macro_env} environment — lost {pnl_pct:.1f}%",
+            })
+            memory["macro_mistakes"] = memory["macro_mistakes"][:20]
+
+        # Ban setups that keep failing
+        _check_ban_setup(memory, ticker, reasoning, pnl_pct)
+
+    elif pnl_pct is not None and pnl_pct > 5:
+        memory["winning_patterns"].insert(0, {
+            **entry,
+            "pattern": _extract_win_pattern(ticker, pnl_pct, reasoning, macro_env),
         })
-        memory["winning_setups"] = memory["winning_setups"][:20]
-    else:
-        memory["losing_setups"].insert(0, {
-            "ticker":   trade.get("ticker"),
-            "pnl_pct":  outcome_pct,
-            "reasoning": trade.get("reasoning", "")[:150],
-            "mistake":  _extract_mistake(trade.get("reasoning", ""), outcome_pct),
-        })
-        memory["losing_setups"] = memory["losing_setups"][:20]
+        memory["winning_patterns"] = memory["winning_patterns"][:30]
 
-    # Update stats
-    all_trades   = memory["lessons"]
-    wins         = [t for t in all_trades if t["won"]]
-    losses       = [t for t in all_trades if not t["won"]]
-    avg_win      = sum(t["pnl_pct"] for t in wins)  / len(wins)  if wins   else 0
-    avg_loss     = sum(t["pnl_pct"] for t in losses) / len(losses) if losses else 0
-    win_rate     = len(wins) / len(all_trades) * 100 if all_trades else 0
-    profit_factor = abs(avg_win / avg_loss) if avg_loss != 0 else 0
-
-    memory["stats"] = {
-        "total_trades":   len(all_trades),
-        "wins":           len(wins),
-        "losses":         len(losses),
-        "win_rate":       round(win_rate, 1),
-        "avg_win_pct":    round(avg_win, 2),
-        "avg_loss_pct":   round(avg_loss, 2),
-        "profit_factor":  round(profit_factor, 2),
-        "best_trade":     max((t["pnl_pct"] for t in all_trades), default=0),
-        "worst_trade":    min((t["pnl_pct"] for t in all_trades), default=0),
-    }
+    # Per-sector notes
+    if sector and sector not in memory["sector_notes"]:
+        memory["sector_notes"][sector] = {"wins": 0, "losses": 0, "notes": []}
+    if sector:
+        if pnl_pct and pnl_pct > 0:
+            memory["sector_notes"][sector]["wins"] += 1
+        elif pnl_pct and pnl_pct < 0:
+            memory["sector_notes"][sector]["losses"] += 1
 
     save_memory(memory)
-    return lesson
 
-def _generate_lesson(trade, pnl_pct, held_days):
-    """Generate a human-readable lesson from a trade outcome."""
-    ticker    = trade.get("ticker", "")
-    reasoning = trade.get("reasoning", "")
-    won       = pnl_pct > 0
+def _extract_lesson(ticker, pnl_pct, reasoning, sell_reason, macro_env):
+    reasons = sell_reason or reasoning or ""
+    if "jobs" in reasons.lower() or "nfp" in reasons.lower() or "employment" in reasons.lower():
+        return f"Do not hold tech/semis going into strong jobs reports — rate hike fears cause sharp selloffs"
+    if "fed" in reasons.lower() or "rate" in reasons.lower() or "hike" in reasons.lower():
+        return f"Fed hawkish pivot risk is real — reduce tech exposure when rates pricing shifts"
+    if "earnings" in reasons.lower() or "miss" in reasons.lower():
+        return f"{ticker} sold off on earnings — check earnings dates before entry"
+    if macro_env in ["BEARISH", "VOLATILE"]:
+        return f"Avoid new longs in {macro_env} macro regime — wait for stabilisation"
+    return f"{ticker} lost {pnl_pct:.1f}% — review entry timing and macro context"
 
-    if won:
-        if pnl_pct > 10:
-            return f"STRONG WIN on {ticker} (+{pnl_pct:.1f}% in {held_days}d). Setup worked perfectly. Repeat this pattern."
-        else:
-            return f"WIN on {ticker} (+{pnl_pct:.1f}% in {held_days}d). Thesis confirmed but modest gain."
-    else:
-        if pnl_pct < -7:
-            return f"STOP LOSS on {ticker} ({pnl_pct:.1f}%). Stop loss system worked — limited the damage."
-        elif "resistance" in reasoning.lower() and pnl_pct < 0:
-            return f"LOSS on {ticker} ({pnl_pct:.1f}%). Bought near resistance — avoid entries at resistance levels next time."
-        elif "overbought" in reasoning.lower():
-            return f"LOSS on {ticker} ({pnl_pct:.1f}%). RSI was elevated. Don't buy overbought conditions."
-        else:
-            return f"LOSS on {ticker} ({pnl_pct:.1f}% in {held_days}d). Review the original thesis — what broke down?"
+def _extract_win_pattern(ticker, pnl_pct, reasoning, macro_env):
+    r = reasoning or ""
+    if "oversold" in r.lower() or "rsi" in r.lower():
+        return f"Oversold RSI entry in {macro_env} worked well — {ticker} +{pnl_pct:.1f}%"
+    if "golden cross" in r.lower():
+        return f"Golden cross momentum in {macro_env} — {ticker} +{pnl_pct:.1f}%"
+    return f"{ticker} +{pnl_pct:.1f}% — {macro_env} regime, {r[:80]}"
 
-def _extract_setup(reasoning):
-    """Extract the key setup from winning trade reasoning."""
-    keywords = ["RSI oversold", "Golden Cross", "Fibonacci", "breakout", "support",
-                "derived demand", "bottleneck", "Golden ratio", "divergence"]
-    found = [k for k in keywords if k.lower() in reasoning.lower()]
-    return " + ".join(found[:3]) if found else "technical setup"
-
-def _extract_mistake(reasoning, pnl_pct):
-    """Extract what went wrong in a losing trade."""
-    if "resistance" in reasoning.lower():
-        return "Entered near resistance — bought into selling pressure"
-    elif pnl_pct < -5:
-        return "Thesis broke down — stop loss correctly triggered"
-    elif "macro" in reasoning.lower():
-        return "Macro environment shifted against the trade"
-    else:
-        return "Entry timing was off — setup did not follow through"
+def _check_ban_setup(memory, ticker, reasoning, pnl_pct):
+    r = (reasoning or "").lower()
+    for setup in ["reverse cup", "descending channel", "death cross"]:
+        if setup in r:
+            already = any(setup in b for b in memory["banned_setups"])
+            if not already:
+                memory["banned_setups"].append(f"{setup} — repeatedly fails, avoid")
 
 def get_memory_context():
-    """
-    Get formatted memory context to inject into AI decision prompt.
-    This is how the AI 'learns' — it reads its past lessons before deciding.
-    """
+    """Return a concise memory string for the AI decision prompt."""
     memory = load_memory()
-    lessons  = memory.get("lessons", [])
-    wins     = memory.get("winning_setups", [])
-    losses   = memory.get("losing_setups", [])
-    stats    = memory.get("stats", {})
+    lines  = []
 
-    if not lessons:
-        return "No trade history yet — this is your first set of trades."
+    if memory["lessons"]:
+        lines.append("=== LESSONS FROM PAST LOSING TRADES ===")
+        for l in memory["lessons"][:8]:
+            lines.append(f"- [{l['date']}] {l['ticker']} {l['pnl_pct']:.1f}%: {l['lesson']}")
 
-    context = f"""
-TRADE MEMORY & LESSONS LEARNED:
+    if memory["macro_mistakes"]:
+        lines.append("\n=== MACRO MISTAKES TO AVOID ===")
+        for m in memory["macro_mistakes"][:5]:
+            lines.append(f"- {m['mistake']}")
 
-Performance Stats:
-- Total trades: {stats.get('total_trades', 0)}
-- Win rate: {stats.get('win_rate', 0)}%
-- Avg win: +{stats.get('avg_win_pct', 0)}%
-- Avg loss: {stats.get('avg_loss_pct', 0)}%
-- Profit factor: {stats.get('profit_factor', 0)}x
-- Best trade: +{stats.get('best_trade', 0)}%
-- Worst trade: {stats.get('worst_trade', 0)}%
+    if memory["winning_patterns"]:
+        lines.append("\n=== WHAT HAS WORKED ===")
+        for w in memory["winning_patterns"][:5]:
+            lines.append(f"- {w['pattern']}")
 
-Recent Lessons (most recent first):
-{chr(10).join([f"- {l['lesson']}" for l in lessons[:10]])}
+    if memory["banned_setups"]:
+        lines.append("\n=== BANNED SETUPS (proven to fail) ===")
+        for b in memory["banned_setups"]:
+            lines.append(f"- {b}")
 
-What's Working (winning setups):
-{chr(10).join([f"- {w['ticker']}: +{w['pnl_pct']:.1f}% — {w['setup']}" for w in wins[:5]])}
+    if memory["sector_notes"]:
+        lines.append("\n=== SECTOR TRACK RECORD ===")
+        for sector, data in memory["sector_notes"].items():
+            if data["wins"] + data["losses"] > 0:
+                wr = data["wins"] / (data["wins"] + data["losses"]) * 100
+                lines.append(f"- {sector}: {data['wins']}W/{data['losses']}L ({wr:.0f}% win rate)")
 
-What's NOT Working (avoid these):
-{chr(10).join([f"- {l['ticker']}: {l['pnl_pct']:.1f}% — {l['mistake']}" for l in losses[:5]])}
-
-Apply these lessons to your current decisions. Repeat winning patterns. Avoid losing patterns.
-"""
-    return context.strip()
+    return "\n".join(lines) if lines else "No trade memory yet — first scan."
