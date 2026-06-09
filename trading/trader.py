@@ -1,362 +1,939 @@
-# trading/trader.py — Autonomous AI Trading Bot
-import sys, os, json
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+#!/usr/bin/env python3
+"""
+MeritQuant — Autonomous AI Trader
+Claude Opus 4.8 decision engine with macro brain and trade memory.
+Trade windows: 9:35 AM ET (open) and 3:30 PM ET (pre-close).
+GitHub Actions TRADE_MODE env var prevents timing drift failures.
+"""
 
-import requests
-from datetime import datetime
-from trading.portfolio import (
-    load_portfolio, save_portfolio, load_trades,
-    update_position_prices, execute_buy, execute_sell,
-    check_stop_losses, STARTING_BALANCE
-)
-from trading.decision_engine import make_trading_decision
-try:
-    from trading.trade_reporter import send_trade_report
-except Exception as e:
-    print(f'Reporter import error: {e}')
-    def send_trade_report(*a, **k): pass
-try:
-    from trading.excel_reporter import send_trade_excel
-except Exception as e:
-    print(f'Excel reporter error: {e}')
-    def send_trade_excel(*a, **k): pass
-try:
-    from trading.excel_reporter import send_trade_excel
-except Exception as e:
-    print(f'Reporter import error: {e}')
-    def send_trade_report(*a, **k): pass
-try:
-    from trading.excel_reporter import send_trade_excel
-except Exception as e:
-    print(f'Excel reporter error: {e}')
-    def send_trade_excel(*a, **k): pass
-try:
-    from trading.memory import record_trade_outcome
-except:
-    def record_trade_outcome(*a, **k): pass
-from macro import get_macro_environment
+import os, json, time, logging, io, requests
+from datetime import datetime, timezone, timedelta
+from pathlib import Path
+from typing import Optional
 
-HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
-TELEGRAM_TOKEN   = os.environ.get("TELEGRAM_TOKEN", "")
-TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "")
+import anthropic
+import yfinance as yf
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.units import inch
+from reportlab.platypus import (SimpleDocTemplate, Paragraph, Spacer,
+                                 Table, TableStyle, HRFlowable)
+from reportlab.lib.enums import TA_CENTER
+import openpyxl
+from openpyxl.styles import Font, PatternFill, Alignment
 
-def log_trade(action, ticker, price, shares, reasoning, sell_reason=None, pnl=None, pnl_pct=None, sector=None, catalyst=None, risk_note=None):
-    """Write every trade to a detailed trade log file."""
-    os.makedirs("data", exist_ok=True)
-    log_file = "data/trade_log.json"
+# ── Logging ───────────────────────────────────────────────────────────────────
+logging.basicConfig(level=logging.INFO,
+                    format="%(asctime)s [%(levelname)s] %(message)s",
+                    datefmt="%Y-%m-%d %H:%M:%S")
+log = logging.getLogger("ai_trader")
+
+# ── Constants ─────────────────────────────────────────────────────────────────
+PORTFOLIO_SIZE     = 183_000.0
+MAX_POSITION_PCT   = 0.10
+MAX_POSITION_USD   = PORTFOLIO_SIZE * MAX_POSITION_PCT   # $18,300
+MAX_OPEN_POSITIONS = 6
+STOP_LOSS_PCT      = 0.08
+TAKE_PROFIT_PCT    = 0.20
+MIN_CONVICTION     = 6      # Don't trade below this score
+
+SIGNALS_FILE   = "data/signals.json"
+POSITIONS_FILE = "data/positions.json"
+TRADE_LOG_FILE = "data/trade_log.json"
+MEMORY_FILE    = "data/memory.json"
+REPORTS_DIR    = "reports"
+TELEGRAM_BASE  = "https://api.telegram.org"
+
+# ── Environment ───────────────────────────────────────────────────────────────
+ANTHROPIC_API_KEY = os.environ["ANTHROPIC_API_KEY"]
+TELEGRAM_TOKEN    = os.environ["TELEGRAM_TOKEN"]
+TELEGRAM_CHAT_ID  = os.environ["TELEGRAM_CHAT_ID"]
+FRED_API_KEY      = os.environ.get("FRED_API_KEY", "")
+# TRADE_MODE is set by GitHub Actions based on which cron triggered.
+# "true"  → dedicated trade window schedule fired → always trade
+# "false" → scan-only schedule fired → skip AI trader
+TRADE_MODE = os.environ.get("TRADE_MODE", "false").lower() == "true"
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 1. UTILITY HELPERS
+# ─────────────────────────────────────────────────────────────────────────────
+def load_json(path: str, default=None):
+    p = Path(path)
+    if p.exists():
+        try:
+            return json.loads(p.read_text())
+        except Exception:
+            pass
+    return default if default is not None else {}
+
+def save_json(path: str, data):
+    Path(path).parent.mkdir(parents=True, exist_ok=True)
+    Path(path).write_text(json.dumps(data, indent=2, default=str))
+
+def send_telegram(text: str, parse_mode: str = "HTML") -> bool:
+    url = f"{TELEGRAM_BASE}/bot{TELEGRAM_TOKEN}/sendMessage"
     try:
-        logs = json.load(open(log_file)) if os.path.exists(log_file) else []
-    except:
-        logs = []
+        r = requests.post(url, json={
+            "chat_id": TELEGRAM_CHAT_ID,
+            "text": text,
+            "parse_mode": parse_mode
+        }, timeout=15)
+        return r.ok
+    except Exception as e:
+        log.error(f"Telegram text failed: {e}")
+        return False
 
-    entry = {
-        "date":        datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC"),
-        "action":      action,
-        "ticker":      ticker,
-        "price":       price,
-        "shares":      shares,
-        "cost":        round(price * shares, 2) if action == "BUY" else None,
-        "pnl":         pnl,
-        "pnl_pct":     pnl_pct,
-        "sector":      sector or "UNKNOWN",
-        "catalyst":    catalyst or "",
-        "reasoning":   reasoning,
-        "sell_reason": sell_reason or "",
-        "risk_note":   risk_note or "",
-    }
-
-    logs.insert(0, entry)
-    logs = logs[:200]  # Keep last 200 trades
-    json.dump(logs, open(log_file, "w"), indent=2)
-    print(f"[TradeLog] Logged {action} {ticker} @ ${price}")
-
-def send_telegram(text):
-    if not TELEGRAM_TOKEN or not TELEGRAM_CHAT_ID:
-        print(text); return
+def send_telegram_doc(file_bytes: bytes, filename: str, caption: str = "") -> bool:
+    url = f"{TELEGRAM_BASE}/bot{TELEGRAM_TOKEN}/sendDocument"
     try:
-        requests.post(
-            f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage",
-            json={"chat_id": TELEGRAM_CHAT_ID, "text": text,
-                  "parse_mode": "HTML", "disable_web_page_preview": True},
-            timeout=10,
-        )
-    except: pass
+        r = requests.post(url,
+            data={"chat_id": TELEGRAM_CHAT_ID, "caption": caption},
+            files={"document": (filename, file_bytes)},
+            timeout=30)
+        return r.ok
+    except Exception as e:
+        log.error(f"Telegram doc failed: {e}")
+        return False
 
-def get_price(ticker):
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 2. TRADE WINDOW CHECK  (fix: TRADE_MODE env var + ±15 min buffer)
+# ─────────────────────────────────────────────────────────────────────────────
+def is_trade_window() -> bool:
+    """
+    Returns True when AI trader should execute decisions.
+
+    Priority 1: TRADE_MODE env var (set by GitHub Actions workflow).
+      - Dedicated trade-window crons set TRADE_MODE=true
+      - Scan-only crons set TRADE_MODE=false
+      This eliminates GitHub Actions timing drift as a failure mode.
+
+    Priority 2: Time-based fallback with ±15 min buffer around
+      9:35 AM ET (open) and 3:30 PM ET (pre-close).
+      Handles manual workflow_dispatch runs and local execution.
+    """
+    # Hard override from workflow scheduler
+    if TRADE_MODE:
+        log.info("TRADE_MODE=true — proceeding with AI trade decisions.")
+        return True
+
+    # Time-based fallback
+    ET = timezone(timedelta(hours=-4))   # EDT (UTC-4); change to -5 Nov–Mar
+    now_et = datetime.now(ET)
+
+    if now_et.weekday() >= 5:            # Saturday=5, Sunday=6
+        log.info("Weekend — markets closed. Skipping.")
+        return False
+
+    now_min   = now_et.hour * 60 + now_et.minute
+    OPEN_WIN  = 9  * 60 + 35            # 575 minutes
+    CLOSE_WIN = 15 * 60 + 30            # 930 minutes
+    BUFFER    = 15                       # ±15 min handles GH Actions drift
+
+    in_open  = abs(now_min - OPEN_WIN)  <= BUFFER
+    in_close = abs(now_min - CLOSE_WIN) <= BUFFER
+
+    if in_open or in_close:
+        label = "OPEN" if in_open else "PRE-CLOSE"
+        log.info(f"Trade window: {label} at {now_et.strftime('%H:%M')} ET")
+        return True
+
+    log.info(f"Scan-only window at {now_et.strftime('%H:%M')} ET — skipping AI trades.")
+    return False
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 3. MACRO BRAIN
+# ─────────────────────────────────────────────────────────────────────────────
+def fetch_fred(series_id: str) -> Optional[float]:
+    """Fetch latest value from FRED public CSV endpoint."""
     try:
-        url  = f"https://query1.finance.yahoo.com/v8/finance/chart/{ticker}?range=1d&interval=1m"
-        resp = requests.get(url, headers=HEADERS, timeout=8)
-        if resp.status_code == 200:
-            data   = resp.json()
-            result = data.get("chart", {}).get("result", [])
-            if result:
-                meta  = result[0].get("meta", {})
-                price = meta.get("regularMarketPrice") or meta.get("previousClose")
-                if price:
-                    return round(float(price), 2)
-    except: pass
+        url = f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={series_id}"
+        if FRED_API_KEY:
+            url += f"&api_key={FRED_API_KEY}"
+        r = requests.get(url, timeout=12)
+        for line in reversed(r.text.strip().split("\n")[1:]):
+            parts = line.split(",")
+            if len(parts) == 2 and parts[1].strip() not in ("", "."):
+                return float(parts[1].strip())
+    except Exception as e:
+        log.warning(f"FRED {series_id}: {e}")
     return None
 
-def get_prices(tickers):
-    prices = {}
-    for ticker in tickers:
-        price = get_price(ticker)
-        if price:
-            prices[ticker] = price
-    return prices
-
-def load_scan_results():
+def fetch_price(ticker: str) -> Optional[float]:
+    """Fetch latest close from Yahoo Finance."""
     try:
-        path = "data/scan_results.json"
-        if os.path.exists(path):
-            return json.load(open(path))
-    except: pass
-    return []
+        hist = yf.Ticker(ticker).history(period="2d")
+        if not hist.empty:
+            return float(hist["Close"].iloc[-1])
+    except Exception as e:
+        log.warning(f"Yahoo {ticker}: {e}")
+    return None
 
-def format_portfolio_update(portfolio):
-    now       = datetime.utcnow().strftime("%d %b %Y  %H:%M UTC")
-    positions = portfolio["positions"]
-    pnl       = portfolio["pnl"]
-    pnl_pct   = portfolio["pnl_pct"]
-    wins      = portfolio.get("wins", 0)
-    losses    = portfolio.get("losses", 0)
-    total     = wins + losses
-    win_rate  = round(wins / total * 100) if total > 0 else 0
+def build_macro_context() -> dict:
+    log.info("Building macro brain context...")
 
-    # Build positions lines separately to avoid backslash in f-string
-    pos_lines = ""
-    for t, p in positions.items():
-        pct   = p.get("pnl_pct", 0)
-        price = p.get("current_price", 0)
-        line  = "<code>  " + str(t).ljust(6) + "  $" + f"{price:>8.2f}" + "  " + f"{pct:>+6.1f}" + "%</code>"
-        pos_lines += line + "\n"
+    vix       = fetch_price("^VIX")
+    dxy       = fetch_price("DX-Y.NYB")
+    spy       = fetch_price("SPY")
+    t10y2y    = fetch_fred("T10Y2Y")        # Yield curve
+    hy_spread = fetch_fred("BAMLH0A0HYM2") # HY credit OAS bps
+    t10y      = fetch_fred("DGS10")         # 10Y yield
+    t2y       = fetch_fred("DGS2Y")         # 2Y yield
+    fed_rate  = fetch_fred("FEDFUNDS")      # Fed funds
 
-    no_pos = "<code>  No open positions</code>\n"
-    pos_block = pos_lines if pos_lines else no_pos
+    # ── Regime classification ─────────────────────────────────────────────────
+    regime  = "NEUTRAL"
+    reasons = []
 
-    msg  = f"<code>PORTFOLIO  |  {now}</code>\n"
-    msg += "<code>" + "─"*35 + "</code>\n"
-    msg += "\n"
-    msg += f"<code>Total Value  ${portfolio['total_value']:>12,.0f}</code>\n"
-    msg += f"<code>Cash         ${portfolio['cash']:>12,.0f}</code>\n"
-    msg += f"<code>P&L          ${pnl:>+12,.0f}  ({pnl_pct:+.1f}%)</code>\n"
-    msg += f"<code>Win Rate     {win_rate}%  ({wins}W / {losses}L)</code>\n"
-    msg += "\n"
-    msg += f"<b>Open Positions ({len(positions)}):</b>\n"
-    msg += pos_block
-    msg += "\n"
-    msg += "<i>Paper trading — Not financial advice</i>"
-    return msg
+    if vix is not None:
+        if vix > 30:
+            regime = "RISK-OFF"
+            reasons.append(f"VIX elevated at {vix:.1f} — fear spike")
+        elif vix < 18:
+            reasons.append(f"VIX calm at {vix:.1f} — supportive for longs")
+        else:
+            reasons.append(f"VIX neutral at {vix:.1f}")
 
-def is_nyse_open():
-    """NYSE is open Mon-Fri 9:30AM - 4:00PM ET (UTC-4 in summer)."""
-    from datetime import timezone, timedelta
-    now_utc = datetime.now(timezone.utc)
-    now_et  = now_utc + timedelta(hours=-4)  # EDT
-    wd  = now_et.weekday()   # 0=Mon 6=Sun
-    mins = now_et.hour * 60 + now_et.minute
-    if wd >= 5:
-        return False, "Weekend"
-    if mins < 570:   # before 9:30 AM
-        return False, f"Pre-market ({now_et.strftime('%H:%M')} ET)"
-    if mins >= 960:  # after 4:00 PM
-        return False, f"After-hours ({now_et.strftime('%H:%M')} ET)"
-    return True, f"NYSE OPEN {now_et.strftime('%H:%M')} ET"
+    if t10y2y is not None:
+        if t10y2y < 0:
+            if regime != "RISK-OFF":
+                regime = "CAUTION"
+            reasons.append(f"Yield curve inverted at {t10y2y:.2f}% — recession signal")
+        else:
+            reasons.append(f"Yield curve positive at +{t10y2y:.2f}%")
 
-def run_trader():
-    print(f"\n[Trader] Starting — {datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}")
-    open_status, open_msg = is_nyse_open()
-    print(f"[Trader] Market: {open_msg}")
-    if not open_status:
-        print(f"[Trader] NYSE closed — updating prices only, no trades")
-        try:
-            portfolio = load_portfolio()
-            if portfolio["positions"]:
-                tickers = list(portfolio["positions"].keys())
-                prices  = get_prices(tickers)
-                portfolio = update_position_prices(portfolio, prices)
-                save_portfolio(portfolio)
-                print(f"[Trader] Prices updated: ${portfolio['total_value']:,.0f}")
-        except Exception as e:
-            print(f"[Trader] Price update error: {e}")
-        return
+    if hy_spread is not None:
+        if hy_spread > 500:
+            regime = "RISK-OFF"
+            reasons.append(f"HY spreads wide at {hy_spread:.0f}bps — credit stress")
+        elif hy_spread < 300:
+            reasons.append(f"HY spreads tight at {hy_spread:.0f}bps — credit healthy")
+        else:
+            reasons.append(f"HY spreads neutral at {hy_spread:.0f}bps")
 
-    portfolio = load_portfolio()
-    print(f"[Trader] Portfolio: ${portfolio['total_value']:,.0f} | Cash: ${portfolio['cash']:,.0f} | Positions: {len(portfolio['positions'])}")
+    if regime == "NEUTRAL" and vix and vix < 20 and (t10y2y or 0) > 0:
+        regime = "RISK-ON"
 
-    print("[Trader] Getting macro data...")
-    macro = get_macro_environment()
-    print(f"[Trader] Macro: {macro['environment']}")
+    macro = {
+        "timestamp": datetime.utcnow().isoformat(),
+        "regime": regime,
+        "regime_reasons": reasons,
+        "indicators": {
+            "VIX":       {"value": vix,       "label": "CBOE Volatility Index"},
+            "DXY":       {"value": dxy,       "label": "US Dollar Index"},
+            "SPY":       {"value": spy,       "label": "S&P 500 ETF"},
+            "T10Y2Y":    {"value": t10y2y,    "label": "Yield Curve 10Y–2Y (%)"},
+            "HY_SPREAD": {"value": hy_spread, "label": "HY Credit OAS (bps)"},
+            "T10Y":      {"value": t10y,      "label": "10Y Treasury (%)"},
+            "T2Y":       {"value": t2y,       "label": "2Y Treasury (%)"},
+            "FED_RATE":  {"value": fed_rate,  "label": "Fed Funds Rate (%)"},
+        }
+    }
 
-    scan_results = load_scan_results()
-    print(f"[Trader] Loaded {len(scan_results)} scan results")
+    log.info(f"Macro: {regime} | VIX={vix} | Curve={t10y2y} | HY={hy_spread}bps")
+    return macro
 
-    if not scan_results:
-        print("[Trader] No scan results — skipping")
-        return
 
-    all_tickers  = list(portfolio["positions"].keys())
-    scan_tickers = [r["ticker"] for r in scan_results[:25]]
-    all_tickers  = list(set(all_tickers + scan_tickers))
+# ─────────────────────────────────────────────────────────────────────────────
+# 4. TRADE MEMORY SYSTEM
+# ─────────────────────────────────────────────────────────────────────────────
+def load_memory() -> dict:
+    return load_json(MEMORY_FILE, {
+        "losing_trades": [],
+        "winning_patterns": [],
+        "macro_lessons": [],
+        "last_updated": None
+    })
 
-    print(f"[Trader] Fetching prices for {len(all_tickers)} tickers...")
-    current_prices = get_prices(all_tickers)
-    print(f"[Trader] Got {len(current_prices)} prices")
+def save_memory(memory: dict):
+    memory["last_updated"] = datetime.utcnow().isoformat()
+    save_json(MEMORY_FILE, memory)
 
-    portfolio = update_position_prices(portfolio, current_prices)
+def update_memory(trade: dict, memory: dict) -> dict:
+    pnl = trade.get("pnl_pct", 0)
+    if pnl < -0.05:
+        memory["losing_trades"].append({
+            "ticker":     trade.get("ticker"),
+            "date":       trade.get("exit_date", "")[:10],
+            "pnl_pct":    round(pnl, 4),
+            "why_failed": trade.get("exit_reason", ""),
+            "thesis":     trade.get("thesis_summary", ""),
+            "lesson":     trade.get("lesson", "Verify thesis confirmation before full sizing.")
+        })
+        memory["losing_trades"] = memory["losing_trades"][-20:]
+    elif pnl > 0.10:
+        memory["winning_patterns"].append({
+            "ticker":   trade.get("ticker"),
+            "date":     trade.get("exit_date", "")[:10],
+            "pnl_pct":  round(pnl, 4),
+            "setup":    trade.get("technical_setup", ""),
+            "catalyst": trade.get("catalyst", ""),
+        })
+        memory["winning_patterns"] = memory["winning_patterns"][-20:]
+    return memory
 
-    # Check stop losses
-    stops = check_stop_losses(portfolio, current_prices)
-    for stop_msg in stops:
-        print(f"  {stop_msg}")
-        send_telegram("<code>STOP LOSS TRIGGERED</code>\n<b>" + stop_msg + "</b>\n<i>-7% limit hit — closed automatically</i>")
-        try:
-            record_trade_outcome({"ticker": stop_msg.split(":")[1].strip().split(" ")[0] if ":" in stop_msg else "", "reasoning": "Stop loss triggered", "entry_price": 0, "shares": 0}, -7.0, 0, macro.get("environment","NEUTRAL"))
-        except: pass
+def memory_to_prompt(memory: dict) -> str:
+    parts = []
+    if memory.get("losing_trades"):
+        parts.append("PAST LOSING TRADES — DO NOT REPEAT:")
+        for t in memory["losing_trades"][-5:]:
+            parts.append(f"  • {t['ticker']} ({t['date']}) | {t['pnl_pct']*100:.1f}% | "
+                         f"Why: {t['why_failed']} | Lesson: {t['lesson']}")
+    if memory.get("winning_patterns"):
+        parts.append("\nWINNING SETUPS TO REPLICATE:")
+        for p in memory["winning_patterns"][-3:]:
+            parts.append(f"  • {p['ticker']} ({p['date']}) | +{p['pnl_pct']*100:.1f}% | "
+                         f"Setup: {p['setup']} | Catalyst: {p['catalyst']}")
+    return "\n".join(parts) if parts else "No significant trade history recorded yet."
 
-    # AI decisions
-    print("[Trader] Asking AI for decisions...")
-    actions = make_trading_decision(scan_results, portfolio, macro, current_prices)
 
-    trades_made = []
-    for action in actions:
-        ticker     = action.get("ticker", "")
-        trade_type = action.get("trade_type", "swing")
-        reasoning  = action.get("reasoning", "")
-        confidence = action.get("confidence", "MEDIUM")
-        hold       = action.get("hold_duration", "—")
-        target_pct = action.get("target_pct", 15)
-        risk_note  = action.get("risk_note", "")
+# ─────────────────────────────────────────────────────────────────────────────
+# 5. PORTFOLIO STATE MANAGEMENT
+# ─────────────────────────────────────────────────────────────────────────────
+def load_positions() -> dict:
+    return load_json(POSITIONS_FILE, {
+        "positions": [],
+        "cash": PORTFOLIO_SIZE,
+        "total_value": PORTFOLIO_SIZE,
+        "last_updated": None
+    })
 
-        if not ticker: continue
+def load_trade_log() -> list:
+    return load_json(TRADE_LOG_FILE, [])
 
-        if action["action"] == "BUY":
-            price = current_prices.get(ticker)
+def update_prices(portfolio: dict) -> dict:
+    total = portfolio.get("cash", 0)
+    for pos in portfolio.get("positions", []):
+        price = fetch_price(pos["ticker"])
+        if price:
+            pos["current_price"]  = price
+            pos["current_value"]  = price * pos["shares"]
+            pos["unrealised_pnl"] = pos["current_value"] - pos["cost_basis_total"]
+            pos["unrealised_pct"] = pos["unrealised_pnl"] / pos["cost_basis_total"]
+        total += pos.get("current_value", pos["cost_basis_total"])
+    portfolio["total_value"]  = total
+    portfolio["last_updated"] = datetime.utcnow().isoformat()
+    return portfolio
+
+def close_pos(pos: dict, reason: str) -> dict:
+    return {
+        "type":             "CLOSE",
+        "ticker":           pos["ticker"],
+        "shares":           pos["shares"],
+        "entry_price":      pos["entry_price"],
+        "exit_price":       pos.get("current_price", pos["entry_price"]),
+        "cost_basis_total": pos["cost_basis_total"],
+        "exit_value":       pos.get("current_value", pos["cost_basis_total"]),
+        "pnl_usd":          pos.get("unrealised_pnl", 0),
+        "pnl_pct":          pos.get("unrealised_pct", 0),
+        "exit_reason":      reason,
+        "thesis_summary":   pos.get("thesis_summary", ""),
+        "catalyst":         pos.get("catalyst", ""),
+        "technical_setup":  pos.get("technical_setup", ""),
+        "entry_date":       pos.get("entry_date", ""),
+        "exit_date":        datetime.utcnow().isoformat(),
+        "trade_date":       datetime.utcnow().isoformat(),
+    }
+
+def run_sl_tp(portfolio: dict, trade_log: list, memory: dict):
+    """Auto-exit positions at stop loss (−8%) or take profit (+20%)."""
+    exits, remaining = [], []
+    for pos in portfolio.get("positions", []):
+        pnl = pos.get("unrealised_pct", 0)
+        if pnl <= -STOP_LOSS_PCT:
+            reason = f"STOP LOSS at {pnl*100:.1f}%"
+            t = close_pos(pos, reason)
+            trade_log.append(t)
+            memory = update_memory(t, memory)
+            portfolio["cash"] += pos.get("current_value", pos["cost_basis_total"])
+            exits.append((pos["ticker"], reason, pnl))
+            log.warning(f"SL HIT: {pos['ticker']} {pnl*100:.1f}%")
+        elif pnl >= TAKE_PROFIT_PCT:
+            reason = f"TAKE PROFIT at +{pnl*100:.1f}%"
+            t = close_pos(pos, reason)
+            trade_log.append(t)
+            portfolio["cash"] += pos.get("current_value", pos["cost_basis_total"])
+            exits.append((pos["ticker"], reason, pnl))
+            log.info(f"TP HIT: {pos['ticker']} +{pnl*100:.1f}%")
+        else:
+            remaining.append(pos)
+    portfolio["positions"] = remaining
+    return portfolio, trade_log, memory, exits
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 6. CLAUDE OPUS 4.8 DECISION ENGINE
+# ─────────────────────────────────────────────────────────────────────────────
+def build_prompt(signals: list, macro: dict, portfolio: dict, memory: dict) -> str:
+    ind = macro.get("indicators", {})
+
+    def v(key):
+        val = ind.get(key, {}).get("value")
+        return f"{val:.2f}" if val is not None else "N/A"
+
+    macro_block = f"""MACRO ENVIRONMENT — {macro['regime']} REGIME
+{chr(10).join(f'  ▸ {r}' for r in macro.get('regime_reasons', []))}
+  VIX: {v('VIX')}  |  DXY: {v('DXY')}  |  SPY: ${v('SPY')}
+  Yield Curve (10Y-2Y): {v('T10Y2Y')}%  |  HY Credit Spread: {v('HY_SPREAD')}bps
+  10Y Treasury: {v('T10Y')}%  |  Fed Funds: {v('FED_RATE')}%"""
+
+    positions = portfolio.get("positions", [])
+    port_block = (
+        f"Cash: ${portfolio.get('cash', 0):,.0f}  |  "
+        f"Total: ${portfolio.get('total_value', 0):,.0f}  |  "
+        f"Positions: {len(positions)}/{MAX_OPEN_POSITIONS}\n"
+    )
+    for p in positions:
+        port_block += (
+            f"  {p['ticker']}: {p['shares']:.1f}sh @ ${p['entry_price']:.2f} → "
+            f"${p.get('current_price', p['entry_price']):.2f} | "
+            f"P&L {p.get('unrealised_pct', 0)*100:+.1f}% | "
+            f"Thesis: {p.get('thesis_summary', '')[:60]}\n"
+        )
+
+    top_signals = sorted(signals, key=lambda x: x.get("score", 0), reverse=True)[:12]
+    sig_block = "TOP SIGNALS FROM SCANNER:\n"
+    for s in top_signals:
+        sig_block += (
+            f"  {s.get('ticker','?'):6s} | Score {s.get('score',0):4.1f} | "
+            f"RSI {s.get('rsi','N/A'):5s} | {s.get('signal','?'):4s} | "
+            f"Sector: {s.get('sector','?'):15s} | "
+            f"{s.get('news_headline','')[:70]}\n"
+        )
+
+    window = "PRE-CLOSE (3:30 PM ET)" if datetime.utcnow().hour >= 19 else "OPEN (9:35 AM ET)"
+
+    return f"""You are MeritQuant's autonomous AI portfolio manager — institutional grade, Goldman Sachs calibre.
+Portfolio: ${PORTFOLIO_SIZE:,.0f} paper mirror of a real NGO trust. Trade window: {window}.
+
+FRAMEWORK:
+- Buffett balance sheet discipline + macro catalyst ID + technical confirmation
+- RSI, moving averages, chart patterns as entry/exit triggers
+- Max {MAX_POSITION_PCT*100:.0f}% per position (${MAX_POSITION_USD:,.0f}) | Max {MAX_OPEN_POSITIONS} concurrent
+- Stop loss: {STOP_LOSS_PCT*100:.0f}% | Take profit: {TAKE_PROFIT_PCT*100:.0f}%
+- Min conviction score to trade: {MIN_CONVICTION}/10
+- DO NOT enter in RISK-OFF regime unless position is a hedge (VXX, GLD, TLT)
+- NEVER chase momentum — catalyst + chart must both confirm
+
+{macro_block}
+
+PORTFOLIO STATE:
+{port_block}
+{sig_block}
+
+TRADE MEMORY:
+{memory_to_prompt(memory)}
+
+TASK:
+1. Read macro regime. If RISK-OFF, only hedges allowed.
+2. Review signals against existing positions. Avoid sector overlap.
+3. Decide: ENTER (new position), HOLD (existing), or EXIT (thesis broken/hit target).
+4. Apply memory lessons — no repeating documented mistakes.
+5. For each action provide full structured rationale.
+
+RESPOND ONLY with valid JSON — no preamble, no markdown fences:
+{{
+  "market_assessment": "2-3 sentence macro read",
+  "regime": "RISK-ON|RISK-OFF|NEUTRAL|CAUTION",
+  "actions": [
+    {{
+      "ticker": "XXXX",
+      "action": "ENTER|EXIT|HOLD",
+      "position_size_usd": 18000,
+      "conviction": 8,
+      "thesis": "2-3 sentence investment case.",
+      "catalyst": "Primary catalyst.",
+      "technical_setup": "RSI level, pattern, MA alignment.",
+      "risk_factors": "Key risks.",
+      "tier": "1|2|3|4"
+    }}
+  ],
+  "portfolio_notes": "Overall portfolio management comment.",
+  "memory_applied": "Which past lessons influenced decisions today."
+}}"""
+
+def call_claude(prompt: str) -> Optional[dict]:
+    client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+    try:
+        log.info("Calling Claude Opus 4.8...")
+        msg = client.messages.create(
+            model="claude-opus-4-8",
+            max_tokens=2000,
+            messages=[{"role": "user", "content": prompt}]
+        )
+        raw = msg.content[0].text.strip()
+        # Strip any accidental markdown fences
+        if "```" in raw:
+            raw = raw.split("```")[1]
+            if raw.startswith("json"):
+                raw = raw[4:]
+        decision = json.loads(raw.strip())
+        log.info(f"Decision: regime={decision.get('regime')} | actions={len(decision.get('actions',[]))}")
+        return decision
+    except json.JSONDecodeError as e:
+        log.error(f"JSON parse error: {e}")
+    except Exception as e:
+        log.error(f"Claude API error: {e}")
+    return None
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 7. TRADE EXECUTOR
+# ─────────────────────────────────────────────────────────────────────────────
+def execute(decision: dict, portfolio: dict, trade_log: list) -> tuple:
+    actions_taken = []
+    held_tickers  = {p["ticker"] for p in portfolio.get("positions", [])}
+
+    for action in decision.get("actions", []):
+        ticker     = action.get("ticker", "").upper().strip()
+        act        = action.get("action", "HOLD").upper()
+        size_usd   = min(float(action.get("position_size_usd", 0)), MAX_POSITION_USD)
+        conviction = int(action.get("conviction", 5))
+
+        if not ticker:
+            continue
+
+        if act == "ENTER":
+            if ticker in held_tickers:
+                log.info(f"SKIP {ticker}: already held.")
+                continue
+            if len(portfolio["positions"]) >= MAX_OPEN_POSITIONS:
+                log.warning(f"SKIP {ticker}: max positions reached.")
+                continue
+            if portfolio["cash"] < size_usd:
+                log.warning(f"SKIP {ticker}: insufficient cash.")
+                continue
+            if conviction < MIN_CONVICTION:
+                log.info(f"SKIP {ticker}: conviction {conviction} < {MIN_CONVICTION}.")
+                continue
+
+            price = fetch_price(ticker)
             if not price:
-                print(f"  No price for {ticker} — skipping"); continue
+                log.error(f"SKIP {ticker}: price unavailable.")
+                continue
 
-            if ticker in portfolio["positions"]:
-                print(f"  Already holding {ticker} — skipping"); continue
+            shares   = size_usd / price
+            position = {
+                "ticker":           ticker,
+                "shares":           shares,
+                "entry_price":      price,
+                "cost_basis_total": size_usd,
+                "current_price":    price,
+                "current_value":    size_usd,
+                "unrealised_pnl":   0.0,
+                "unrealised_pct":   0.0,
+                "thesis_summary":   action.get("thesis", ""),
+                "catalyst":         action.get("catalyst", ""),
+                "technical_setup":  action.get("technical_setup", ""),
+                "risk_factors":     action.get("risk_factors", ""),
+                "conviction":       conviction,
+                "tier":             action.get("tier", "2"),
+                "entry_date":       datetime.utcnow().isoformat(),
+            }
+            portfolio["positions"].append(position)
+            portfolio["cash"] -= size_usd
+            held_tickers.add(ticker)
 
-            max_cost = portfolio["total_value"] * 0.10
-            shares   = int(max_cost / price)
-            if shares == 0:
-                print(f"  {ticker} too expensive"); continue
+            trade_log.append({**position, "type": "ENTER",
+                               "trade_date": datetime.utcnow().isoformat()})
+            actions_taken.append(action)
+            log.info(f"ENTER {ticker}: {shares:.2f}sh @ ${price:.2f} | Conv {conviction}/10")
 
-            name = next((r["name"] for r in scan_results if r["ticker"] == ticker), ticker)
-            score = next((r["score"] for r in scan_results if r["ticker"] == ticker), 0)
-            ok, msg = execute_buy(portfolio, ticker, name, price, shares, trade_type, reasoning, score)
+        elif act == "EXIT":
+            for i, pos in enumerate(portfolio["positions"]):
+                if pos["ticker"] == ticker:
+                    price = fetch_price(ticker) or pos.get("current_price", pos["entry_price"])
+                    pos.update({
+                        "current_price":  price,
+                        "current_value":  price * pos["shares"],
+                        "unrealised_pnl": (price * pos["shares"]) - pos["cost_basis_total"],
+                        "unrealised_pct": ((price * pos["shares"]) - pos["cost_basis_total"]) / pos["cost_basis_total"],
+                    })
+                    t = close_pos(pos, action.get("thesis", "AI exit decision"))
+                    t["type"] = "EXIT"
+                    trade_log.append(t)
+                    portfolio["cash"] += pos["current_value"]
+                    portfolio["positions"].pop(i)
+                    held_tickers.discard(ticker)
+                    actions_taken.append(action)
+                    log.info(f"EXIT {ticker}: P&L {pos['unrealised_pct']*100:+.1f}%")
+                    break
 
-            if ok:
-                cost = price * shares
-                print(f"  BUY {ticker} — {shares} shares @ ${price} = ${cost:,.0f}")
-                trades_made.append(action)
-                send_trade_report(
-                    action="BUY", ticker=ticker, price=price, shares=shares,
-                    reasoning=reasoning,
-                    sector=action.get("sector",""),
-                    macro_env=action.get("macro_alignment","UNKNOWN"),
-                    probability_score=action.get("probability_score",0),
-                    macro_alignment=action.get("macro_alignment",""),
-                    catalyst=action.get("catalyst",""),
-                    risk_note=action.get("risk_note",""),
-                    portfolio_value=portfolio["total_value"],
-                    portfolio_pnl_pct=portfolio.get("pnl_pct",0),
-                    target_pct=action.get("target_pct",15),
-                    stop_pct=action.get("stop_pct",7),
-                    hold_duration=action.get("hold_duration","2-3 weeks"),
-                )
-                stop_price = round(price * 0.93, 2)
-                log_trade(
-                    "BUY", ticker, price, shares,
-                    reasoning  = reasoning,
-                    sector     = action.get("sector",""),
-                    catalyst   = action.get("catalyst",""),
-                    risk_note  = action.get("risk_note",""),
-                )
-                alert  = f"<code>TRADE  |  {datetime.utcnow().strftime('%d %b %Y  %H:%M UTC')}</code>\n"
-                alert += "<code>" + "─"*35 + "</code>\n\n"
-                alert += f"<b>BUY  |  ${ticker}</b>  [{confidence}]\n"
-                alert += f"<code>Price      ${price:,.2f}</code>\n"
-                alert += f"<code>Shares     {shares}</code>\n"
-                alert += f"<code>Cost       ${cost:,.0f}</code>\n"
-                alert += f"<code>Stop Loss  ${stop_price:,.2f}  (-7%)</code>\n"
-                alert += f"<code>Target     +{target_pct}%</code>\n"
-                alert += f"<code>Hold       {hold}</code>\n\n"
-                alert += f"<b>AI Reasoning:</b>\n{reasoning}\n\n"
-                alert += f"<code>Risk: {risk_note}</code>\n"
-                alert += "<i>Paper trade</i>"
-                send_telegram(alert)
-            else:
-                print(f"  BUY {ticker} failed: {msg}")
+    return portfolio, trade_log, actions_taken
 
-        elif action["action"] == "SELL":
-            if ticker not in portfolio["positions"]:
-                print(f"  {ticker} not in portfolio — skipping"); continue
 
-            pos   = portfolio["positions"][ticker]
-            price = current_prices.get(ticker) or pos["current_price"]
-            ok, msg = execute_sell(portfolio, ticker, price, reasoning)
+# ─────────────────────────────────────────────────────────────────────────────
+# 8. PDF REPORT  (institutional quality)
+# ─────────────────────────────────────────────────────────────────────────────
+NAVY  = colors.HexColor("#0d1f3c")
+BLUE  = colors.HexColor("#2a6db5")
+GREEN = colors.HexColor("#1a6e3e")
+RED   = colors.HexColor("#9e2020")
+LIGHT = colors.HexColor("#f4f8fd")
+AMBER = colors.HexColor("#d07a10")
 
-            if ok:
-                pnl     = round((price - pos["entry_price"]) * pos["shares"], 2)
-                pnl_pct = round((price - pos["entry_price"]) / pos["entry_price"] * 100, 2)
-                print(f"  SELL {ticker} @ ${price} | P&L: ${pnl:+,.0f} ({pnl_pct:+.1f}%)")
-                send_trade_report(
-                    action="SELL", ticker=ticker, price=price, shares=pos["shares"],
-                    reasoning=action.get("reasoning",""),
-                    sector=action.get("sector",""),
-                    macro_env=action.get("macro_alignment","UNKNOWN"),
-                    probability_score=action.get("probability_score",0),
-                    macro_alignment=action.get("macro_alignment",""),
-                    catalyst="",
-                    risk_note="",
-                    portfolio_value=portfolio["total_value"],
-                    portfolio_pnl_pct=portfolio.get("pnl_pct",0),
-                    sell_reason=action.get("sell_reason",""),
-                    pnl=pnl, pnl_pct=pnl_pct,
-                    lesson=action.get("lesson",""),
-                )
-                send_trade_excel(trigger_action='BUY', trigger_ticker=ticker)
-                trades_made.append(action)
-                # Record lesson for AI learning
-                try:
-                    from datetime import datetime as dt
-                    entry_date = pos.get("entry_date", datetime.utcnow().isoformat())
-                    held = max(1, (dt.utcnow() - dt.fromisoformat(entry_date.replace("Z",""))).days)
-                    trade_record = {**pos, "sell_price": price, "ticker": ticker}
-                    record_trade_outcome(trade_record, pnl_pct, held, macro.get("environment","NEUTRAL"))
-                except Exception as me:
-                    print(f"  Memory record error: {me}")
-                log_trade(
-                    "BUY", ticker, price, shares,
-                    reasoning  = reasoning,
-                    sector     = action.get("sector",""),
-                    catalyst   = action.get("catalyst",""),
-                    risk_note  = action.get("risk_note",""),
-                )
-                log_trade(
-                    "SELL", ticker, price, pos["shares"],
-                    reasoning  = reasoning,
-                    sell_reason= action.get("sell_reason",""),
-                    pnl        = pnl,
-                    pnl_pct    = pnl_pct,
-                    sector     = action.get("sector",""),
-                )
-                alert  = f"<code>TRADE  |  {datetime.utcnow().strftime('%d %b %Y  %H:%M UTC')}</code>\n"
-                alert += "<code>" + "─"*35 + "</code>\n\n"
-                alert += f"<b>SELL  |  ${ticker}</b>\n"
-                alert += f"<code>Price      ${price:,.2f}</code>\n"
-                alert += f"<code>P&L        ${pnl:+,.0f}  ({pnl_pct:+.1f}%)</code>\n\n"
-                alert += f"<b>AI Reasoning:</b>\n{reasoning}\n"
-                alert += "<i>Paper trade</i>"
-                send_telegram(alert)
+def build_pdf(decision: dict, portfolio: dict, macro: dict,
+              actions: list, auto_exits: list) -> bytes:
+    buf = io.BytesIO()
+    doc = SimpleDocTemplate(buf, pagesize=letter,
+                            leftMargin=0.75*inch, rightMargin=0.75*inch,
+                            topMargin=0.75*inch, bottomMargin=0.75*inch)
+    styles  = getSampleStyleSheet()
+    body    = ParagraphStyle("body",  parent=styles["Normal"], fontSize=9,  leading=14)
+    title_s = ParagraphStyle("title", parent=styles["Normal"], fontSize=18, textColor=NAVY, spaceAfter=4, fontName="Helvetica-Bold")
+    sub_s   = ParagraphStyle("sub",   parent=styles["Normal"], fontSize=10, textColor=BLUE, spaceAfter=12)
+    h2_s    = ParagraphStyle("h2",    parent=styles["Normal"], fontSize=12, textColor=NAVY, spaceBefore=14, spaceAfter=6, fontName="Helvetica-Bold")
+    small   = ParagraphStyle("small", parent=styles["Normal"], fontSize=8,  textColor=colors.grey, alignment=TA_CENTER)
 
-    save_portfolio(portfolio)
-    print(f"[Trader] Portfolio saved: ${portfolio['total_value']:,.0f}")
+    now_str = datetime.utcnow().strftime("%d %b %Y · %H:%M UTC")
+    window  = "PRE-CLOSE · 3:30 PM ET" if datetime.utcnow().hour >= 19 else "OPEN · 9:35 AM ET"
+    regime  = decision.get("regime", macro.get("regime", "NEUTRAL"))
+    rc = {"RISK-ON": GREEN, "RISK-OFF": RED, "CAUTION": AMBER}.get(regime, BLUE)
 
-    send_telegram(format_portfolio_update(portfolio))
-    print(f"[Trader] Done. {len(trades_made)} trades made.")
+    story = [
+        Paragraph("MeritQuant — Autonomous Trade Report", title_s),
+        Paragraph(f"{window}  ·  {now_str}", sub_s),
+        HRFlowable(width="100%", thickness=2, color=BLUE),
+        Spacer(1, 8),
+
+        Paragraph("Market Assessment", h2_s),
+        Paragraph(decision.get("market_assessment", "—"), body),
+        Spacer(1, 4),
+        Table([[Paragraph(f"<b>REGIME: {regime}</b>",
+                ParagraphStyle("rp", parent=body, textColor=rc, fontName="Helvetica-Bold"))]],
+              colWidths=[6.5*inch],
+              style=[("BACKGROUND",(0,0),(-1,-1),LIGHT),
+                     ("BOX",(0,0),(-1,-1),1.5,rc),
+                     ("TOPPADDING",(0,0),(-1,-1),8),
+                     ("BOTTOMPADDING",(0,0),(-1,-1),8)]),
+        Spacer(1, 12),
+    ]
+
+    # Macro snapshot table
+    ind = macro.get("indicators", {})
+    def iv(k): 
+        val = ind.get(k, {}).get("value")
+        return f"{val:.2f}" if val is not None else "—"
+
+    story.append(Paragraph("Macro Snapshot", h2_s))
+    mt = Table([
+        ["Indicator", "Value", "Indicator", "Value"],
+        ["VIX",              iv("VIX"),      "US Dollar (DXY)",   iv("DXY")],
+        ["Yield Curve 10Y-2Y", iv("T10Y2Y"), "HY Credit (bps)",   iv("HY_SPREAD")],
+        ["10Y Treasury (%)", iv("T10Y"),     "Fed Funds Rate (%)", iv("FED_RATE")],
+    ], colWidths=[2.1*inch, 1.1*inch, 2.1*inch, 1.2*inch])
+    mt.setStyle(TableStyle([
+        ("BACKGROUND",(0,0),(-1,0),NAVY), ("TEXTCOLOR",(0,0),(-1,0),colors.white),
+        ("FONTNAME",(0,0),(-1,0),"Helvetica-Bold"),
+        ("FONTSIZE",(0,0),(-1,-1),8.5),
+        ("GRID",(0,0),(-1,-1),0.5,colors.HexColor("#dde5f0")),
+        ("ROWBACKGROUNDS",(0,1),(-1,-1),[colors.white, LIGHT]),
+        ("TOPPADDING",(0,0),(-1,-1),5), ("BOTTOMPADDING",(0,0),(-1,-1),5),
+    ]))
+    story += [mt, Spacer(1, 12)]
+
+    # Actions
+    if actions:
+        story.append(Paragraph("Trade Decisions", h2_s))
+        for a in actions:
+            act  = a.get("action", "")
+            ac   = GREEN if act == "ENTER" else RED if act == "EXIT" else BLUE
+            story.append(Table([[
+                Paragraph(f"<b>{act} — {a.get('ticker')}</b>",
+                           ParagraphStyle("ah", parent=body, textColor=ac, fontName="Helvetica-Bold")),
+                Paragraph(f"${a.get('position_size_usd',0):,.0f}  |  Conviction {a.get('conviction','—')}/10  |  Tier {a.get('tier','?')}",
+                           ParagraphStyle("am", parent=body, alignment=1))
+            ]], colWidths=[3.25*inch, 3.25*inch],
+               style=[("BACKGROUND",(0,0),(-1,-1),LIGHT), ("BOX",(0,0),(-1,-1),1,ac),
+                      ("TOPPADDING",(0,0),(-1,-1),6), ("BOTTOMPADDING",(0,0),(-1,-1),6)]))
+            story.append(Spacer(1, 4))
+            for label, key in [("Thesis", "thesis"), ("Catalyst", "catalyst"),
+                                ("Technical Setup", "technical_setup"), ("Risk Factors", "risk_factors")]:
+                story.append(Paragraph(f"<b>{label}:</b> {a.get(key, '—')}", body))
+            story.append(Spacer(1, 8))
+
+    # Auto-exits
+    if auto_exits:
+        story.append(Paragraph("Automatic Exits (SL / TP)", h2_s))
+        for ticker, reason, pnl in auto_exits:
+            c = GREEN if pnl > 0 else RED
+            story.append(Paragraph(
+                f"<b>{ticker}</b>: {reason}",
+                ParagraphStyle("ex", parent=body, textColor=c)))
+
+    # Portfolio snapshot
+    story.append(Paragraph("Portfolio Snapshot", h2_s))
+    story.append(Paragraph(
+        f"Total: <b>${portfolio.get('total_value',0):,.0f}</b>  |  "
+        f"Cash: <b>${portfolio.get('cash',0):,.0f}</b>  |  "
+        f"Positions: <b>{len(portfolio.get('positions',[]))}/{MAX_OPEN_POSITIONS}</b>", body))
+
+    if portfolio.get("positions"):
+        ph = [["Ticker","Shares","Entry","Current","Value","P&L $","P&L %"]]
+        for p in portfolio["positions"]:
+            ph.append([
+                p["ticker"], f"{p['shares']:.1f}",
+                f"${p['entry_price']:.2f}",
+                f"${p.get('current_price', p['entry_price']):.2f}",
+                f"${p.get('current_value',0):,.0f}",
+                f"${p.get('unrealised_pnl',0):+,.0f}",
+                f"{p.get('unrealised_pct',0)*100:+.1f}%",
+            ])
+        pt = Table(ph, colWidths=[0.8*inch]*7)
+        pt.setStyle(TableStyle([
+            ("BACKGROUND",(0,0),(-1,0),NAVY), ("TEXTCOLOR",(0,0),(-1,0),colors.white),
+            ("FONTNAME",(0,0),(-1,0),"Helvetica-Bold"),
+            ("FONTSIZE",(0,0),(-1,-1),8),
+            ("GRID",(0,0),(-1,-1),0.5,colors.HexColor("#dde5f0")),
+            ("ROWBACKGROUNDS",(0,1),(-1,-1),[colors.white,LIGHT]),
+            ("ALIGN",(1,0),(-1,-1),"CENTER"),
+            ("TOPPADDING",(0,0),(-1,-1),5), ("BOTTOMPADDING",(0,0),(-1,-1),5),
+        ]))
+        story.append(pt)
+
+    if decision.get("portfolio_notes"):
+        story += [Spacer(1,8), Paragraph(f"<b>Notes:</b> {decision['portfolio_notes']}", body)]
+    if decision.get("memory_applied"):
+        story += [Paragraph(f"<b>Memory applied:</b> {decision['memory_applied']}", body)]
+
+    story += [Spacer(1,16), HRFlowable(width="100%",thickness=1,color=BLUE),
+              Paragraph("MeritQuant Autonomous Trader · Paper Portfolio · Not financial advice", small)]
+    doc.build(story)
+    return buf.getvalue()
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 9. EXCEL REPORT
+# ─────────────────────────────────────────────────────────────────────────────
+def build_excel(decision: dict, portfolio: dict, trade_log: list) -> bytes:
+    wb   = openpyxl.Workbook()
+    NAVY_H, BLUE_H, GREEN_H, RED_H, LIGHT_H = "0D1F3C","2A6DB5","1A6E3E","9E2020","F4F8FD"
+
+    def hdr(ws, row, ncols, text, fill=None):
+        ws.merge_cells(start_row=row, start_column=1, end_row=row, end_column=ncols)
+        c = ws.cell(row=row, column=1, value=text)
+        c.fill = PatternFill("solid", fgColor=fill or NAVY_H)
+        c.font = Font(color="FFFFFF", bold=True, size=10)
+        c.alignment = Alignment(horizontal="center")
+
+    # ── Sheet 1: Summary ──────────────────────────────────────────────────────
+    ws = wb.active
+    ws.title = "Summary"
+    hdr(ws, 1, 2, "MeritQuant — AI Trade Session Report")
+    rows = [
+        ("Generated UTC", datetime.utcnow().strftime("%Y-%m-%d %H:%M")),
+        ("Portfolio Value", f"${portfolio.get('total_value',0):,.2f}"),
+        ("Cash Available", f"${portfolio.get('cash',0):,.2f}"),
+        ("Open Positions", f"{len(portfolio.get('positions',[]))}/{MAX_OPEN_POSITIONS}"),
+        ("Regime", decision.get("regime","?")),
+        ("Market Assessment", decision.get("market_assessment","—")),
+        ("Memory Applied", decision.get("memory_applied","—")),
+        ("Portfolio Notes", decision.get("portfolio_notes","—")),
+    ]
+    for r, (k, v) in enumerate(rows, 2):
+        ws.cell(row=r, column=1, value=k).font = Font(bold=True, size=9)
+        ws.cell(row=r, column=2, value=v).font = Font(size=9)
+        if r % 2 == 0:
+            for c in range(1, 3):
+                ws.cell(row=r, column=c).fill = PatternFill("solid", fgColor=LIGHT_H)
+    ws.column_dimensions["A"].width = 24
+    ws.column_dimensions["B"].width = 55
+
+    # ── Sheet 2: Positions ────────────────────────────────────────────────────
+    ws2 = wb.create_sheet("Positions")
+    cols = ["Ticker","Shares","Entry $","Current $","Value $","P&L $","P&L %",
+            "Conviction","Tier","Catalyst","Technical Setup","Entry Date"]
+    for c, h in enumerate(cols, 1):
+        cell = ws2.cell(row=1, column=c, value=h)
+        cell.fill = PatternFill("solid", fgColor=NAVY_H)
+        cell.font = Font(color="FFFFFF", bold=True, size=9)
+        ws2.column_dimensions[cell.column_letter].width = 16
+    for r, p in enumerate(portfolio.get("positions",[]), 2):
+        pnl = p.get("unrealised_pct", 0)
+        row_vals = [
+            p["ticker"], round(p["shares"],2), round(p["entry_price"],2),
+            round(p.get("current_price", p["entry_price"]),2),
+            round(p.get("current_value",0),2), round(p.get("unrealised_pnl",0),2),
+            f"{pnl*100:.1f}%", p.get("conviction","—"), p.get("tier","—"),
+            p.get("catalyst",""), p.get("technical_setup",""),
+            p.get("entry_date","")[:10]
+        ]
+        for c, val in enumerate(row_vals, 1):
+            cell = ws2.cell(row=r, column=c, value=val)
+            cell.font = Font(size=9,
+                             color=(GREEN_H if pnl >= 0 else RED_H) if c == 7 else "000000",
+                             bold=(c == 7))
+        if r % 2 == 0:
+            for c in range(1, len(cols)+1):
+                ws2.cell(row=r, column=c).fill = PatternFill("solid", fgColor=LIGHT_H)
+
+    # ── Sheet 3: Trade Log ────────────────────────────────────────────────────
+    ws3 = wb.create_sheet("Trade Log")
+    log_cols = ["Date","Type","Ticker","Shares","Entry $","Exit $","P&L $","P&L %","Reason"]
+    for c, h in enumerate(log_cols, 1):
+        cell = ws3.cell(row=1, column=c, value=h)
+        cell.fill = PatternFill("solid", fgColor=NAVY_H)
+        cell.font = Font(color="FFFFFF", bold=True, size=9)
+        ws3.column_dimensions[cell.column_letter].width = 14
+    for r, t in enumerate(reversed(trade_log[-100:]), 2):
+        pnl = t.get("pnl_pct", 0)
+        row_vals = [
+            str(t.get("trade_date", t.get("entry_date","—")))[:10],
+            t.get("type","—"), t.get("ticker","—"),
+            round(t.get("shares",0),2), round(t.get("entry_price",0),2),
+            round(t.get("exit_price",0),2), round(t.get("pnl_usd",0),2),
+            f"{pnl*100:.1f}%" if pnl else "—",
+            str(t.get("exit_reason", t.get("thesis_summary","")))[:80],
+        ]
+        for c, val in enumerate(row_vals, 1):
+            ws3.cell(row=r, column=c, value=val).font = Font(size=9)
+
+    buf = io.BytesIO()
+    wb.save(buf)
+    return buf.getvalue()
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 10. TELEGRAM MESSAGES
+# ─────────────────────────────────────────────────────────────────────────────
+def trade_msg(action: dict, portfolio: dict) -> str:
+    act = action.get("action","")
+    e   = {"ENTER":"🟢","EXIT":"🔴","HOLD":"⚪️"}.get(act,"⚪️")
+    return (
+        f"{e} <b>MeritQuant — {act} {action.get('ticker')}</b>\n\n"
+        f"💰 Size: <b>${action.get('position_size_usd',0):,.0f}</b>\n"
+        f"🎯 Conviction: <b>{action.get('conviction','—')}/10</b>  |  Tier {action.get('tier','?')}\n\n"
+        f"📋 <b>Thesis:</b>\n{action.get('thesis','—')}\n\n"
+        f"⚡️ <b>Catalyst:</b> {action.get('catalyst','—')}\n"
+        f"📊 <b>Setup:</b> {action.get('technical_setup','—')}\n"
+        f"⚠️ <b>Risk:</b> {action.get('risk_factors','—')}\n\n"
+        f"💼 Portfolio: ${portfolio.get('total_value',0):,.0f}  |  Cash: ${portfolio.get('cash',0):,.0f}"
+    )
+
+def sl_tp_msg(ticker: str, reason: str, pnl: float) -> str:
+    e = "✅" if pnl > 0 else "🛑"
+    return f"{e} <b>MeritQuant — AUTO EXIT {ticker}</b>\n📋 {reason}\n💰 P&L: {pnl*100:+.1f}%"
+
+def session_msg(decision: dict, portfolio: dict, actions: list,
+                auto_exits: list, macro: dict) -> str:
+    window = "🌅 OPEN 9:35 AM ET" if datetime.utcnow().hour < 19 else "🌆 PRE-CLOSE 3:30 PM ET"
+    re     = {"RISK-ON":"🟢","RISK-OFF":"🔴","CAUTION":"🟡"}.get(decision.get("regime"),"⚪️")
+    ind    = macro.get("indicators", {})
+    vix    = ind.get("VIX",{}).get("value")
+    curve  = ind.get("T10Y2Y",{}).get("value")
+    hy     = ind.get("HY_SPREAD",{}).get("value")
+
+    lines = [
+        f"📊 <b>MeritQuant Session — {window}</b>",
+        f"\n{re} <b>Regime: {decision.get('regime','NEUTRAL')}</b>",
+        f"💬 {decision.get('market_assessment','—')}",
+    ]
+    if all(x is not None for x in [vix, curve, hy]):
+        lines.append(f"\n📈 VIX <b>{vix:.1f}</b>  |  Curve <b>{curve:+.2f}%</b>  |  HY <b>{hy:.0f}bps</b>")
+
+    lines.append(f"\n🔢 <b>Actions: {len(actions)}</b>")
+    for a in actions:
+        e = "🟢" if a["action"]=="ENTER" else "🔴"
+        lines.append(f"  {e} {a['action']} {a['ticker']} — ${a.get('position_size_usd',0):,.0f} | {a.get('conviction',0)}/10")
+
+    if auto_exits:
+        lines.append(f"\n⚡️ <b>Auto exits: {len(auto_exits)}</b>")
+        for t, r, p in auto_exits:
+            lines.append(f"  {'✅' if p>0 else '🛑'} {t}: {p*100:+.1f}%")
+
+    lines += [
+        f"\n💼 <b>${portfolio.get('total_value',0):,.0f}</b> total",
+        f"💵 Cash: ${portfolio.get('cash',0):,.0f}",
+        f"📂 Positions: {len(portfolio.get('positions',[]))}/{MAX_OPEN_POSITIONS}",
+    ]
+    if decision.get("memory_applied"):
+        lines.append(f"\n🧠 {decision['memory_applied']}")
+    return "\n".join(lines)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 11. MAIN ORCHESTRATOR
+# ─────────────────────────────────────────────────────────────────────────────
+def main():
+    log.info("=" * 60)
+    log.info("MeritQuant AI Trader — session start")
+    log.info(f"TRADE_MODE={TRADE_MODE} | UTC={datetime.utcnow().strftime('%H:%M')}")
+    log.info("=" * 60)
+
+    if not is_trade_window():
+        return
+
+    Path("data").mkdir(exist_ok=True)
+    Path(REPORTS_DIR).mkdir(exist_ok=True)
+
+    # Load state
+    signals   = load_json(SIGNALS_FILE,   [])
+    portfolio = load_positions()
+    trade_log = load_trade_log()
+    memory    = load_memory()
+
+    if not signals:
+        log.warning("No signals file — running with empty signal list.")
+
+    # Build macro context
+    macro = build_macro_context()
+
+    # Refresh prices on open positions
+    portfolio = update_prices(portfolio)
+
+    # Auto SL / TP check
+    portfolio, trade_log, memory, auto_exits = run_sl_tp(portfolio, trade_log, memory)
+    for ticker, reason, pnl in auto_exits:
+        send_telegram(sl_tp_msg(ticker, reason, pnl))
+        time.sleep(1)
+
+    # Claude Opus decision
+    prompt   = build_prompt(signals, macro, portfolio, memory)
+    decision = call_claude(prompt)
+
+    if not decision:
+        send_telegram("⚠️ <b>MeritQuant</b>: Claude returned no valid decision. Manual review required.")
+        log.error("No valid decision — aborting.")
+        return
+
+    # Execute
+    portfolio, trade_log, actions_taken = execute(decision, portfolio, trade_log)
+
+    # Persist state
+    save_json(POSITIONS_FILE, portfolio)
+    save_json(TRADE_LOG_FILE, trade_log)
+    save_memory(memory)
+
+    # Individual trade alerts
+    for a in actions_taken:
+        if a.get("action") in ("ENTER", "EXIT"):
+            send_telegram(trade_msg(a, portfolio))
+            time.sleep(1)
+
+    # Generate and send reports
+    ts         = datetime.utcnow().strftime("%Y%m%d_%H%M")
+    pdf_bytes  = build_pdf(decision, portfolio, macro, actions_taken, auto_exits)
+    xlsx_bytes = build_excel(decision, portfolio, trade_log)
+    pdf_name   = f"MeritQuant_{ts}.pdf"
+    xlsx_name  = f"MeritQuant_{ts}.xlsx"
+
+    (Path(REPORTS_DIR) / pdf_name).write_bytes(pdf_bytes)
+    (Path(REPORTS_DIR) / xlsx_name).write_bytes(xlsx_bytes)
+
+    send_telegram_doc(pdf_bytes,  pdf_name,  f"📄 Trade Report {ts}")
+    time.sleep(2)
+    send_telegram_doc(xlsx_bytes, xlsx_name, f"📊 Trade Log {ts}")
+    time.sleep(1)
+
+    # Session summary
+    send_telegram(session_msg(decision, portfolio, actions_taken, auto_exits, macro))
+
+    log.info(f"Session complete — actions={len(actions_taken)}, auto_exits={len(auto_exits)}")
+    log.info("=" * 60)
+
 
 if __name__ == "__main__":
-    run_trader()
+    main()
