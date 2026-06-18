@@ -1,37 +1,23 @@
-# ─────────────────────────────────────────────────────────────────────────────
-# MeritQuant — GitHub Actions Workflow
-# Scanner runs 5× daily. AI Trader runs only on dedicated trade-window crons.
-# TRADE_MODE=true is injected ONLY on the 9:35 AM and 3:30 PM ET schedules
-# to eliminate GitHub Actions timing drift causing "skipping AI trades" errors.
-# ─────────────────────────────────────────────────────────────────────────────
-
 name: MeritQuant Scanner & AI Trader
 
 on:
   schedule:
-    # ── Scan-only windows (TRADE_MODE will be false) ──────────────────────────
-    - cron: '0 14 * * 1-5'    # 10:00 AM ET  — mid-morning scan
-    - cron: '0 16 * * 1-5'    # 12:00 PM ET  — midday scan
-    - cron: '0 18 * * 1-5'    # 2:00 PM ET   — pre-close scan
+    - cron: '0 14 * * 1-5'
+    - cron: '0 16 * * 1-5'
+    - cron: '0 18 * * 1-5'
+    - cron: '30 13 * * 1-5'
+    - cron: '25 19 * * 1-5'
 
-    # ── Trade window crons (TRADE_MODE will be true) ──────────────────────────
-    # Run 5 min early so scanner output is ready before AI trader fires.
-    # Even if GH Actions is 10 min late, the ±15 min buffer in ai_trader.py
-    # catches it. TRADE_MODE=true means ai_trader.py skips the time check.
-    - cron: '30 13 * * 1-5'   # 9:30 AM ET  → targets 9:35 AM OPEN window
-    - cron: '25 19 * * 1-5'   # 3:25 PM ET  → targets 3:30 PM PRE-CLOSE window
-
-  # Manual trigger — useful for testing or forcing a trade run
   workflow_dispatch:
     inputs:
       force_trade:
-        description: 'Force AI trader to run (bypasses time check)'
+        description: 'Force AI trader to run'
         required: false
         default: 'false'
         type: choice
         options: ['true', 'false']
       force_scan_only:
-        description: 'Run scanner only (no AI trader)'
+        description: 'Run scanner only'
         required: false
         default: 'false'
         type: choice
@@ -41,22 +27,19 @@ jobs:
   scan:
     name: Scan & Trade
     runs-on: ubuntu-latest
-    timeout-minutes: 15      # Kill if hung — prevents runaway billing
+    timeout-minutes: 15
 
     steps:
-      # ── Checkout ────────────────────────────────────────────────────────────
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      # ── Python setup ────────────────────────────────────────────────────────
       - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      # ── Pip cache ───────────────────────────────────────────────────────────
       - name: Restore pip cache
         uses: actions/cache@v4
         with:
@@ -65,26 +48,18 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
 
-      # ── Install dependencies ─────────────────────────────────────────────────
       - name: Install dependencies
         run: |
           pip install --upgrade pip
           pip install -r requirements.txt
 
-      # ── Run Alpha Scanner ────────────────────────────────────────────────────
-      - name: Run Alpha Scanner
+      - name: Run MeritQuant Scanner
         env:
           TELEGRAM_TOKEN:   ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           FRED_API_KEY:     ${{ secrets.FRED_API_KEY }}
-        run: python scanner.py
+        run: python main.py
 
-      # ── Run AI Trader ────────────────────────────────────────────────────────
-      # TRADE_MODE logic:
-      #   • Dedicated trade crons     → TRADE_MODE=true  (always trade)
-      #   • Scan-only crons           → TRADE_MODE=false (always skip)
-      #   • workflow_dispatch override→ respects force_trade input
-      #   • Fallback for anything else→ TRADE_MODE=false (safe default)
       - name: Run AI Trader (open + pre-close only)
         if: ${{ github.event.inputs.force_scan_only != 'true' }}
         env:
@@ -100,9 +75,8 @@ jobs:
                 github.event.inputs.force_trade == 'true'
               ) && 'true' || 'false'
             }}
-        run: python ai_trader.py
+        run: python trading/trader.py
 
-      # ── Commit scan results & reports ────────────────────────────────────────
       - name: Commit results
         run: |
           git config --global user.email "bot@meritquant.ai"
@@ -114,7 +88,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # ── Save pip cache ───────────────────────────────────────────────────────
       - name: Save pip cache
         uses: actions/cache@v4
         with:
