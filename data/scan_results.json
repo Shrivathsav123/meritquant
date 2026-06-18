@@ -1,7 +1,97 @@
 [
   {
-    "ticker": "INTC",
-    "name": "Intel Corporation",
+    "ticker": "ARKF",
+    "name": "ARK Fintech Innovation ETF",
+    "score": 3,
+    "max": 12,
+    "signals": [
+      "RSI oversold on DAILY, WEEKLY",
+      "\u26a0\ufe0f Below 200MA",
+      "\ud83c\udf1f Fib 61.8%: $39.99",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "ma": {
+      "price": 39.64,
+      "ma50": 41.15,
+      "ma200": 46.36,
+      "ma_signal": "\u26a0\ufe0f Below 200MA"
+    },
+    "ad": {
+      "signal": "\u26a0\ufe0f A/D declining"
+    },
+    "patterns": [
+      "\ud83c\udf1f Fib 61.8%: $39.99",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "fundamentals": {},
+    "buy_rating": "WATCH",
+    "conviction": "LOW",
+    "news_signals": [],
+    "market": "US"
+  },
+  {
+    "ticker": "IGV",
+    "name": "iShares Software ETF",
+    "score": 3,
+    "max": 12,
+    "signals": [
+      "RSI oversold on DAILY, WEEKLY",
+      "\u26a0\ufe0f Below 200MA",
+      "\ud83d\udccd Near Support: $88.95",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "ma": {
+      "price": 89.16,
+      "ma50": 89.76,
+      "ma200": 98.05,
+      "ma_signal": "\u26a0\ufe0f Below 200MA"
+    },
+    "ad": {
+      "signal": "\u26a0\ufe0f A/D declining"
+    },
+    "patterns": [
+      "\ud83d\udccd Near Support: $88.95",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "fundamentals": {},
+    "buy_rating": "WATCH",
+    "conviction": "LOW",
+    "news_signals": [],
+    "market": "US"
+  },
+  {
+    "ticker": "WCLD",
+    "name": "WisdomTree Cloud Computing",
+    "score": 3,
+    "max": 12,
+    "signals": [
+      "RSI oversold on DAILY, WEEKLY",
+      "\u26a0\ufe0f Below 200MA",
+      "\ud83d\udcd0 Fib 50.0%: $29.99",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+    ],
+    "ma": {
+      "price": 29.62,
+      "ma50": 29.17,
+      "ma200": 31.84,
+      "ma_signal": "\u26a0\ufe0f Below 200MA"
+    },
+    "ad": {
+      "signal": "\u26a0\ufe0f A/D declining"
+    },
+    "patterns": [
+      "\ud83d\udcd0 Fib 50.0%: $29.99",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+    ],
+    "fundamentals": {},
+    "buy_rating": "WATCH",
+    "conviction": "LOW",
+    "news_signals": [],
+    "market": "US"
+  },
+  {
+    "ticker": "HACK",
+    "name": "ETFMG Prime Cyber Security",
     "score": 3,
     "max": 12,
     "signals": [
@@ -9,9 +99,9 @@
       "\u2705 Above 200MA"
     ],
     "ma": {
-      "price": 110.27,
-      "ma50": 90.09,
-      "ma200": 51.71,
+      "price": 95.38,
+      "ma50": 87.46,
+      "ma200": 83.09,
       "ma_signal": "\u2705 Above 200MA",
       "cross": "\u2705 Golden Cross active"
     },
@@ -24,7 +114,7 @@
     "conviction": "LOW",
     "news_signals": [
       {
-        "title": "Intel Stock Pops As AI Partnerships, Price Targets Climb - StocksToTrade",
+        "title": "Analyst: Resolv Labs destroys 36.73 million USR held by hackers through contract upgrades - WEEX",
         "source": "News",
         "score": 2,
         "bull": true
@@ -40,13 +130,13 @@
     "signals": [
       "\u2705 Golden Cross active",
       "\u2705 Above 200MA",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows",
+      "\u26a0\ufe0f Bearish RSI Divergence",
       "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
     "ma": {
-      "price": 949.28,
-      "ma50": 629.24,
-      "ma200": 365.01,
+      "price": 1043.19,
+      "ma50": 718.25,
+      "ma200": 395.67,
       "ma_signal": "\u2705 Above 200MA",
       "cross": "\u2705 Golden Cross active"
     },
@@ -54,7 +144,7 @@
       "signal": "\u26a0\ufe0f A/D declining"
     },
     "patterns": [
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows",
+      "\u26a0\ufe0f Bearish RSI Divergence",
       "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
     "fundamentals": {},
@@ -64,88 +154,20 @@
     "market": "US"
   },
   {
-    "ticker": "AAPL",
-    "name": "Apple Inc",
-    "score": 3,
-    "max": 12,
-    "signals": [
-      "\u2705 Golden Cross active",
-      "\u2705 Above 200MA"
-    ],
-    "ma": {
-      "price": 301.54,
-      "ma50": 282.21,
-      "ma200": 265.57,
-      "ma_signal": "\u2705 Above 200MA",
-      "cross": "\u2705 Golden Cross active"
-    },
-    "ad": {
-      "signal": "\u26a0\ufe0f A/D declining"
-    },
-    "patterns": [],
-    "fundamentals": {},
-    "buy_rating": "WATCH",
-    "conviction": "LOW",
-    "news_signals": [
-      {
-        "title": "Apple Stock (AAPL) Opinions on WWDC 2026 and AI Upgrades - Quiver Quantitative",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      }
-    ],
-    "market": "US"
-  },
-  {
-    "ticker": "NOW",
-    "name": "ServiceNow",
-    "score": 3,
-    "max": 12,
-    "signals": [
-      "RSI oversold on WEEKLY",
-      "\u26a0\ufe0f Below 200MA",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
-    ],
-    "ma": {
-      "price": 114.19,
-      "ma50": 99.27,
-      "ma200": 139.86,
-      "ma_signal": "\u26a0\ufe0f Below 200MA"
-    },
-    "ad": {
-      "signal": "\u26a0\ufe0f A/D declining"
-    },
-    "patterns": [
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
-    ],
-    "fundamentals": {},
-    "buy_rating": "WATCH",
-    "conviction": "LOW",
-    "news_signals": [
-      {
-        "title": "Anthropic was the Pentagon's choice for AI. Now it's banned and experts are worried - CNBC",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      }
-    ],
-    "market": "US"
-  },
-  {
-    "ticker": "XLK",
-    "name": "Technology Select Sector SPDR",
+    "ticker": "SNDK",
+    "name": "SanDisk Corp",
     "score": 3,
     "max": 12,
     "signals": [
       "\u2705 Golden Cross active",
       "\u2705 Above 200MA",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows",
+      "\u26a0\ufe0f Bearish RSI Divergence",
       "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
     "ma": {
-      "price": 184.18,
-      "ma50": 164.04,
-      "ma200": 147.15,
+      "price": 1958.8,
+      "ma50": 1371.78,
+      "ma200": 602.59,
       "ma_signal": "\u2705 Above 200MA",
       "cross": "\u2705 Golden Cross active"
     },
@@ -153,7 +175,36 @@
       "signal": "\u26a0\ufe0f A/D declining"
     },
     "patterns": [
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows",
+      "\u26a0\ufe0f Bearish RSI Divergence",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "fundamentals": {},
+    "buy_rating": "WATCH",
+    "conviction": "LOW",
+    "news_signals": [],
+    "market": "US"
+  },
+  {
+    "ticker": "XLK",
+    "name": "Technology Select Sector SPDR",
+    "score": 2,
+    "max": 12,
+    "signals": [
+      "\u2705 Golden Cross active",
+      "\u2705 Above 200MA",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "ma": {
+      "price": 185.8,
+      "ma50": 171.12,
+      "ma200": 149.0,
+      "ma_signal": "\u2705 Above 200MA",
+      "cross": "\u2705 Golden Cross active"
+    },
+    "ad": {
+      "signal": "\u26a0\ufe0f A/D declining"
+    },
+    "patterns": [
       "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
     "fundamentals": {},
@@ -168,27 +219,80 @@
     "score": 2,
     "max": 12,
     "signals": [
-      "RSI oversold on DAILY",
-      "\u26a0\ufe0f Below 200MA",
-      "\ud83d\udcd0 Fib 38.2%: $75.00",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+      "\u2705 Above 200MA",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
     "ma": {
-      "price": 75.88,
-      "ma50": 75.45,
-      "ma200": 78.08,
-      "ma_signal": "\u26a0\ufe0f Below 200MA"
+      "price": 78.49,
+      "ma50": 76.78,
+      "ma200": 78.12,
+      "ma_signal": "\u2705 Above 200MA",
+      "near_200ma": "\ud83d\udccd At 200MA"
     },
     "ad": {
       "signal": "\u26a0\ufe0f A/D declining"
     },
     "patterns": [
-      "\ud83d\udcd0 Fib 38.2%: $75.00",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
     "fundamentals": {},
     "buy_rating": "WATCH",
     "conviction": "LOW",
+    "news_signals": [],
+    "market": "US"
+  },
+  {
+    "ticker": "ARKG",
+    "name": "ARK Genomic Revolution ETF",
+    "score": 2,
+    "max": 12,
+    "signals": [
+      "\u2705 Golden Cross active",
+      "\u2705 Above 200MA",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "ma": {
+      "price": 35.04,
+      "ma50": 31.03,
+      "ma200": 29.6,
+      "ma_signal": "\u2705 Above 200MA",
+      "cross": "\u2705 Golden Cross active"
+    },
+    "ad": {
+      "signal": "\u26a0\ufe0f A/D declining"
+    },
+    "patterns": [
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "fundamentals": {},
+    "buy_rating": "WATCH",
+    "conviction": "LOW",
+    "news_signals": [],
+    "market": "US"
+  },
+  {
+    "ticker": "CIBR",
+    "name": "First Trust Cybersecurity ETF",
+    "score": 1,
+    "max": 12,
+    "signals": [
+      "\u2705 Golden Cross active",
+      "\u2705 Above 200MA"
+    ],
+    "ma": {
+      "price": 84.23,
+      "ma50": 76.36,
+      "ma200": 72.69,
+      "ma_signal": "\u2705 Above 200MA",
+      "cross": "\u2705 Golden Cross active"
+    },
+    "ad": {
+      "signal": "\u26a0\ufe0f A/D declining"
+    },
+    "patterns": [],
+    "fundamentals": {},
+    "buy_rating": "SKIP",
+    "conviction": "SKIP",
     "news_signals": [],
     "market": "US"
   }
