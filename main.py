@@ -77,9 +77,6 @@ def run_scan(tickers_dict, market="US"):
                 result["buy_rating"] = "SKIP"
                 result["conviction"] = "SKIP"
 
-            if result["score"] >= 5:
-                result["related_etfs"] = get_related_etfs(ticker)
-
             results.append(result)
         except Exception as e:
             print(f"  Error on {ticker}: {e}")
@@ -149,6 +146,29 @@ def main():
         [{k: v for k, v in r.items() if k not in ("rsi",)} for r in results],
         open(STORE_FILE, "w"), indent=2, default=str
     )
+
+    # Save signals in the format trader.py expects (data/signals.json)
+    signals_for_trader = []
+    for r in results:
+        rsi_daily = r.get("rsi", {}).get("daily", {})
+        rsi_val   = rsi_daily.get("rsi", "N/A")
+        rsi_str   = str(round(rsi_val, 1)) if isinstance(rsi_val, float) else "N/A"
+        news_headline = ""
+        for ns in r.get("news_signals", [])[:1]:
+            news_headline = ns.get("title", "")[:70]
+        signals_for_trader.append({
+            "ticker":        r["ticker"],
+            "name":          r.get("name", r["ticker"]),
+            "score":         r["score"],
+            "signal":        r.get("buy_rating", ""),
+            "conviction":    r.get("conviction", ""),
+            "rsi":           rsi_str,
+            "sector":        r.get("sector", ""),
+            "patterns":      r.get("patterns", []),
+            "news_headline": news_headline,
+            "market":        r.get("market", "US"),
+        })
+    json.dump(signals_for_trader, open(f"{DATA_DIR}/signals.json", "w"), indent=2, default=str)
 
     # Also save to history
     hist_file = f"{DATA_DIR}/history.json"

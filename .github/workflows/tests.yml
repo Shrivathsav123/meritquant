@@ -5,6 +5,7 @@ on:
     branches: ["main", "master", "claude/**"]
   pull_request:
     branches: ["main", "master"]
+  workflow_dispatch:
 
 jobs:
   test:
