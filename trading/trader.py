@@ -336,12 +336,18 @@ def memory_to_prompt(memory: dict) -> str:
 # 5. PORTFOLIO STATE MANAGEMENT
 # ─────────────────────────────────────────────────────────────────────────────
 def load_positions() -> dict:
-    return load_json(POSITIONS_FILE, {
+    if Path(POSITIONS_FILE).exists():
+        return load_json(POSITIONS_FILE, {})
+    # Fresh start — try to carry forward cash from the app-facing portfolio.json
+    # so accumulated P&L is never lost on a first run.
+    legacy = load_json(PORTFOLIO_JSON_FILE, {})
+    starting_cash = legacy.get("cash", legacy.get("total_value", PORTFOLIO_SIZE))
+    return {
         "positions": [],
-        "cash": PORTFOLIO_SIZE,
-        "total_value": PORTFOLIO_SIZE,
-        "last_updated": None
-    })
+        "cash": float(starting_cash),
+        "total_value": float(starting_cash),
+        "last_updated": None,
+    }
 
 def load_trade_log() -> list:
     return load_json(TRADE_LOG_FILE, [])
