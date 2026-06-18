@@ -72,6 +72,48 @@ def save_json(path: str, data):
     Path(path).parent.mkdir(parents=True, exist_ok=True)
     Path(path).write_text(json.dumps(data, indent=2, default=str))
 
+PORTFOLIO_JSON_FILE = "data/portfolio.json"
+
+def sync_portfolio_json(portfolio: dict):
+    """Write portfolio.json in the format the meritquant-app frontend expects."""
+    positions_dict = {}
+    for p in portfolio.get("positions", []):
+        ticker = p["ticker"]
+        cost   = p.get("cost_basis_total", 0)
+        value  = p.get("current_value", cost)
+        pnl    = p.get("unrealised_pnl", 0)
+        positions_dict[ticker] = {
+            "ticker":      ticker,
+            "name":        p.get("name", ticker),
+            "shares":      p.get("shares", 0),
+            "entry_price": p.get("entry_price", 0),
+            "current_price": p.get("current_price", p.get("entry_price", 0)),
+            "cost":        round(cost, 2),
+            "value":       round(value, 2),
+            "pnl":         round(pnl, 2),
+            "pnl_pct":     round(p.get("unrealised_pct", 0) * 100, 2),
+            "stop_loss":   round(p.get("entry_price", 0) * (1 - STOP_LOSS_PCT), 2),
+            "trade_type":  "swing",
+            "score":       p.get("conviction", 0),
+            "reasoning":   p.get("thesis_summary", ""),
+            "entry_date":  p.get("entry_date", ""),
+        }
+
+    total_value = portfolio.get("total_value", PORTFOLIO_SIZE)
+    cash        = portfolio.get("cash", PORTFOLIO_SIZE)
+    pnl_total   = total_value - PORTFOLIO_SIZE
+    app_data = {
+        "balance":      PORTFOLIO_SIZE,
+        "cash":         round(cash, 2),
+        "positions":    positions_dict,
+        "total_value":  round(total_value, 2),
+        "pnl":          round(pnl_total, 2),
+        "pnl_pct":      round(pnl_total / PORTFOLIO_SIZE * 100, 2),
+        "updated":      datetime.utcnow().isoformat(),
+        "trades_count": len(portfolio.get("positions", [])),
+    }
+    save_json(PORTFOLIO_JSON_FILE, app_data)
+
 def send_telegram(text: str, parse_mode: str = "HTML") -> bool:
     url = f"{TELEGRAM_BASE}/bot{TELEGRAM_TOKEN}/sendMessage"
     try:
@@ -904,6 +946,7 @@ def main():
 
     # Persist state
     save_json(POSITIONS_FILE, portfolio)
+    sync_portfolio_json(portfolio)
     save_json(TRADE_LOG_FILE, trade_log)
     save_memory(memory)
 
