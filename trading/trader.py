@@ -13,6 +13,7 @@ from typing import Optional
 
 import anthropic
 import yfinance as yf
+from trading import email_alerts
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
@@ -960,6 +961,7 @@ def main():
     for a in actions_taken:
         if a.get("action") in ("ENTER", "EXIT"):
             send_telegram(trade_msg(a, portfolio))
+            email_alerts.send_trade_alert(a, portfolio, macro)
             time.sleep(1)
 
     # Generate and send reports
@@ -979,6 +981,7 @@ def main():
 
     # Session summary
     send_telegram(session_msg(decision, portfolio, actions_taken, auto_exits, macro))
+    email_alerts.send_session_summary(decision, portfolio, macro, actions_taken, auto_exits, pdf_bytes, xlsx_bytes)
 
     log.info(f"Session complete — actions={len(actions_taken)}, auto_exits={len(auto_exits)}")
     log.info("=" * 60)
