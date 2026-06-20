@@ -13,6 +13,7 @@ from typing import Optional
 
 import anthropic
 import yfinance as yf
+from trading import email_alerts
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
@@ -71,6 +72,48 @@ def load_json(path: str, default=None):
 def save_json(path: str, data):
     Path(path).parent.mkdir(parents=True, exist_ok=True)
     Path(path).write_text(json.dumps(data, indent=2, default=str))
+
+PORTFOLIO_JSON_FILE = "data/portfolio.json"
+
+def sync_portfolio_json(portfolio: dict):
+    """Write portfolio.json in the format the meritquant-app frontend expects."""
+    positions_dict = {}
+    for p in portfolio.get("positions", []):
+        ticker = p["ticker"]
+        cost   = p.get("cost_basis_total", 0)
+        value  = p.get("current_value", cost)
+        pnl    = p.get("unrealised_pnl", 0)
+        positions_dict[ticker] = {
+            "ticker":      ticker,
+            "name":        p.get("name", ticker),
+            "shares":      p.get("shares", 0),
+            "entry_price": p.get("entry_price", 0),
+            "current_price": p.get("current_price", p.get("entry_price", 0)),
+            "cost":        round(cost, 2),
+            "value":       round(value, 2),
+            "pnl":         round(pnl, 2),
+            "pnl_pct":     round(p.get("unrealised_pct", 0) * 100, 2),
+            "stop_loss":   round(p.get("entry_price", 0) * (1 - STOP_LOSS_PCT), 2),
+            "trade_type":  "swing",
+            "score":       p.get("conviction", 0),
+            "reasoning":   p.get("thesis_summary", ""),
+            "entry_date":  p.get("entry_date", ""),
+        }
+
+    total_value = portfolio.get("total_value", PORTFOLIO_SIZE)
+    cash        = portfolio.get("cash", PORTFOLIO_SIZE)
+    pnl_total   = total_value - PORTFOLIO_SIZE
+    app_data = {
+        "balance":      PORTFOLIO_SIZE,
+        "cash":         round(cash, 2),
+        "positions":    positions_dict,
+        "total_value":  round(total_value, 2),
+        "pnl":          round(pnl_total, 2),
+        "pnl_pct":      round(pnl_total / PORTFOLIO_SIZE * 100, 2),
+        "updated":      datetime.utcnow().isoformat(),
+        "trades_count": len(portfolio.get("positions", [])),
+    }
+    save_json(PORTFOLIO_JSON_FILE, app_data)
 
 def send_telegram(text: str, parse_mode: str = "HTML") -> bool:
     url = f"{TELEGRAM_BASE}/bot{TELEGRAM_TOKEN}/sendMessage"
@@ -294,12 +337,18 @@ def memory_to_prompt(memory: dict) -> str:
 # 5. PORTFOLIO STATE MANAGEMENT
 # ─────────────────────────────────────────────────────────────────────────────
 def load_positions() -> dict:
-    return load_json(POSITIONS_FILE, {
+    if Path(POSITIONS_FILE).exists():
+        return load_json(POSITIONS_FILE, {})
+    # Fresh start — try to carry forward cash from the app-facing portfolio.json
+    # so accumulated P&L is never lost on a first run.
+    legacy = load_json(PORTFOLIO_JSON_FILE, {})
+    starting_cash = legacy.get("cash", legacy.get("total_value", PORTFOLIO_SIZE))
+    return {
         "positions": [],
-        "cash": PORTFOLIO_SIZE,
-        "total_value": PORTFOLIO_SIZE,
-        "last_updated": None
-    })
+        "cash": float(starting_cash),
+        "total_value": float(starting_cash),
+        "last_updated": None,
+    }
 
 def load_trade_log() -> list:
     return load_json(TRADE_LOG_FILE, [])
@@ -904,6 +953,7 @@ def main():
 
     # Persist state
     save_json(POSITIONS_FILE, portfolio)
+    sync_portfolio_json(portfolio)
     save_json(TRADE_LOG_FILE, trade_log)
     save_memory(memory)
 
@@ -911,6 +961,7 @@ def main():
     for a in actions_taken:
         if a.get("action") in ("ENTER", "EXIT"):
             send_telegram(trade_msg(a, portfolio))
+            email_alerts.send_trade_alert(a, portfolio, macro)
             time.sleep(1)
 
     # Generate and send reports
@@ -930,6 +981,7 @@ def main():
 
     # Session summary
     send_telegram(session_msg(decision, portfolio, actions_taken, auto_exits, macro))
+    email_alerts.send_session_summary(decision, portfolio, macro, actions_taken, auto_exits, pdf_bytes, xlsx_bytes)
 
     log.info(f"Session complete — actions={len(actions_taken)}, auto_exits={len(auto_exits)}")
     log.info("=" * 60)
