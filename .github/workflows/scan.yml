@@ -77,7 +77,7 @@ jobs:
                 github.event.inputs.force_trade == 'true'
               ) && 'true' || 'false'
             }}
-        run: python trading/trader.py
+        run: PYTHONPATH=$GITHUB_WORKSPACE python trading/trader.py
 
       - name: Commit results
         run: |
