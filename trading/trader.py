@@ -493,7 +493,7 @@ RESPOND ONLY with valid JSON — no preamble, no markdown fences:
       "action": "ENTER|EXIT|HOLD",
       "position_size_usd": 18000,
       "conviction": 8,
-      "thesis": "2-3 sentence investment case.",
+      "thesis": "5-7 sentence investment case covering: (1) specific macro tailwind, (2) company-level catalyst with exact data points, (3) technical setup with precise RSI level and pattern, (4) position sizing rationale, (5) primary risk and how it is being managed.",
       "catalyst": "Primary catalyst.",
       "technical_setup": "RSI level, pattern, MA alignment.",
       "risk_factors": "Key risks.",
@@ -510,7 +510,7 @@ def call_claude(prompt: str) -> Optional[dict]:
         log.info("Calling Claude Opus 4.8...")
         msg = client.messages.create(
             model="claude-opus-4-8",
-            max_tokens=4096,
+            max_tokens=6000,
             messages=[{"role": "user", "content": prompt}]
         )
         raw = msg.content[0].text.strip()
