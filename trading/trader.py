@@ -510,7 +510,7 @@ def call_claude(prompt: str) -> Optional[dict]:
         log.info("Calling Claude Opus 4.8...")
         msg = client.messages.create(
             model="claude-opus-4-8",
-            max_tokens=2000,
+            max_tokens=4096,
             messages=[{"role": "user", "content": prompt}]
         )
         raw = msg.content[0].text.strip()
