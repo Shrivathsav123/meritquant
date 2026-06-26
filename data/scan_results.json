@@ -37,7 +37,7 @@
         "bull": true
       },
       {
-        "title": "Broadcom Stock (AVGO) Opinions on AI Partnerships and Earnings Outlook - Quiver Quantitative",
+        "title": "Broadcom\u2019s New AI Partnership With Google and Anthropic Could Supercharge the Next Leg of the Rally - 24/7 Wall St.",
         "source": "News",
         "score": 2,
         "bull": true
@@ -52,30 +52,87 @@
     "market": "US"
   },
   {
-    "ticker": "GOOGL",
-    "name": "Alphabet (Google)",
+    "ticker": "CLOU",
+    "name": "Global X Cloud Computing ETF",
     "score": 9,
     "max": 12,
     "signals": [
       "RSI oversold on DAILY",
       "\u2705 Golden Cross active",
       "\u2705 Above 200MA",
-      "\ud83d\udccd Near Support: $334.69",
-      "\ud83d\udd0a Volume Spike: 2.7x"
+      "A/D rising \u2014 institutions loading",
+      "\ud83c\udf1f Fib 61.8%: $21.97"
     ],
     "ma": {
-      "price": 337.39,
-      "ma50": 369.28,
-      "ma200": 313.85,
+      "price": 22.14,
+      "ma50": 22.1,
+      "ma200": 21.81,
       "ma_signal": "\u2705 Above 200MA",
-      "cross": "\u2705 Golden Cross active"
+      "cross": "\u2705 Golden Cross active",
+      "near_200ma": "\ud83d\udccd At 200MA"
+    },
+    "ad": {
+      "signal": "\u2705 Institutions accumulating"
+    },
+    "patterns": [
+      "\ud83c\udf1f Fib 61.8%: $21.97"
+    ],
+    "fundamentals": {},
+    "buy_rating": "STRONG BUY",
+    "conviction": "HIGH",
+    "news_signals": [
+      {
+        "title": "Oracle Q4 earnings beat on revenue but miss on cloud sales - Yahoo Finance",
+        "source": "News",
+        "score": 2,
+        "bull": true
+      },
+      {
+        "title": "Google Earnings Beat. Cloud Capex Boom To Hit Free Cash Flow. - Investor's Business Daily",
+        "source": "News",
+        "score": 2,
+        "bull": true
+      },
+      {
+        "title": "Earnings call transcript: Consensus Cloud Solutions\u2019 Q1 2026 earnings beat expectations - Investing.com",
+        "source": "News",
+        "score": 2,
+        "bull": true
+      },
+      {
+        "title": "Google Cloud secures sovereign cloud contract with NATO - Data Center Dynamics",
+        "source": "News",
+        "score": 2,
+        "bull": true
+      }
+    ],
+    "market": "US"
+  },
+  {
+    "ticker": "NVDA",
+    "name": "NVIDIA Corporation",
+    "score": 9,
+    "max": 12,
+    "signals": [
+      "RSI oversold on DAILY, WEEKLY",
+      "\u2705 Golden Cross active",
+      "\u2705 Above 200MA",
+      "\ud83d\udccd Near Support: $191.22",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+    ],
+    "ma": {
+      "price": 192.53,
+      "ma50": 210.09,
+      "ma200": 190.64,
+      "ma_signal": "\u2705 Above 200MA",
+      "cross": "\u2705 Golden Cross active",
+      "near_200ma": "\ud83d\udccd At 200MA"
     },
     "ad": {
       "signal": "\u26a0\ufe0f A/D declining"
     },
     "patterns": [
-      "\ud83d\udccd Near Support: $334.69",
-      "\ud83d\udd0a Volume Spike: 2.7x",
+      "\ud83d\udccd Near Support: $191.22",
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "fundamentals": {},
@@ -83,19 +140,46 @@
     "conviction": "HIGH",
     "news_signals": [
       {
-        "title": "GOOGL Q1 Earnings Beat on Cloud Surge and AI Momentum, Revenues Up Y/Y - Yahoo Finance",
+        "title": "Nvidia reports earnings and guidance beat as AI boom pushes data center revenue up 75% - CNBC",
         "source": "News",
         "score": 2,
         "bull": true
-      },
+      }
+    ],
+    "market": "US"
+  },
+  {
+    "ticker": "ARKX",
+    "name": "ARK Space Exploration ETF",
+    "score": 8,
+    "max": 12,
+    "signals": [
+      "RSI oversold on DAILY, WEEKLY",
+      "\u2705 Golden Cross active",
+      "\u2705 Above 200MA",
+      "\ud83d\udccd Near Support: $31.58",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+    ],
+    "ma": {
+      "price": 31.93,
+      "ma50": 34.12,
+      "ma200": 31.25,
+      "ma_signal": "\u2705 Above 200MA",
+      "cross": "\u2705 Golden Cross active"
+    },
+    "ad": {
+      "signal": "\u26a0\ufe0f A/D declining"
+    },
+    "patterns": [
+      "\ud83d\udccd Near Support: $31.58",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+    ],
+    "fundamentals": {},
+    "buy_rating": "STRONG BUY",
+    "conviction": "HIGH",
+    "news_signals": [
       {
-        "title": "Google Stock Soars On Q1 Earnings As Analysts Trumpet 'Full Stack' AI Platform - Investor's Business Daily",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Alphabet earnings: Key takeaways amid earnings beat, sharp rise in 2026 spending (GOOG:NASDAQ) - Seeking Alpha",
+        "title": "ARKX vs. JETS: ARKX Outperforms JETS With Higher Returns - The Motley Fool",
         "source": "News",
         "score": 2,
         "bull": true
@@ -135,6 +219,12 @@
     "news_signals": [
       {
         "title": "AMD Beats on Earnings, Raises Guidance on AI and Data Center Growth - Yahoo Finance",
+        "source": "News",
+        "score": 4,
+        "bull": true
+      },
+      {
+        "title": "AMD shares rally 19% on AI data center demand boom, rating upgrades - Investing.com",
         "source": "News",
         "score": 4,
         "bull": true
@@ -231,7 +321,7 @@
         "bull": true
       },
       {
-        "title": "Applied Materials Stock Jumps 8% After Q1 Earnings Beat and Strong Q2 Outlook - TIKR.com",
+        "title": "AMAT Stock Surges 13% After Hours on Earnings Beat and Guidance - EBC Financial Group",
         "source": "News",
         "score": 2,
         "bull": true
@@ -270,379 +360,19 @@
     "conviction": "HIGH",
     "news_signals": [
       {
-        "title": "The Bull Case For KLA (KLAC) Could Change Following Earnings Beat, Stock Split And AI-Focused Outlook \u2013 Learn Why - Yahoo Finance",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
         "title": "KLA Hosts Investor Day; Announces $7 Billion Share Repurchase Program and 21% Increase to Quarterly Dividend; Reaffirms March 2026 Guidance - PR Newsw",
         "source": "News",
         "score": 2,
         "bull": true
       },
       {
+        "title": "The Bull Case For KLA (KLAC) Could Change Following Earnings Beat, Stock Split And AI-Focused Outlook \u2013 Learn Why - Yahoo Finance",
+        "source": "News",
+        "score": 2,
+        "bull": true
+      },
+      {
         "title": "KLA Corp (KLAC) Q2 2026 Earnings Call Highlights: Record Revenue and Strategic Challenges - Yahoo Finance",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      }
-    ],
-    "market": "US"
-  },
-  {
-    "ticker": "NVDA",
-    "name": "NVIDIA Corporation",
-    "score": 7,
-    "max": 12,
-    "signals": [
-      "RSI oversold on DAILY, WEEKLY",
-      "\u2705 Golden Cross active",
-      "\u2705 Above 200MA",
-      "\ud83d\udccd Near Support: $191.22",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
-    ],
-    "ma": {
-      "price": 192.53,
-      "ma50": 210.09,
-      "ma200": 190.64,
-      "ma_signal": "\u2705 Above 200MA",
-      "cross": "\u2705 Golden Cross active",
-      "near_200ma": "\ud83d\udccd At 200MA"
-    },
-    "ad": {
-      "signal": "\u26a0\ufe0f A/D declining"
-    },
-    "patterns": [
-      "\ud83d\udccd Near Support: $191.22",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
-    ],
-    "fundamentals": {},
-    "buy_rating": "STRONG BUY",
-    "conviction": "HIGH",
-    "news_signals": [],
-    "market": "US"
-  },
-  {
-    "ticker": "LRCX",
-    "name": "Lam Research",
-    "score": 7,
-    "max": 12,
-    "signals": [
-      "\u2705 Golden Cross active",
-      "\u2705 Above 200MA",
-      "A/D rising \u2014 institutions loading",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
-    ],
-    "ma": {
-      "price": 379.09,
-      "ma50": 310.35,
-      "ma200": 217.19,
-      "ma_signal": "\u2705 Above 200MA",
-      "cross": "\u2705 Golden Cross active"
-    },
-    "ad": {
-      "signal": "\u2705 Institutions accumulating"
-    },
-    "patterns": [
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
-    ],
-    "fundamentals": {},
-    "buy_rating": "STRONG BUY",
-    "conviction": "HIGH",
-    "news_signals": [
-      {
-        "title": "LRCX Outperformed in 2025, but Valuation and Options Activity Flag 2026 Risks - Yahoo Finance",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Lam Research jumps 7% as earnings beat and June-quarter outlook signals accelerating wafer-fab demand - Quiver Quantitative",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Lam Research Corp (LRCX) Q2 2026 Earnings Call Highlights: Record Revenue and Strategic Growth ... - Yahoo Finance",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Q1 Earnings Outperformers: Lam Research (NASDAQ:LRCX) And The Rest Of The Semiconductor Manufacturing Stocks - Yahoo Finance",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      }
-    ],
-    "market": "US"
-  },
-  {
-    "ticker": "ASML",
-    "name": "ASML Holding",
-    "score": 7,
-    "max": 12,
-    "signals": [
-      "\u2705 Golden Cross active",
-      "\u2705 Above 200MA",
-      "A/D rising \u2014 institutions loading",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
-    ],
-    "ma": {
-      "price": 1794.62,
-      "ma50": 1613.57,
-      "ma200": 1293.79,
-      "ma_signal": "\u2705 Above 200MA",
-      "cross": "\u2705 Golden Cross active"
-    },
-    "ad": {
-      "signal": "\u2705 Institutions accumulating"
-    },
-    "patterns": [
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
-    ],
-    "fundamentals": {},
-    "buy_rating": "STRONG BUY",
-    "conviction": "HIGH",
-    "news_signals": [
-      {
-        "title": "Assessing ASML Holding\u2019s Valuation After Upgraded 2026 Revenue Outlook On Strong AI And Memory Demand - Yahoo Finance",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "ASML Stock Drops. Why an Earnings Beat Wasn\u2019t Enough to Keep Its Rally Going. - Barron's",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Tata Electronics and ASML Announce Strategic Partnership to Advance the Semiconductor Manufacturing Ecosystem in India - Tata Electronics",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      }
-    ],
-    "market": "US"
-  },
-  {
-    "ticker": "ARM",
-    "name": "ARM Holdings",
-    "score": 7,
-    "max": 12,
-    "signals": [
-      "RSI oversold on DAILY",
-      "\u2705 Golden Cross active",
-      "\u2705 Above 200MA",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
-    ],
-    "ma": {
-      "price": 334.27,
-      "ma50": 285.3,
-      "ma200": 173.48,
-      "ma_signal": "\u2705 Above 200MA",
-      "cross": "\u2705 Golden Cross active"
-    },
-    "ad": {
-      "signal": "\u26a0\ufe0f A/D declining"
-    },
-    "patterns": [
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
-    ],
-    "fundamentals": {},
-    "buy_rating": "STRONG BUY",
-    "conviction": "HIGH",
-    "news_signals": [
-      {
-        "title": "Arm Earnings: Data Centers Becoming Increasingly Important for the Growth Story - Morningstar",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Arm posts strong earnings beat; shares drop 6% on supply fears for new chip - Investing.com",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Arm Holdings Q4 fiscal 2026 earnings beat on AI demand - qz.com",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Arm Holdings Looks for 9th Consecutive Earnings Beat Today - 24/7 Wall St.",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      }
-    ],
-    "market": "US"
-  },
-  {
-    "ticker": "SMCI",
-    "name": "Super Micro Computer",
-    "score": 7,
-    "max": 12,
-    "signals": [
-      "RSI oversold on DAILY, WEEKLY",
-      "\u26a0\ufe0f Below 200MA",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "ma": {
-      "price": 30.63,
-      "ma50": 33.5,
-      "ma200": 35.35,
-      "ma_signal": "\u26a0\ufe0f Below 200MA"
-    },
-    "ad": {
-      "signal": "\u26a0\ufe0f A/D declining"
-    },
-    "patterns": [
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "fundamentals": {},
-    "buy_rating": "STRONG BUY",
-    "conviction": "HIGH",
-    "news_signals": [
-      {
-        "title": "Did Supermicro\u2019s (SMCI) Data Center Expansion and AI Partnerships Just Shift Its Investment Narrative? - Yahoo Finance",
-        "source": "News",
-        "score": 4,
-        "bull": true
-      },
-      {
-        "title": "Super Micro Stock Rose 16% in a Day After a Buy Upgrade. Here\u2019s Where SMCI Could Go in 2026 - TIKR.com",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      }
-    ],
-    "market": "US"
-  },
-  {
-    "ticker": "AMZN",
-    "name": "Amazon.com",
-    "score": 7,
-    "max": 12,
-    "signals": [
-      "RSI oversold on DAILY, WEEKLY",
-      "\u2705 Golden Cross active",
-      "\u26a0\ufe0f Below 200MA",
-      "A/D rising \u2014 institutions loading",
-      "\ud83d\udd0a Volume Spike: 4.0x",
-      "\u26a1 Bullish RSI Divergence"
-    ],
-    "ma": {
-      "price": 232.69,
-      "ma50": 256.13,
-      "ma200": 232.77,
-      "ma_signal": "\u26a0\ufe0f Below 200MA",
-      "cross": "\u2705 Golden Cross active",
-      "near_200ma": "\ud83d\udccd At 200MA"
-    },
-    "ad": {
-      "signal": "\u2705 Institutions accumulating"
-    },
-    "patterns": [
-      "\ud83d\udd0a Volume Spike: 4.0x",
-      "\u26a1 Bullish RSI Divergence",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
-    ],
-    "fundamentals": {},
-    "buy_rating": "STRONG BUY",
-    "conviction": "HIGH",
-    "news_signals": [],
-    "market": "US"
-  },
-  {
-    "ticker": "TSLA",
-    "name": "Tesla Inc",
-    "score": 7,
-    "max": 12,
-    "signals": [
-      "RSI oversold on DAILY, WEEKLY",
-      "\u26a0\ufe0f Below 200MA",
-      "\ud83d\udccd Near Support: $368.60",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
-    ],
-    "ma": {
-      "price": 379.71,
-      "ma50": 404.76,
-      "ma200": 417.96,
-      "ma_signal": "\u26a0\ufe0f Below 200MA"
-    },
-    "ad": {
-      "signal": "\u26a0\ufe0f A/D declining"
-    },
-    "patterns": [
-      "\ud83d\udccd Near Support: $368.60",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
-    ],
-    "fundamentals": {},
-    "buy_rating": "STRONG BUY",
-    "conviction": "HIGH",
-    "news_signals": [
-      {
-        "title": "Tesla Stock Forecast | SpaceX Merger Speculation, Q1 Earnings - Capital.com",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Tesla Q1 2026 Earnings Beat So Why Did the Stock Fall 3.56%? - TIKR.com",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Tesla Earnings Beat, But TSLA Stock Falls On Elon Musk Comments; HW3.0 'Does Not Have The Capability' - Investor's Business Daily",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      }
-    ],
-    "market": "US"
-  },
-  {
-    "ticker": "NFLX",
-    "name": "Netflix",
-    "score": 7,
-    "max": 12,
-    "signals": [
-      "RSI oversold on DAILY, WEEKLY",
-      "\u26a0\ufe0f Below 200MA",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
-    ],
-    "ma": {
-      "price": 73.81,
-      "ma50": 86.03,
-      "ma200": 97.04,
-      "ma_signal": "\u26a0\ufe0f Below 200MA"
-    },
-    "ad": {
-      "signal": "\u26a0\ufe0f A/D declining"
-    },
-    "patterns": [
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
-    ],
-    "fundamentals": {},
-    "buy_rating": "STRONG BUY",
-    "conviction": "HIGH",
-    "news_signals": [
-      {
-        "title": "Netflix Q1 Revenue And Earnings Beat Street Expectations, But Shares Still Plunge - Deadline",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Netflix Stock Is Tumbling. This Is Overshadowing the Streamer\u2019s Earnings Beat. - Barron's",
         "source": "News",
         "score": 2,
         "bull": true
@@ -681,6 +411,12 @@
     "news_signals": [
       {
         "title": "SMH ETF Investors: Watch Hyperscaler Capex Guidance at July Earnings Calls - 24/7 Wall St.",
+        "source": "News",
+        "score": 2,
+        "bull": true
+      },
+      {
+        "title": "Albanese government reaches deal with $550b AI giant in legal battle with Trump - SMH.com.au",
         "source": "News",
         "score": 2,
         "bull": true
@@ -824,6 +560,252 @@
     "market": "US"
   },
   {
+    "ticker": "SNDK",
+    "name": "SanDisk Corp",
+    "score": 7,
+    "max": 12,
+    "signals": [
+      "\u2705 Golden Cross active",
+      "\u2705 Above 200MA",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "ma": {
+      "price": 2090.71,
+      "ma50": 1521.57,
+      "ma200": 664.52,
+      "ma_signal": "\u2705 Above 200MA",
+      "cross": "\u2705 Golden Cross active"
+    },
+    "ad": {
+      "signal": "\u26a0\ufe0f A/D declining"
+    },
+    "patterns": [
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "fundamentals": {},
+    "buy_rating": "STRONG BUY",
+    "conviction": "HIGH",
+    "news_signals": [
+      {
+        "title": "SanDisk (SNDK): Donald Trump\u2019s Top Stock Pick in 2026 - Yahoo Finance",
+        "source": "News",
+        "score": 2,
+        "bull": true
+      },
+      {
+        "title": "SNDK's Q3 Earnings Beat Estimates, Revenues Rise on Datacenter Surge - Yahoo Finance",
+        "source": "News",
+        "score": 2,
+        "bull": true
+      },
+      {
+        "title": "Sandisk (SNDK) Is Up 19.5% After Locking In Multi\u2011Year AI Data Center Supply Deals - What's Changed - Yahoo Finance",
+        "source": "News",
+        "score": 2,
+        "bull": true
+      }
+    ],
+    "market": "US"
+  },
+  {
+    "ticker": "LRCX",
+    "name": "Lam Research",
+    "score": 7,
+    "max": 12,
+    "signals": [
+      "\u2705 Golden Cross active",
+      "\u2705 Above 200MA",
+      "A/D rising \u2014 institutions loading",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+    ],
+    "ma": {
+      "price": 379.09,
+      "ma50": 310.35,
+      "ma200": 217.19,
+      "ma_signal": "\u2705 Above 200MA",
+      "cross": "\u2705 Golden Cross active"
+    },
+    "ad": {
+      "signal": "\u2705 Institutions accumulating"
+    },
+    "patterns": [
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+    ],
+    "fundamentals": {},
+    "buy_rating": "STRONG BUY",
+    "conviction": "HIGH",
+    "news_signals": [
+      {
+        "title": "LRCX Outperformed in 2025, but Valuation and Options Activity Flag 2026 Risks - Yahoo Finance",
+        "source": "News",
+        "score": 2,
+        "bull": true
+      },
+      {
+        "title": "Lam Research jumps 7% as earnings beat and June-quarter outlook signals accelerating wafer-fab demand - Quiver Quantitative",
+        "source": "News",
+        "score": 2,
+        "bull": true
+      },
+      {
+        "title": "Lam Research Corp (LRCX) Q2 2026 Earnings Call Highlights: Record Revenue and Strategic Growth ... - Yahoo Finance",
+        "source": "News",
+        "score": 2,
+        "bull": true
+      },
+      {
+        "title": "Q1 Earnings Outperformers: Lam Research (NASDAQ:LRCX) And The Rest Of The Semiconductor Manufacturing Stocks - Yahoo Finance",
+        "source": "News",
+        "score": 2,
+        "bull": true
+      }
+    ],
+    "market": "US"
+  },
+  {
+    "ticker": "ASML",
+    "name": "ASML Holding",
+    "score": 7,
+    "max": 12,
+    "signals": [
+      "\u2705 Golden Cross active",
+      "\u2705 Above 200MA",
+      "A/D rising \u2014 institutions loading",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+    ],
+    "ma": {
+      "price": 1794.62,
+      "ma50": 1613.57,
+      "ma200": 1293.79,
+      "ma_signal": "\u2705 Above 200MA",
+      "cross": "\u2705 Golden Cross active"
+    },
+    "ad": {
+      "signal": "\u2705 Institutions accumulating"
+    },
+    "patterns": [
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+    ],
+    "fundamentals": {},
+    "buy_rating": "STRONG BUY",
+    "conviction": "HIGH",
+    "news_signals": [
+      {
+        "title": "Assessing ASML Holding\u2019s Valuation After Upgraded 2026 Revenue Outlook On Strong AI And Memory Demand - Yahoo Finance",
+        "source": "News",
+        "score": 2,
+        "bull": true
+      },
+      {
+        "title": "ASML Stock Drops. Why an Earnings Beat Wasn\u2019t Enough to Keep Its Rally Going. - Barron's",
+        "source": "News",
+        "score": 2,
+        "bull": true
+      }
+    ],
+    "market": "US"
+  },
+  {
+    "ticker": "ARM",
+    "name": "ARM Holdings",
+    "score": 7,
+    "max": 12,
+    "signals": [
+      "RSI oversold on DAILY",
+      "\u2705 Golden Cross active",
+      "\u2705 Above 200MA",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+    ],
+    "ma": {
+      "price": 334.27,
+      "ma50": 285.3,
+      "ma200": 173.48,
+      "ma_signal": "\u2705 Above 200MA",
+      "cross": "\u2705 Golden Cross active"
+    },
+    "ad": {
+      "signal": "\u26a0\ufe0f A/D declining"
+    },
+    "patterns": [
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+    ],
+    "fundamentals": {},
+    "buy_rating": "STRONG BUY",
+    "conviction": "HIGH",
+    "news_signals": [
+      {
+        "title": "Arm Earnings: Data Centers Becoming Increasingly Important for the Growth Story - Morningstar",
+        "source": "News",
+        "score": 2,
+        "bull": true
+      },
+      {
+        "title": "Arm posts strong earnings beat; shares drop 6% on supply fears for new chip - Investing.com",
+        "source": "News",
+        "score": 2,
+        "bull": true
+      },
+      {
+        "title": "Arm Holdings Q4 fiscal 2026 earnings beat on AI demand - qz.com",
+        "source": "News",
+        "score": 2,
+        "bull": true
+      },
+      {
+        "title": "Arm Holdings Looks for 9th Consecutive Earnings Beat Today - 24/7 Wall St.",
+        "source": "News",
+        "score": 2,
+        "bull": true
+      }
+    ],
+    "market": "US"
+  },
+  {
+    "ticker": "SMCI",
+    "name": "Super Micro Computer",
+    "score": 7,
+    "max": 12,
+    "signals": [
+      "RSI oversold on DAILY, WEEKLY",
+      "\u26a0\ufe0f Below 200MA",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "ma": {
+      "price": 30.63,
+      "ma50": 33.5,
+      "ma200": 35.35,
+      "ma_signal": "\u26a0\ufe0f Below 200MA"
+    },
+    "ad": {
+      "signal": "\u26a0\ufe0f A/D declining"
+    },
+    "patterns": [
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "fundamentals": {},
+    "buy_rating": "STRONG BUY",
+    "conviction": "HIGH",
+    "news_signals": [
+      {
+        "title": "Did Supermicro\u2019s (SMCI) Data Center Expansion and AI Partnerships Just Shift Its Investment Narrative? - Yahoo Finance",
+        "source": "News",
+        "score": 4,
+        "bull": true
+      },
+      {
+        "title": "Super Micro Stock Rose 16% in a Day After a Buy Upgrade. Here\u2019s Where SMCI Could Go in 2026 - TIKR.com",
+        "source": "News",
+        "score": 2,
+        "bull": true
+      }
+    ],
+    "market": "US"
+  },
+  {
     "ticker": "INTC",
     "name": "Intel Corporation",
     "score": 6,
@@ -901,44 +883,6 @@
     "market": "US"
   },
   {
-    "ticker": "SNDK",
-    "name": "SanDisk Corp",
-    "score": 6,
-    "max": 12,
-    "signals": [
-      "\u2705 Golden Cross active",
-      "\u2705 Above 200MA",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "ma": {
-      "price": 2090.71,
-      "ma50": 1521.57,
-      "ma200": 664.52,
-      "ma_signal": "\u2705 Above 200MA",
-      "cross": "\u2705 Golden Cross active"
-    },
-    "ad": {
-      "signal": "\u26a0\ufe0f A/D declining"
-    },
-    "patterns": [
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "fundamentals": {},
-    "buy_rating": "BUY",
-    "conviction": "MEDIUM",
-    "news_signals": [
-      {
-        "title": "SanDisk (SNDK): Donald Trump\u2019s Top Stock Pick in 2026 - Yahoo Finance",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      }
-    ],
-    "market": "US"
-  },
-  {
     "ticker": "MRVL",
     "name": "Marvell Technology",
     "score": 6,
@@ -982,50 +926,9 @@
         "source": "News",
         "score": 2,
         "bull": true
-      }
-    ],
-    "market": "US"
-  },
-  {
-    "ticker": "PLTR",
-    "name": "Palantir Technologies",
-    "score": 6,
-    "max": 12,
-    "signals": [
-      "RSI oversold on DAILY, WEEKLY",
-      "\u26a0\ufe0f Below 200MA",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
-    ],
-    "ma": {
-      "price": 112.93,
-      "ma50": 136.46,
-      "ma200": 158.85,
-      "ma_signal": "\u26a0\ufe0f Below 200MA"
-    },
-    "ad": {
-      "signal": "\u26a0\ufe0f A/D declining"
-    },
-    "patterns": [
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
-    ],
-    "fundamentals": {},
-    "buy_rating": "BUY",
-    "conviction": "MEDIUM",
-    "news_signals": [
-      {
-        "title": "Palantir's role to Pentagon remains solid despite Trump's issue with its partner Anthropic: analysts - Seeking Alpha",
-        "source": "News",
-        "score": 4,
-        "bull": true
       },
       {
-        "title": "Palantir Is Down 26% in 2026 Despite a High-Conviction Upgrade. Is the Bottom Finally In? - Yahoo Finance",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Palantir Q1 2026 earnings: revenue surges 85%, guidance raised - Yahoo Finance",
+        "title": "Marvell Technology (MRVL) Valuation Check After AI Driven Earnings Beat And Multiyear Guidance Lift - Yahoo Finance",
         "source": "News",
         "score": 2,
         "bull": true
@@ -1034,72 +937,55 @@
     "market": "US"
   },
   {
-    "ticker": "CRM",
-    "name": "Salesforce",
-    "score": 6,
+    "ticker": "ARKG",
+    "name": "ARK Genomic Revolution ETF",
+    "score": 5,
     "max": 12,
     "signals": [
-      "RSI oversold on DAILY, WEEKLY",
-      "\u26a0\ufe0f Below 200MA",
-      "A/D rising \u2014 institutions loading"
+      "\u2705 Golden Cross active",
+      "\u2705 Above 200MA",
+      "A/D rising \u2014 institutions loading",
+      "\ud83d\ude80 Testing Resistance: $42.15",
+      "\ud83d\ude80 BREAKOUT with volume!"
     ],
     "ma": {
-      "price": 158.37,
-      "ma50": 176.25,
-      "ma200": 213.92,
-      "ma_signal": "\u26a0\ufe0f Below 200MA"
+      "price": 41.43,
+      "ma50": 32.25,
+      "ma200": 29.99,
+      "ma_signal": "\u2705 Above 200MA",
+      "cross": "\u2705 Golden Cross active"
     },
     "ad": {
       "signal": "\u2705 Institutions accumulating"
     },
-    "patterns": [],
+    "patterns": [
+      "\ud83d\ude80 Testing Resistance: $42.15",
+      "\ud83d\ude80 BREAKOUT with volume!",
+      "\ud83d\udcc8 Uptrend: Higher Highs & Lows",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
     "fundamentals": {},
     "buy_rating": "BUY",
     "conviction": "MEDIUM",
-    "news_signals": [
-      {
-        "title": "Salesforce climbs on earnings beat as company commits $50 billion for buybacks - CNBC",
-        "source": "News",
-        "score": 4,
-        "bull": true
-      },
-      {
-        "title": "Why Salesforce Stock at $153 Deserves a Second Look After Record EPS and Buybacks - TIKR.com",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Salesforce Stock Is Down 30% in 2026. Here\u2019s What the $25 Billion Buyback Means for CRM Investors - TIKR.com",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Salesforce Q1 FY2027 earnings beat, guidance disappoints - qz.com",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      }
-    ],
+    "news_signals": [],
     "market": "US"
   },
   {
-    "ticker": "AAPL",
-    "name": "Apple Inc",
+    "ticker": "ROBT",
+    "name": "First Trust Nasdaq AI & Robotics",
     "score": 5,
     "max": 12,
     "signals": [
       "RSI oversold on DAILY",
       "\u2705 Golden Cross active",
       "\u2705 Above 200MA",
-      "\ud83d\udd0a Volume Spike: 3.9x",
-      "\ud83c\udf1f Fib 61.8%: $282.71"
+      "\ud83d\udccd Near Support: $53.07",
+      "\ud83c\udf1f Fib 61.8%: $53.73"
     ],
     "ma": {
-      "price": 283.78,
-      "ma50": 291.5,
-      "ma200": 269.46,
+      "price": 54.17,
+      "ma50": 54.33,
+      "ma200": 52.53,
       "ma_signal": "\u2705 Above 200MA",
       "cross": "\u2705 Golden Cross active"
     },
@@ -1107,8 +993,8 @@
       "signal": "\u26a0\ufe0f A/D declining"
     },
     "patterns": [
-      "\ud83d\udd0a Volume Spike: 3.9x",
-      "\ud83c\udf1f Fib 61.8%: $282.71",
+      "\ud83d\udccd Near Support: $53.07",
+      "\ud83c\udf1f Fib 61.8%: $53.73",
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "fundamentals": {},
@@ -1118,33 +1004,64 @@
     "market": "US"
   },
   {
-    "ticker": "MSFT",
-    "name": "Microsoft Corporation",
+    "ticker": "BOTZ",
+    "name": "Global X Robotics & AI ETF",
     "score": 5,
     "max": 12,
     "signals": [
       "RSI oversold on DAILY, WEEKLY",
+      "\u2705 Golden Cross active",
       "\u26a0\ufe0f Below 200MA",
-      "A/D rising \u2014 institutions loading",
-      "\ud83d\udd0a Volume Spike: 3.6x",
+      "\ud83d\udccd Near Support: $35.80",
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "ma": {
-      "price": 372.97,
-      "ma50": 410.97,
-      "ma200": 447.99,
-      "ma_signal": "\u26a0\ufe0f Below 200MA"
+      "price": 36.01,
+      "ma50": 38.71,
+      "ma200": 36.9,
+      "ma_signal": "\u26a0\ufe0f Below 200MA",
+      "cross": "\u2705 Golden Cross active"
     },
     "ad": {
-      "signal": "\u2705 Institutions accumulating"
+      "signal": "\u26a0\ufe0f A/D declining"
     },
     "patterns": [
-      "\ud83d\udd0a Volume Spike: 3.6x",
+      "\ud83d\udccd Near Support: $35.80",
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "fundamentals": {},
     "buy_rating": "BUY",
     "conviction": "MEDIUM",
+    "news_signals": [],
+    "market": "US"
+  },
+  {
+    "ticker": "ARKF",
+    "name": "ARK Fintech Innovation ETF",
+    "score": 4,
+    "max": 12,
+    "signals": [
+      "RSI oversold on DAILY, WEEKLY",
+      "\u26a0\ufe0f Below 200MA",
+      "\u26a1 Bullish RSI Divergence",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+    ],
+    "ma": {
+      "price": 39.2,
+      "ma50": 41.05,
+      "ma200": 45.93,
+      "ma_signal": "\u26a0\ufe0f Below 200MA"
+    },
+    "ad": {
+      "signal": "\u26a0\ufe0f A/D declining"
+    },
+    "patterns": [
+      "\u26a1 Bullish RSI Divergence",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+    ],
+    "fundamentals": {},
+    "buy_rating": "WATCH",
+    "conviction": "LOW",
     "news_signals": [],
     "market": "US"
   },
@@ -1172,36 +1089,6 @@
     "patterns": [
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows",
       "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "fundamentals": {},
-    "buy_rating": "WATCH",
-    "conviction": "LOW",
-    "news_signals": [],
-    "market": "US"
-  },
-  {
-    "ticker": "META",
-    "name": "Meta Platforms",
-    "score": 4,
-    "max": 12,
-    "signals": [
-      "RSI oversold on DAILY, WEEKLY",
-      "\u26a0\ufe0f Below 200MA",
-      "\ud83d\udccd Near Support: $540.18",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
-    ],
-    "ma": {
-      "price": 550.25,
-      "ma50": 612.9,
-      "ma200": 650.02,
-      "ma_signal": "\u26a0\ufe0f Below 200MA"
-    },
-    "ad": {
-      "signal": "\u26a0\ufe0f A/D declining"
-    },
-    "patterns": [
-      "\ud83d\udccd Near Support: $540.18",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "fundamentals": {},
     "buy_rating": "WATCH",
@@ -1240,24 +1127,109 @@
     "market": "US"
   },
   {
-    "ticker": "NOW",
-    "name": "ServiceNow",
-    "score": 2,
+    "ticker": "IGV",
+    "name": "iShares Software ETF",
+    "score": 3,
     "max": 12,
     "signals": [
       "RSI oversold on DAILY, WEEKLY",
-      "\u26a0\ufe0f Below 200MA"
+      "\u26a0\ufe0f Below 200MA",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "ma": {
-      "price": 98.34,
-      "ma50": 99.78,
-      "ma200": 134.53,
+      "price": 88.2,
+      "ma50": 90.77,
+      "ma200": 97.42,
       "ma_signal": "\u26a0\ufe0f Below 200MA"
     },
     "ad": {
       "signal": "\u26a0\ufe0f A/D declining"
     },
+    "patterns": [
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+    ],
+    "fundamentals": {},
+    "buy_rating": "WATCH",
+    "conviction": "LOW",
+    "news_signals": [],
+    "market": "US"
+  },
+  {
+    "ticker": "HACK",
+    "name": "ETFMG Prime Cyber Security",
+    "score": 3,
+    "max": 12,
+    "signals": [
+      "\u2705 Golden Cross active",
+      "\u2705 Above 200MA",
+      "A/D rising \u2014 institutions loading"
+    ],
+    "ma": {
+      "price": 98.65,
+      "ma50": 90.05,
+      "ma200": 83.44,
+      "ma_signal": "\u2705 Above 200MA",
+      "cross": "\u2705 Golden Cross active"
+    },
+    "ad": {
+      "signal": "\u2705 Institutions accumulating"
+    },
     "patterns": [],
+    "fundamentals": {},
+    "buy_rating": "WATCH",
+    "conviction": "LOW",
+    "news_signals": [],
+    "market": "US"
+  },
+  {
+    "ticker": "CIBR",
+    "name": "First Trust Cybersecurity ETF",
+    "score": 3,
+    "max": 12,
+    "signals": [
+      "\u2705 Golden Cross active",
+      "\u2705 Above 200MA",
+      "A/D rising \u2014 institutions loading"
+    ],
+    "ma": {
+      "price": 85.36,
+      "ma50": 78.86,
+      "ma200": 73.02,
+      "ma_signal": "\u2705 Above 200MA",
+      "cross": "\u2705 Golden Cross active"
+    },
+    "ad": {
+      "signal": "\u2705 Institutions accumulating"
+    },
+    "patterns": [],
+    "fundamentals": {},
+    "buy_rating": "WATCH",
+    "conviction": "LOW",
+    "news_signals": [],
+    "market": "US"
+  },
+  {
+    "ticker": "WCLD",
+    "name": "WisdomTree Cloud Computing",
+    "score": 2,
+    "max": 12,
+    "signals": [
+      "\u26a0\ufe0f Below 200MA",
+      "A/D rising \u2014 institutions loading",
+      "\ud83d\udcd0 Fib 50.0%: $30.98"
+    ],
+    "ma": {
+      "price": 30.71,
+      "ma50": 29.64,
+      "ma200": 31.66,
+      "ma_signal": "\u26a0\ufe0f Below 200MA"
+    },
+    "ad": {
+      "signal": "\u2705 Institutions accumulating"
+    },
+    "patterns": [
+      "\ud83d\udcd0 Fib 50.0%: $30.98"
+    ],
     "fundamentals": {},
     "buy_rating": "SKIP",
     "conviction": "SKIP",
