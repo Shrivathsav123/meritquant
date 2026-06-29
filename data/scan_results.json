@@ -1,56 +1,5 @@
 [
   {
-    "ticker": "AVGO",
-    "name": "Broadcom",
-    "score": 9,
-    "max": 12,
-    "signals": [
-      "RSI oversold on DAILY, WEEKLY",
-      "\u2705 Golden Cross active",
-      "\u2705 Above 200MA",
-      "\ud83d\udccd Near Support: $360.46",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
-    ],
-    "ma": {
-      "price": 370.43,
-      "ma50": 411.4,
-      "ma200": 361.32,
-      "ma_signal": "\u2705 Above 200MA",
-      "cross": "\u2705 Golden Cross active"
-    },
-    "ad": {
-      "signal": "\u26a0\ufe0f A/D declining"
-    },
-    "patterns": [
-      "\ud83d\udccd Near Support: $360.46",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
-    ],
-    "fundamentals": {},
-    "buy_rating": "STRONG BUY",
-    "conviction": "HIGH",
-    "news_signals": [
-      {
-        "title": "Broadcom Inc (AVGO) Q4 2025 Earnings Call Highlights: Record Revenue and AI Growth Propel ... - Yahoo Finance",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Broadcom Stock (AVGO) Opinions on AI Partnerships and Earnings Outlook - Quiver Quantitative",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Broadcom Stock (AVGO) Opinions on Q1 Earnings and AI Partnerships - Quiver Quantitative",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      }
-    ],
-    "market": "US"
-  },
-  {
     "ticker": "ARM",
     "name": "ARM Holdings",
     "score": 9,
@@ -64,9 +13,9 @@
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "ma": {
-      "price": 338.74,
-      "ma50": 288.83,
-      "ma200": 174.41,
+      "price": 343.0,
+      "ma50": 288.91,
+      "ma200": 174.43,
       "ma_signal": "\u2705 Above 200MA",
       "cross": "\u2705 Golden Cross active"
     },
@@ -103,30 +52,86 @@
     "market": "US"
   },
   {
-    "ticker": "AAPL",
-    "name": "Apple Inc",
-    "score": 9,
+    "ticker": "CLOU",
+    "name": "Global X Cloud Computing ETF",
+    "score": 8,
+    "max": 12,
+    "signals": [
+      "\u2705 Golden Cross active",
+      "\u2705 Above 200MA",
+      "A/D rising \u2014 institutions loading",
+      "\ud83d\udcd0 Fib 50.0%: $22.82",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "ma": {
+      "price": 22.51,
+      "ma50": 22.16,
+      "ma200": 21.81,
+      "ma_signal": "\u2705 Above 200MA",
+      "cross": "\u2705 Golden Cross active"
+    },
+    "ad": {
+      "signal": "\u2705 Institutions accumulating"
+    },
+    "patterns": [
+      "\ud83d\udcd0 Fib 50.0%: $22.82",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "fundamentals": {},
+    "buy_rating": "STRONG BUY",
+    "conviction": "HIGH",
+    "news_signals": [
+      {
+        "title": "Oracle Q4 earnings beat on revenue but miss on cloud sales - Yahoo Finance",
+        "source": "News",
+        "score": 2,
+        "bull": true
+      },
+      {
+        "title": "Google Earnings Beat. Cloud Capex Boom To Hit Free Cash Flow. - Investor's Business Daily",
+        "source": "News",
+        "score": 2,
+        "bull": true
+      },
+      {
+        "title": "Earnings call transcript: Consensus Cloud Solutions\u2019 Q1 2026 earnings beat expectations - Investing.com",
+        "source": "News",
+        "score": 2,
+        "bull": true
+      },
+      {
+        "title": "Google Cloud secures sovereign cloud contract with NATO - Data Center Dynamics",
+        "source": "News",
+        "score": 2,
+        "bull": true
+      }
+    ],
+    "market": "US"
+  },
+  {
+    "ticker": "QCOM",
+    "name": "Qualcomm",
+    "score": 8,
     "max": 12,
     "signals": [
       "RSI oversold on DAILY",
       "\u2705 Golden Cross active",
       "\u2705 Above 200MA",
-      "A/D rising \u2014 institutions loading",
-      "\ud83d\udccd Near Support: $273.75",
+      "\ud83d\udccd Near Support: $183.58",
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "ma": {
-      "price": 280.23,
-      "ma50": 291.83,
-      "ma200": 269.73,
+      "price": 188.85,
+      "ma50": 199.81,
+      "ma200": 168.07,
       "ma_signal": "\u2705 Above 200MA",
       "cross": "\u2705 Golden Cross active"
     },
     "ad": {
-      "signal": "\u2705 Institutions accumulating"
+      "signal": "\u26a0\ufe0f A/D declining"
     },
     "patterns": [
-      "\ud83d\udccd Near Support: $273.75",
+      "\ud83d\udccd Near Support: $183.58",
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "fundamentals": {},
@@ -134,25 +139,13 @@
     "conviction": "HIGH",
     "news_signals": [
       {
-        "title": "Apple Q1 FY26 Earnings Beats Estimates; AAPL Earnings Decoded - INDmoney",
-        "source": "News",
-        "score": 4,
-        "bull": true
-      },
-      {
-        "title": "Earnings call transcript: Apple Q2 2026 sees earnings beat, stock rises - Investing.com",
+        "title": "What Qualcomm Stock Was Saying About Its Multibillion-Dollar Data Center Plan - Trefis",
         "source": "News",
         "score": 2,
         "bull": true
       },
       {
-        "title": "Earnings call transcript: Apple Q1 2026 earnings beat expectations - Investing.com",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Apple Inc. Stock (AAPL) Opinions on AI Partnership and iPhone Demand - Quiver Quantitative",
+        "title": "Qualcomm (NASDAQ: QCOM) Stock Price Surges 54% As Multibillion-Dollar Data Center AI Push Takes Shape - foreignpolicyjournal.com",
         "source": "News",
         "score": 2,
         "bull": true
@@ -161,21 +154,20 @@
     "market": "US"
   },
   {
-    "ticker": "AMAT",
-    "name": "Applied Materials",
-    "score": 8,
+    "ticker": "SMH",
+    "name": "VanEck Semiconductor ETF",
+    "score": 7,
     "max": 12,
     "signals": [
       "\u2705 Golden Cross active",
       "\u2705 Above 200MA",
       "A/D rising \u2014 institutions loading",
-      "\ud83d\ude80 Testing Resistance: $708.99",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "ma": {
-      "price": 702.95,
-      "ma50": 474.47,
-      "ma200": 332.05,
+      "price": 631.09,
+      "ma50": 569.97,
+      "ma200": 421.33,
       "ma_signal": "\u2705 Above 200MA",
       "cross": "\u2705 Golden Cross active"
     },
@@ -183,33 +175,32 @@
       "signal": "\u2705 Institutions accumulating"
     },
     "patterns": [
-      "\ud83d\ude80 Testing Resistance: $708.99",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "fundamentals": {},
     "buy_rating": "STRONG BUY",
     "conviction": "HIGH",
     "news_signals": [
       {
-        "title": "Applied Materials earnings beat by $0.18, revenue topped estimates - Investing.com",
+        "title": "SMH ETF Investors: Watch Hyperscaler Capex Guidance at July Earnings Calls - 24/7 Wall St.",
         "source": "News",
         "score": 2,
         "bull": true
       },
       {
-        "title": "AMAT stock price hits 52-week high on record Q2 earnings beat, Citi raises target to $520 - eciks.org",
+        "title": "SMH ETF Investors: Watch Hyperscaler Capex Guidance at July Earnings Calls - Yahoo Finance",
         "source": "News",
         "score": 2,
         "bull": true
       },
       {
-        "title": "Applied Materials Stock Jumps 8% After Q1 Earnings Beat and Strong Q2 Outlook - TIKR.com",
+        "title": "Albanese government reaches deal with $550b AI giant in legal battle with Trump - SMH.com.au",
         "source": "News",
         "score": 2,
         "bull": true
       },
       {
-        "title": "AMAT Stock Surges 13% After Hours on Earnings Beat and Guidance - EBC Financial Group",
+        "title": "Trump\u2019s son-in-law teams with Saudi crown prince in record $84 billion deal - SMH.com.au",
         "source": "News",
         "score": 2,
         "bull": true
@@ -218,47 +209,92 @@
     "market": "US"
   },
   {
-    "ticker": "MSFT",
-    "name": "Microsoft Corporation",
-    "score": 8,
+    "ticker": "SOXX",
+    "name": "iShares Semiconductor ETF",
+    "score": 7,
     "max": 12,
     "signals": [
-      "RSI oversold on DAILY, WEEKLY",
-      "\u26a0\ufe0f Below 200MA",
+      "\u2705 Golden Cross active",
+      "\u2705 Above 200MA",
       "A/D rising \u2014 institutions loading",
-      "\u26a1 Bullish RSI Divergence",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "ma": {
-      "price": 367.4,
-      "ma50": 409.92,
-      "ma200": 447.32,
-      "ma_signal": "\u26a0\ufe0f Below 200MA"
+      "price": 612.63,
+      "ma50": 534.54,
+      "ma200": 371.17,
+      "ma_signal": "\u2705 Above 200MA",
+      "cross": "\u2705 Golden Cross active"
     },
     "ad": {
       "signal": "\u2705 Institutions accumulating"
     },
     "patterns": [
-      "\u26a1 Bullish RSI Divergence",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "fundamentals": {},
     "buy_rating": "STRONG BUY",
     "conviction": "HIGH",
     "news_signals": [
       {
-        "title": "The next phase of the Microsoft-OpenAI partnership - The Official Microsoft Blog",
+        "title": "Prediction: SOXX Will Outperform S&P 500 and Nasdaq 100 in 2026 - Yahoo Finance",
         "source": "News",
         "score": 2,
         "bull": true
       },
       {
-        "title": "The next chapter of the Microsoft\u2013OpenAI partnership - The Official Microsoft Blog",
+        "title": "Prediction: SOXX Will Outperform S&P 500 and Nasdaq 100 in 2026 - The Motley Fool",
+        "source": "News",
+        "score": 2,
+        "bull": true
+      },
+      {
+        "title": "Arm Holdings and Dell confirm AI infrastructure supercycle after Nvidia earnings beat; SOXX +0.85% - StartupHub.ai",
+        "source": "News",
+        "score": 2,
+        "bull": true
+      },
+      {
+        "title": "Intel surges 13% on Apple chip talks as AMD and Cloudflare rally on earnings beats, SOXX +4.5% - StartupHub.ai",
         "source": "News",
         "score": 2,
         "bull": true
       }
     ],
+    "market": "US"
+  },
+  {
+    "ticker": "BOTZ",
+    "name": "Global X Robotics & AI ETF",
+    "score": 7,
+    "max": 12,
+    "signals": [
+      "RSI oversold on DAILY, WEEKLY",
+      "\u2705 Golden Cross active",
+      "\u26a0\ufe0f Below 200MA",
+      "A/D rising \u2014 institutions loading",
+      "\ud83d\udccd Near Support: $35.80",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+    ],
+    "ma": {
+      "price": 36.82,
+      "ma50": 38.71,
+      "ma200": 36.92,
+      "ma_signal": "\u26a0\ufe0f Below 200MA",
+      "cross": "\u2705 Golden Cross active",
+      "near_200ma": "\ud83d\udccd At 200MA"
+    },
+    "ad": {
+      "signal": "\u2705 Institutions accumulating"
+    },
+    "patterns": [
+      "\ud83d\udccd Near Support: $35.80",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+    ],
+    "fundamentals": {},
+    "buy_rating": "STRONG BUY",
+    "conviction": "HIGH",
+    "news_signals": [],
     "market": "US"
   },
   {
@@ -273,9 +309,9 @@
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "ma": {
-      "price": 128.2,
-      "ma50": 109.58,
-      "ma200": 58.75,
+      "price": 130.96,
+      "ma50": 109.64,
+      "ma200": 58.76,
       "ma_signal": "\u2705 Above 200MA",
       "cross": "\u2705 Golden Cross active"
     },
@@ -300,25 +336,13 @@
         "source": "News",
         "score": 2,
         "bull": true
-      },
-      {
-        "title": "Intel Shares Soar After Trump Says It Struck Apple Chip Deal - Bloomberg.com",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Intel stock soars on Q1 earnings beat, strong outlook - Yahoo Finance",
-        "source": "News",
-        "score": 2,
-        "bull": true
       }
     ],
     "market": "US"
   },
   {
-    "ticker": "QCOM",
-    "name": "Qualcomm",
+    "ticker": "AVGO",
+    "name": "Broadcom",
     "score": 7,
     "max": 12,
     "signals": [
@@ -328,9 +352,9 @@
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "ma": {
-      "price": 190.19,
-      "ma50": 199.84,
-      "ma200": 168.08,
+      "price": 374.14,
+      "ma50": 411.48,
+      "ma200": 361.34,
       "ma_signal": "\u2705 Above 200MA",
       "cross": "\u2705 Golden Cross active"
     },
@@ -345,19 +369,19 @@
     "conviction": "HIGH",
     "news_signals": [
       {
-        "title": "What Qualcomm Stock Was Saying About Its Multibillion-Dollar Data Center Plan - Trefis",
+        "title": "Broadcom Stock (AVGO) Opinions on AI Partnerships and Earnings Outlook - Quiver Quantitative",
         "source": "News",
         "score": 2,
         "bull": true
       },
       {
-        "title": "Qualcomm (NASDAQ: QCOM) Stock Price Surges 54% As Multibillion-Dollar Data Center AI Push Takes Shape - foreignpolicyjournal.com",
+        "title": "Broadcom Stock (AVGO) Opinions on Q1 Earnings and AI Partnerships - Quiver Quantitative",
         "source": "News",
         "score": 2,
         "bull": true
       },
       {
-        "title": "Qualcomm Jumps 11%, Then Pulls Back Amid Meta Platforms Data Center Deal and Wave of Analyst Target Hikes - 24/7 Wall St.",
+        "title": "Broadcom Inc. Stock (AVGO) Opinions on AI Partnership Deal - Quiver Quantitative",
         "source": "News",
         "score": 2,
         "bull": true
@@ -377,9 +401,9 @@
       "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
     "ma": {
-      "price": 2021.4,
-      "ma50": 1543.6,
-      "ma200": 674.26,
+      "price": 2046.74,
+      "ma50": 1544.11,
+      "ma200": 674.39,
       "ma_signal": "\u2705 Above 200MA",
       "cross": "\u2705 Golden Cross active"
     },
@@ -410,12 +434,6 @@
         "source": "News",
         "score": 2,
         "bull": true
-      },
-      {
-        "title": "SanDisk (SNDK) FY2026 Q3 Earnings Highlights: 97% QoQ Revenue Surge, Q4 Guidance Raised Again! - Bitget",
-        "source": "News",
-        "score": 2,
-        "bull": true
       }
     ],
     "market": "US"
@@ -432,9 +450,9 @@
       "\ud83d\ude80 Testing Resistance: $414.98"
     ],
     "ma": {
-      "price": 412.62,
-      "ma50": 313.38,
-      "ma200": 218.72,
+      "price": 411.05,
+      "ma50": 313.35,
+      "ma200": 218.71,
       "ma_signal": "\u2705 Above 200MA",
       "cross": "\u2705 Golden Cross active"
     },
@@ -484,12 +502,12 @@
       "\u2705 Golden Cross active",
       "\u2705 Above 200MA",
       "A/D rising \u2014 institutions loading",
-      "\ud83d\ude80 Testing Resistance: $273.85"
+      "\ud83d\ude80 Testing Resistance: $278.86"
     ],
     "ma": {
-      "price": 273.73,
-      "ma50": 203.41,
-      "ma200": 149.39,
+      "price": 278.03,
+      "ma50": 203.49,
+      "ma200": 149.41,
       "ma_signal": "\u2705 Above 200MA",
       "cross": "\u2705 Golden Cross active"
     },
@@ -497,7 +515,7 @@
       "signal": "\u2705 Institutions accumulating"
     },
     "patterns": [
-      "\ud83d\ude80 Testing Resistance: $273.85"
+      "\ud83d\ude80 Testing Resistance: $278.86"
     ],
     "fundamentals": {},
     "buy_rating": "STRONG BUY",
@@ -530,9 +548,9 @@
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "ma": {
-      "price": 272.18,
-      "ma50": 215.99,
-      "ma200": 119.53,
+      "price": 273.8,
+      "ma50": 216.02,
+      "ma200": 119.54,
       "ma_signal": "\u2705 Above 200MA",
       "cross": "\u2705 Golden Cross active"
     },
@@ -585,9 +603,9 @@
       "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
     "ma": {
-      "price": 30.05,
-      "ma50": 33.53,
-      "ma200": 35.28,
+      "price": 28.72,
+      "ma50": 33.5,
+      "ma200": 35.27,
       "ma_signal": "\u26a0\ufe0f Below 200MA"
     },
     "ad": {
@@ -618,65 +636,40 @@
         "source": "News",
         "score": 2,
         "bull": true
-      },
-      {
-        "title": "Super Micro jumps on big Q3 earnings beat, strong profit guidance - Sherwood News",
-        "source": "News",
-        "score": 2,
-        "bull": true
       }
     ],
     "market": "US"
   },
   {
-    "ticker": "PLTR",
-    "name": "Palantir Technologies",
-    "score": 7,
+    "ticker": "ARKX",
+    "name": "ARK Space Exploration ETF",
+    "score": 6,
     "max": 12,
     "signals": [
-      "RSI oversold on DAILY, WEEKLY",
-      "\u26a0\ufe0f Below 200MA",
-      "\u26a1 Bullish RSI Divergence",
+      "RSI oversold on DAILY",
+      "\u2705 Golden Cross active",
+      "\u2705 Above 200MA",
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "ma": {
-      "price": 115.14,
-      "ma50": 135.9,
-      "ma200": 158.59,
-      "ma_signal": "\u26a0\ufe0f Below 200MA"
+      "price": 33.13,
+      "ma50": 34.11,
+      "ma200": 31.28,
+      "ma_signal": "\u2705 Above 200MA",
+      "cross": "\u2705 Golden Cross active"
     },
     "ad": {
       "signal": "\u26a0\ufe0f A/D declining"
     },
     "patterns": [
-      "\u26a1 Bullish RSI Divergence",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "fundamentals": {},
-    "buy_rating": "STRONG BUY",
-    "conviction": "HIGH",
+    "buy_rating": "BUY",
+    "conviction": "MEDIUM",
     "news_signals": [
       {
-        "title": "Palantir's role to Pentagon remains solid despite Trump's issue with its partner Anthropic: analysts - Seeking Alpha",
-        "source": "News",
-        "score": 4,
-        "bull": true
-      },
-      {
-        "title": "Palantir Is Down 26% in 2026 Despite a High-Conviction Upgrade. Is the Bottom Finally In? - Yahoo Finance",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Palantir Q1 2026 earnings: revenue surges 85%, guidance raised - Yahoo Finance",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Palantir beats on earnings and revenue, raises guidance - Sherwood News",
+        "title": "ARKX vs. JETS: ARKX Outperforms JETS With Higher Returns - The Motley Fool",
         "source": "News",
         "score": 2,
         "bull": true
@@ -685,123 +678,20 @@
     "market": "US"
   },
   {
-    "ticker": "META",
-    "name": "Meta Platforms",
-    "score": 7,
-    "max": 12,
-    "signals": [
-      "RSI oversold on DAILY, WEEKLY",
-      "\u26a0\ufe0f Below 200MA",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "ma": {
-      "price": 564.34,
-      "ma50": 610.65,
-      "ma200": 649.08,
-      "ma_signal": "\u26a0\ufe0f Below 200MA"
-    },
-    "ad": {
-      "signal": "\u26a0\ufe0f A/D declining"
-    },
-    "patterns": [
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "fundamentals": {},
-    "buy_rating": "STRONG BUY",
-    "conviction": "HIGH",
-    "news_signals": [
-      {
-        "title": "Meta rises after sales, earnings beat and Q1 revenue guidance exceeds expectations - Sherwood News",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Meta shares drop after-hours as capex guidance overshadows earnings beat - SiliconANGLE",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "AMD and Meta announce $60B, 6 GW AI partnership - Jon Peddie Research",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      }
-    ],
-    "market": "US"
-  },
-  {
-    "ticker": "CRM",
-    "name": "Salesforce",
-    "score": 7,
-    "max": 12,
-    "signals": [
-      "RSI oversold on DAILY, WEEKLY",
-      "\u26a0\ufe0f Below 200MA",
-      "A/D rising \u2014 institutions loading",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "ma": {
-      "price": 158.27,
-      "ma50": 175.79,
-      "ma200": 213.5,
-      "ma_signal": "\u26a0\ufe0f Below 200MA"
-    },
-    "ad": {
-      "signal": "\u2705 Institutions accumulating"
-    },
-    "patterns": [
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "fundamentals": {},
-    "buy_rating": "STRONG BUY",
-    "conviction": "HIGH",
-    "news_signals": [
-      {
-        "title": "Salesforce climbs on earnings beat as company commits $50 billion for buybacks - CNBC",
-        "source": "News",
-        "score": 4,
-        "bull": true
-      },
-      {
-        "title": "Why Salesforce Stock at $153 Deserves a Second Look After Record EPS and Buybacks - TIKR.com",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Salesforce Stock Is Down 30% in 2026. Here\u2019s What the $25 Billion Buyback Means for CRM Investors - TIKR.com",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Salesforce Q1 FY2027 earnings beat, guidance disappoints - qz.com",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      }
-    ],
-    "market": "US"
-  },
-  {
-    "ticker": "SMH",
-    "name": "VanEck Semiconductor ETF",
-    "score": 7,
+    "ticker": "CIBR",
+    "name": "First Trust Cybersecurity ETF",
+    "score": 6,
     "max": 12,
     "signals": [
       "\u2705 Golden Cross active",
       "\u2705 Above 200MA",
       "A/D rising \u2014 institutions loading",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
     "ma": {
-      "price": 628.43,
-      "ma50": 569.92,
-      "ma200": 421.32,
+      "price": 88.62,
+      "ma50": 79.32,
+      "ma200": 73.09,
       "ma_signal": "\u2705 Above 200MA",
       "cross": "\u2705 Golden Cross active"
     },
@@ -809,26 +699,14 @@
       "signal": "\u2705 Institutions accumulating"
     },
     "patterns": [
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
     "fundamentals": {},
-    "buy_rating": "STRONG BUY",
-    "conviction": "HIGH",
+    "buy_rating": "BUY",
+    "conviction": "MEDIUM",
     "news_signals": [
       {
-        "title": "SMH ETF Investors: Watch Hyperscaler Capex Guidance at July Earnings Calls - 24/7 Wall St.",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "SMH ETF Investors: Watch Hyperscaler Capex Guidance at July Earnings Calls - Yahoo Finance",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Trump\u2019s son-in-law teams with Saudi crown prince in record $84 billion deal - SMH.com.au",
+        "title": "CIBR: Why AI Proves To Be A Tailwind, Not Cybersecurity's Demise (Rating Upgrade) - Seeking Alpha",
         "source": "News",
         "score": 2,
         "bull": true
@@ -837,58 +715,35 @@
     "market": "US"
   },
   {
-    "ticker": "SOXX",
-    "name": "iShares Semiconductor ETF",
-    "score": 7,
+    "ticker": "NVDA",
+    "name": "NVIDIA Corporation",
+    "score": 6,
     "max": 12,
     "signals": [
+      "RSI oversold on DAILY, WEEKLY",
       "\u2705 Golden Cross active",
       "\u2705 Above 200MA",
-      "A/D rising \u2014 institutions loading",
+      "\ud83d\udccd Near Support: $189.80",
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "ma": {
-      "price": 610.0,
-      "ma50": 534.49,
-      "ma200": 371.16,
+      "price": 194.77,
+      "ma50": 210.01,
+      "ma200": 190.73,
       "ma_signal": "\u2705 Above 200MA",
       "cross": "\u2705 Golden Cross active"
     },
     "ad": {
-      "signal": "\u2705 Institutions accumulating"
+      "signal": "\u26a0\ufe0f A/D declining"
     },
     "patterns": [
+      "\ud83d\udccd Near Support: $189.80",
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "fundamentals": {},
-    "buy_rating": "STRONG BUY",
-    "conviction": "HIGH",
-    "news_signals": [
-      {
-        "title": "Prediction: SOXX Will Outperform S&P 500 and Nasdaq 100 in 2026 - The Motley Fool",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Arm Holdings and Dell confirm AI infrastructure supercycle after Nvidia earnings beat; SOXX +0.85% - StartupHub.ai",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Intel surges 13% on Apple chip talks as AMD and Cloudflare rally on earnings beats, SOXX +4.5% - StartupHub.ai",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Arm Holdings surges 15% on AGI CPU upgrade; Intel and AMD lead chip sector recovery ahead of Nvidia earnings, SOXX +4.7% - StartupHub.ai",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      }
-    ],
+    "buy_rating": "BUY",
+    "conviction": "MEDIUM",
+    "news_signals": [],
     "market": "US"
   },
   {
@@ -902,9 +757,9 @@
       "A/D rising \u2014 institutions loading"
     ],
     "ma": {
-      "price": 531.7,
-      "ma50": 444.19,
-      "ma200": 272.33,
+      "price": 536.86,
+      "ma50": 444.29,
+      "ma200": 272.35,
       "ma_signal": "\u2705 Above 200MA",
       "cross": "\u2705 Golden Cross active"
     },
@@ -917,13 +772,13 @@
     "conviction": "MEDIUM",
     "news_signals": [
       {
-        "title": "AMD Beats on Earnings, Raises Guidance on AI and Data Center Growth - Yahoo Finance",
+        "title": "AMD stock outperforms Nvidia in 2026 amid AI competition - Crypto Briefing",
         "source": "News",
-        "score": 4,
+        "score": 2,
         "bull": true
       },
       {
-        "title": "AMD Stock Forecast 2026: A 57% Data Center Revenue Jump and a $120 Billion CPU Market - TIKR.com",
+        "title": "AMD Stock Soars On Q1 Data Center Revenue Surge, Upbeat Q2 Guidance - Stocktwits",
         "source": "News",
         "score": 2,
         "bull": true
@@ -942,9 +797,9 @@
       "A/D rising \u2014 institutions loading"
     ],
     "ma": {
-      "price": 450.98,
-      "ma50": 414.4,
-      "ma200": 341.12,
+      "price": 454.5,
+      "ma50": 414.47,
+      "ma200": 341.14,
       "ma_signal": "\u2705 Above 200MA",
       "cross": "\u2705 Golden Cross active"
     },
@@ -956,12 +811,6 @@
     "buy_rating": "BUY",
     "conviction": "MEDIUM",
     "news_signals": [
-      {
-        "title": "Taiwan Semiconductor Delivers 2,095% Gain Over 10 Years. Will It Continue To Outperform? - 24/7 Wall St.",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
       {
         "title": "Taiwan Semiconductor Q1 Earnings Beat Estimates, Revenues Rise Y/Y - The Globe and Mail",
         "source": "News",
@@ -988,9 +837,9 @@
       "A/D rising \u2014 institutions loading"
     ],
     "ma": {
-      "price": 1870.64,
-      "ma50": 1622.77,
-      "ma200": 1299.17,
+      "price": 1879.95,
+      "ma50": 1622.96,
+      "ma200": 1299.22,
       "ma_signal": "\u2705 Above 200MA",
       "cross": "\u2705 Golden Cross active"
     },
@@ -1013,93 +862,9 @@
         "source": "News",
         "score": 2,
         "bull": true
-      }
-    ],
-    "market": "US"
-  },
-  {
-    "ticker": "GOOGL",
-    "name": "Alphabet (Google)",
-    "score": 6,
-    "max": 12,
-    "signals": [
-      "RSI oversold on DAILY",
-      "\u2705 Golden Cross active",
-      "\u2705 Above 200MA",
-      "A/D rising \u2014 institutions loading"
-    ],
-    "ma": {
-      "price": 350.82,
-      "ma50": 369.57,
-      "ma200": 314.41,
-      "ma_signal": "\u2705 Above 200MA",
-      "cross": "\u2705 Golden Cross active"
-    },
-    "ad": {
-      "signal": "\u2705 Institutions accumulating"
-    },
-    "patterns": [],
-    "fundamentals": {},
-    "buy_rating": "BUY",
-    "conviction": "MEDIUM",
-    "news_signals": [
-      {
-        "title": "Google Stock Soars On Q1 Earnings As Analysts Trumpet 'Full Stack' AI Platform - Investor's Business Daily",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      }
-    ],
-    "market": "US"
-  },
-  {
-    "ticker": "TSLA",
-    "name": "Tesla Inc",
-    "score": 6,
-    "max": 12,
-    "signals": [
-      "\u26a0\ufe0f Below 200MA",
-      "A/D rising \u2014 institutions loading",
-      "\ud83c\udf1f Fib 61.8%: $398.16",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "ma": {
-      "price": 402.1,
-      "ma50": 405.03,
-      "ma200": 418.24,
-      "ma_signal": "\u26a0\ufe0f Below 200MA"
-    },
-    "ad": {
-      "signal": "\u2705 Institutions accumulating"
-    },
-    "patterns": [
-      "\ud83c\udf1f Fib 61.8%: $398.16",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "fundamentals": {},
-    "buy_rating": "BUY",
-    "conviction": "MEDIUM",
-    "news_signals": [
-      {
-        "title": "Tesla Stock Forecast | SpaceX Merger Speculation, Q1 Earnings - Capital.com",
-        "source": "News",
-        "score": 2,
-        "bull": true
       },
       {
-        "title": "Tesla Q1 2026 Earnings Beat So Why Did the Stock Fall 3.56%? - TIKR.com",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Tesla Earnings Beat, But TSLA Stock Falls On Elon Musk Comments; HW3.0 'Does Not Have The Capability' - Investor's Business Daily",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Tesla Q3 2025: Profitability Sinks Despite Record Revenue - TradingView",
+        "title": "Tata Electronics and ASML Announce Strategic Partnership to Advance the Semiconductor Manufacturing Ecosystem in India - Tata Electronics",
         "source": "News",
         "score": 2,
         "bull": true
@@ -1108,56 +873,21 @@
     "market": "US"
   },
   {
-    "ticker": "NFLX",
-    "name": "Netflix",
-    "score": 6,
-    "max": 12,
-    "signals": [
-      "RSI oversold on DAILY, WEEKLY",
-      "\u26a0\ufe0f Below 200MA",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "ma": {
-      "price": 74.51,
-      "ma50": 85.36,
-      "ma200": 96.79,
-      "ma_signal": "\u26a0\ufe0f Below 200MA"
-    },
-    "ad": {
-      "signal": "\u26a0\ufe0f A/D declining"
-    },
-    "patterns": [
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "fundamentals": {},
-    "buy_rating": "BUY",
-    "conviction": "MEDIUM",
-    "news_signals": [
-      {
-        "title": "Netflix Q1 Revenue And Earnings Beat Street Expectations, But Shares Still Plunge - Deadline",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      }
-    ],
-    "market": "US"
-  },
-  {
-    "ticker": "AMZN",
-    "name": "Amazon.com",
+    "ticker": "ARKG",
+    "name": "ARK Genomic Revolution ETF",
     "score": 5,
     "max": 12,
     "signals": [
-      "RSI oversold on DAILY",
       "\u2705 Golden Cross active",
       "\u2705 Above 200MA",
       "A/D rising \u2014 institutions loading",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+      "\ud83d\ude80 Testing Resistance: $42.70",
+      "\ud83d\udcc8 Uptrend: Higher Highs & Lows"
     ],
     "ma": {
-      "price": 239.95,
-      "ma50": 255.93,
-      "ma200": 232.82,
+      "price": 42.46,
+      "ma50": 32.5,
+      "ma200": 30.08,
       "ma_signal": "\u2705 Above 200MA",
       "cross": "\u2705 Golden Cross active"
     },
@@ -1165,6 +895,8 @@
       "signal": "\u2705 Institutions accumulating"
     },
     "patterns": [
+      "\ud83d\ude80 Testing Resistance: $42.70",
+      "\ud83d\udcc8 Uptrend: Higher Highs & Lows",
       "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
     "fundamentals": {},
@@ -1174,28 +906,29 @@
     "market": "US"
   },
   {
-    "ticker": "ARKK",
-    "name": "ARK Innovation ETF",
+    "ticker": "HACK",
+    "name": "ETFMG Prime Cyber Security",
     "score": 5,
     "max": 12,
     "signals": [
+      "\u2705 Golden Cross active",
       "\u2705 Above 200MA",
       "A/D rising \u2014 institutions loading",
-      "\ud83d\udcd0 Fib 38.2%: $78.50",
+      "\ud83d\udd0a Volume Spike: 2.2x",
       "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
     "ma": {
-      "price": 79.67,
-      "ma50": 77.5,
-      "ma200": 78.21,
+      "price": 102.89,
+      "ma50": 90.55,
+      "ma200": 83.53,
       "ma_signal": "\u2705 Above 200MA",
-      "near_200ma": "\ud83d\udccd At 200MA"
+      "cross": "\u2705 Golden Cross active"
     },
     "ad": {
       "signal": "\u2705 Institutions accumulating"
     },
     "patterns": [
-      "\ud83d\udcd0 Fib 38.2%: $78.50",
+      "\ud83d\udd0a Volume Spike: 2.2x",
       "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
     "fundamentals": {},
@@ -1205,21 +938,21 @@
     "market": "US"
   },
   {
-    "ticker": "ARKQ",
-    "name": "ARK Autonomous Tech ETF",
+    "ticker": "ROBT",
+    "name": "First Trust Nasdaq AI & Robotics",
     "score": 5,
     "max": 12,
     "signals": [
-      "RSI oversold on DAILY",
       "\u2705 Golden Cross active",
       "\u2705 Above 200MA",
       "A/D rising \u2014 institutions loading",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+      "\ud83d\udcd0 Fib 50.0%: $55.01",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
     "ma": {
-      "price": 126.88,
-      "ma50": 132.01,
-      "ma200": 121.5,
+      "price": 55.23,
+      "ma50": 54.43,
+      "ma200": 52.55,
       "ma_signal": "\u2705 Above 200MA",
       "cross": "\u2705 Golden Cross active"
     },
@@ -1227,7 +960,8 @@
       "signal": "\u2705 Institutions accumulating"
     },
     "patterns": [
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+      "\ud83d\udcd0 Fib 50.0%: $55.01",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
     "fundamentals": {},
     "buy_rating": "BUY",
@@ -1236,20 +970,21 @@
     "market": "US"
   },
   {
-    "ticker": "MU",
-    "name": "Micron Technology",
-    "score": 4,
+    "ticker": "AMAT",
+    "name": "Applied Materials",
+    "score": 5,
     "max": 12,
     "signals": [
       "\u2705 Golden Cross active",
       "\u2705 Above 200MA",
       "A/D rising \u2014 institutions loading",
+      "\ud83d\ude80 Testing Resistance: $708.99",
       "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
     "ma": {
-      "price": 1119.76,
-      "ma50": 815.39,
-      "ma200": 430.73,
+      "price": 698.12,
+      "ma50": 474.37,
+      "ma200": 332.03,
       "ma_signal": "\u2705 Above 200MA",
       "cross": "\u2705 Golden Cross active"
     },
@@ -1257,11 +992,12 @@
       "signal": "\u2705 Institutions accumulating"
     },
     "patterns": [
+      "\ud83d\ude80 Testing Resistance: $708.99",
       "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
     "fundamentals": {},
-    "buy_rating": "WATCH",
-    "conviction": "LOW",
+    "buy_rating": "BUY",
+    "conviction": "MEDIUM",
     "news_signals": [],
     "market": "US"
   },
@@ -1277,8 +1013,8 @@
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "ma": {
-      "price": 184.42,
-      "ma50": 176.69,
+      "price": 185.38,
+      "ma50": 176.71,
       "ma200": 150.89,
       "ma_signal": "\u2705 Above 200MA",
       "cross": "\u2705 Golden Cross active"
@@ -1296,54 +1032,155 @@
     "market": "US"
   },
   {
-    "ticker": "NVDA",
-    "name": "NVIDIA Corporation",
+    "ticker": "ARKK",
+    "name": "ARK Innovation ETF",
+    "score": 4,
+    "max": 12,
+    "signals": [
+      "\u2705 Above 200MA",
+      "A/D rising \u2014 institutions loading",
+      "\ud83d\ude80 Testing Resistance: $82.14",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "ma": {
+      "price": 80.71,
+      "ma50": 77.52,
+      "ma200": 78.21,
+      "ma_signal": "\u2705 Above 200MA"
+    },
+    "ad": {
+      "signal": "\u2705 Institutions accumulating"
+    },
+    "patterns": [
+      "\ud83d\ude80 Testing Resistance: $82.14",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "fundamentals": {},
+    "buy_rating": "WATCH",
+    "conviction": "LOW",
+    "news_signals": [],
+    "market": "US"
+  },
+  {
+    "ticker": "ARKQ",
+    "name": "ARK Autonomous Tech ETF",
+    "score": 4,
+    "max": 12,
+    "signals": [
+      "RSI oversold on DAILY",
+      "\u2705 Golden Cross active",
+      "\u2705 Above 200MA",
+      "A/D rising \u2014 institutions loading"
+    ],
+    "ma": {
+      "price": 128.35,
+      "ma50": 132.04,
+      "ma200": 121.5,
+      "ma_signal": "\u2705 Above 200MA",
+      "cross": "\u2705 Golden Cross active"
+    },
+    "ad": {
+      "signal": "\u2705 Institutions accumulating"
+    },
+    "patterns": [],
+    "fundamentals": {},
+    "buy_rating": "WATCH",
+    "conviction": "LOW",
+    "news_signals": [],
+    "market": "US"
+  },
+  {
+    "ticker": "WCLD",
+    "name": "WisdomTree Cloud Computing",
+    "score": 4,
+    "max": 12,
+    "signals": [
+      "\u2705 Above 200MA",
+      "A/D rising \u2014 institutions loading",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "ma": {
+      "price": 31.64,
+      "ma50": 29.74,
+      "ma200": 31.64,
+      "ma_signal": "\u2705 Above 200MA",
+      "near_200ma": "\ud83d\udccd At 200MA"
+    },
+    "ad": {
+      "signal": "\u2705 Institutions accumulating"
+    },
+    "patterns": [
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "fundamentals": {},
+    "buy_rating": "WATCH",
+    "conviction": "LOW",
+    "news_signals": [],
+    "market": "US"
+  },
+  {
+    "ticker": "MU",
+    "name": "Micron Technology",
+    "score": 4,
+    "max": 12,
+    "signals": [
+      "\u2705 Golden Cross active",
+      "\u2705 Above 200MA",
+      "A/D rising \u2014 institutions loading",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "ma": {
+      "price": 1138.0,
+      "ma50": 815.75,
+      "ma200": 430.83,
+      "ma_signal": "\u2705 Above 200MA",
+      "cross": "\u2705 Golden Cross active"
+    },
+    "ad": {
+      "signal": "\u2705 Institutions accumulating"
+    },
+    "patterns": [
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "fundamentals": {},
+    "buy_rating": "WATCH",
+    "conviction": "LOW",
+    "news_signals": [],
+    "market": "US"
+  },
+  {
+    "ticker": "ARKF",
+    "name": "ARK Fintech Innovation ETF",
     "score": 3,
     "max": 12,
     "signals": [
-      "RSI oversold on DAILY, WEEKLY",
-      "\u2705 Golden Cross active",
-      "\u2705 Above 200MA",
-      "\ud83d\udccd Near Support: $189.80",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+      "RSI oversold on WEEKLY",
+      "\u26a0\ufe0f Below 200MA",
+      "\ud83c\udf1f Fib 61.8%: $39.99",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
     "ma": {
-      "price": 193.08,
-      "ma50": 209.98,
-      "ma200": 190.72,
-      "ma_signal": "\u2705 Above 200MA",
-      "cross": "\u2705 Golden Cross active",
-      "near_200ma": "\ud83d\udccd At 200MA"
+      "price": 39.99,
+      "ma50": 41.0,
+      "ma200": 45.86,
+      "ma_signal": "\u26a0\ufe0f Below 200MA"
     },
     "ad": {
       "signal": "\u26a0\ufe0f A/D declining"
     },
     "patterns": [
-      "\ud83d\udccd Near Support: $189.80",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+      "\ud83c\udf1f Fib 61.8%: $39.99",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
     "fundamentals": {},
     "buy_rating": "WATCH",
     "conviction": "LOW",
-    "news_signals": [
-      {
-        "title": "Nvidia Stock Has Underperformed the Semiconductor Sector in 2026. Will It Skyrocket in the Second Half? - The Motley Fool",
-        "source": "News",
-        "score": -2,
-        "bear": true
-      },
-      {
-        "title": "Nvidia Stock Has Underperformed the Semiconductor Sector in 2026. Will It Skyrocket in the Second Half? - Yahoo Finance",
-        "source": "News",
-        "score": -2,
-        "bear": true
-      }
-    ],
+    "news_signals": [],
     "market": "US"
   },
   {
-    "ticker": "NOW",
-    "name": "ServiceNow",
+    "ticker": "IGV",
+    "name": "iShares Software ETF",
     "score": 3,
     "max": 12,
     "signals": [
@@ -1352,9 +1189,9 @@
       "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
     "ma": {
-      "price": 99.67,
-      "ma50": 99.84,
-      "ma200": 134.1,
+      "price": 90.01,
+      "ma50": 90.88,
+      "ma200": 97.31,
       "ma_signal": "\u26a0\ufe0f Below 200MA"
     },
     "ad": {
