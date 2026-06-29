@@ -281,7 +281,141 @@ def build_macro_context() -> dict:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# 4. TRADE MEMORY SYSTEM
+# 4. BALANCE SHEET ANALYSIS (SEC EDGAR XBRL)
+# ─────────────────────────────────────────────────────────────────────────────
+_CIK_MAP: dict = {}
+
+
+def _load_cik_map() -> dict:
+    global _CIK_MAP
+    if _CIK_MAP:
+        return _CIK_MAP
+    try:
+        r = requests.get(
+            "https://www.sec.gov/files/company_tickers.json",
+            headers={"User-Agent": "MeritQuant research@meritquant.com"},
+            timeout=15,
+        )
+        r.raise_for_status()
+        _CIK_MAP = {v["ticker"].upper(): str(v["cik_str"]) for v in r.json().values()}
+    except Exception as e:
+        log.warning(f"SEC CIK map: {e}")
+    return _CIK_MAP
+
+
+def _annual_trend(facts_json: dict, concept: str, n: int = 3) -> list:
+    """Return last n 10-K values for a US-GAAP concept, most recent first."""
+    try:
+        vals = (facts_json.get("facts", {})
+                          .get("us-gaap", {})
+                          .get(concept, {})
+                          .get("units", {})
+                          .get("USD", []))
+        annual = [v for v in vals
+                  if v.get("form") in ("10-K", "10-K/A") and v.get("val") is not None]
+        seen, out = set(), []
+        for v in sorted(annual, key=lambda x: x.get("end", ""), reverse=True):
+            yr = v["end"][:4]
+            if yr not in seen:
+                seen.add(yr)
+                out.append(v["val"])
+            if len(out) == n:
+                break
+        return out
+    except Exception:
+        return []
+
+
+def fetch_balance_sheet(ticker: str) -> dict:
+    """
+    Pull latest 10-K fundamentals from SEC EDGAR XBRL API.
+    Returns {} for ETFs / foreign names not in EDGAR.
+    Scores balance-sheet quality 0–10 on Buffett criteria.
+    """
+    cik = _load_cik_map().get(ticker.upper())
+    if not cik:
+        return {}
+    try:
+        url = f"https://data.sec.gov/api/xbrl/companyfacts/CIK{int(cik):010d}.json"
+        r = requests.get(
+            url,
+            headers={"User-Agent": "MeritQuant research@meritquant.com"},
+            timeout=20,
+        )
+        if r.status_code != 200:
+            return {}
+        facts = r.json()
+    except Exception as e:
+        log.warning(f"SEC EDGAR {ticker}: {e}")
+        return {}
+
+    def one(concept):
+        vals = _annual_trend(facts, concept, 1)
+        return vals[0] if vals else None
+
+    cash      = one("CashAndCashEquivalentsAtCarryingValue")
+    lt_debt   = one("LongTermDebt") or 0
+    st_debt   = one("ShortTermBorrowings") or one("ShortTermDebt") or 0
+    equity    = one("StockholdersEquity")
+    retained  = _annual_trend(facts, "RetainedEarningsAccumulatedDeficit", 3)
+    treasury  = one("TreasuryStockValue")
+    preferred = one("PreferredStockValue")
+
+    total_debt = (lt_debt or 0) + (st_debt or 0)
+    de_ratio   = (total_debt / equity) if (equity and equity > 0) else None
+
+    score = 0
+
+    # Cash adequacy (0–2)
+    if cash:
+        score += 2 if cash >= 5_000_000_000 else 1 if cash >= 500_000_000 else 0
+
+    # Leverage (0–2)
+    if de_ratio is not None:
+        score += 2 if de_ratio < 0.3 else 1 if de_ratio < 0.7 else 0
+    elif total_debt == 0 and equity and equity > 0:
+        score += 2
+
+    # Retained earnings positive (0–1)
+    if retained and retained[0] is not None and retained[0] > 0:
+        score += 1
+
+    # Retained earnings growing 2 consecutive years (0–2)
+    if len(retained) >= 2 and None not in retained[:2]:
+        if retained[0] > retained[1]:
+            score += 1
+    if len(retained) == 3 and None not in retained:
+        if retained[1] > retained[2]:
+            score += 1
+
+    # No preferred stock (0–1)
+    score += 1 if (preferred is None or preferred == 0) else 0
+
+    # Buybacks present (0–1)
+    score += 1 if (treasury and treasury > 0) else 0
+
+    # Positive equity (0–1)
+    score += 1 if (equity and equity > 0) else 0
+
+    score = min(score, 10)
+
+    return {
+        "ticker":     ticker,
+        "cash":       cash,
+        "total_debt": total_debt,
+        "lt_debt":    lt_debt,
+        "st_debt":    st_debt,
+        "equity":     equity,
+        "de_ratio":   round(de_ratio, 3) if de_ratio is not None else None,
+        "retained":   retained,
+        "buybacks":   bool(treasury and treasury > 0),
+        "preferred":  bool(preferred and preferred > 0),
+        "score":      score,
+    }
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 5. TRADE MEMORY SYSTEM
 # ─────────────────────────────────────────────────────────────────────────────
 def load_memory() -> dict:
     return load_json(MEMORY_FILE, {
@@ -423,12 +557,16 @@ def build_prompt(signals: list, macro: dict, portfolio: dict, memory: dict) -> s
         val = ind.get(key, {}).get("value")
         return f"{val:.2f}" if val is not None else "N/A"
 
-    macro_block = f"""MACRO ENVIRONMENT — {macro['regime']} REGIME
-{chr(10).join(f'  ▸ {r}' for r in macro.get('regime_reasons', []))}
-  VIX: {v('VIX')}  |  DXY: {v('DXY')}  |  SPY: ${v('SPY')}
-  Yield Curve (10Y-2Y): {v('T10Y2Y')}%  |  HY Credit Spread: {v('HY_SPREAD')}bps
-  10Y Treasury: {v('T10Y')}%  |  Fed Funds: {v('FED_RATE')}%"""
+    # ── Macro block ────────────────────────────────────────────────────────
+    macro_block = (
+        f"MACRO ENVIRONMENT — {macro['regime']} REGIME\n"
+        + "\n".join(f"  ▸ {r}" for r in macro.get("regime_reasons", []))
+        + f"\n  VIX: {v('VIX')}  |  DXY: {v('DXY')}  |  SPY: ${v('SPY')}"
+        f"\n  Yield Curve (10Y-2Y): {v('T10Y2Y')}%  |  HY Credit Spread: {v('HY_SPREAD')}bps"
+        f"\n  10Y Treasury: {v('T10Y')}%  |  2Y Treasury: {v('T2Y')}%  |  Fed Funds: {v('FED_RATE')}%"
+    )
 
+    # ── Portfolio block (with live SL/TP levels) ───────────────────────────
     positions = portfolio.get("positions", [])
     port_block = (
         f"Cash: ${portfolio.get('cash', 0):,.0f}  |  "
@@ -436,36 +574,57 @@ def build_prompt(signals: list, macro: dict, portfolio: dict, memory: dict) -> s
         f"Positions: {len(positions)}/{MAX_OPEN_POSITIONS}\n"
     )
     for p in positions:
+        entry = p.get("entry_price", 0)
+        curr  = p.get("current_price", entry)
+        sl    = entry * (1 - STOP_LOSS_PCT)
+        tp    = entry * (1 + TAKE_PROFIT_PCT)
         port_block += (
-            f"  {p['ticker']}: {p['shares']:.1f}sh @ ${p['entry_price']:.2f} → "
-            f"${p.get('current_price', p['entry_price']):.2f} | "
+            f"  {p['ticker']}: {p['shares']:.1f}sh @ ${entry:.2f} → ${curr:.2f} | "
+            f"SL ${sl:.2f} | TP ${tp:.2f} | "
             f"P&L {p.get('unrealised_pct', 0)*100:+.1f}% | "
             f"Thesis: {p.get('thesis_summary', '')[:60]}\n"
         )
 
+    # ── Signal block (scanner score + balance sheet + technical) ──────────
     top_signals = sorted(signals, key=lambda x: x.get("score", 0), reverse=True)[:12]
-    sig_block = "TOP SIGNALS FROM SCANNER:\n"
+    hdr = (f"  {'TICKER':<6} | {'Scan':>5} | {'RSI':>5} | {'BS':>5} | "
+           f"{'D/E':>5} | {'Cash$B':>7} | {'Sig':<4} | {'Sector':<16} | Headline")
+    sep = "  " + "-" * 110
+    rows = [hdr, sep]
     for s in top_signals:
-        sig_block += (
-            f"  {s.get('ticker','?'):6s} | Score {s.get('score',0):4.1f} | "
-            f"RSI {s.get('rsi','N/A'):5s} | {s.get('signal','?'):4s} | "
-            f"Sector: {s.get('sector','?'):15s} | "
-            f"{s.get('news_headline','')[:70]}\n"
+        bs_score = s.get("bs_score")
+        bs_str   = f"{bs_score}/10" if bs_score is not None else " N/A"
+        de_val   = s.get("bs_de")
+        de_str   = f"{de_val:.2f}" if de_val is not None else "  N/A"
+        cash_b   = s.get("bs_cash")
+        cash_str = f"${cash_b:.1f}B" if cash_b is not None else "    N/A"
+        try:
+            rsi_str = f"{float(s.get('rsi', 'N/A')):.1f}"
+        except (TypeError, ValueError):
+            rsi_str = "  N/A"
+        rows.append(
+            f"  {s.get('ticker','?'):<6} | {s.get('score',0):5.1f} | {rsi_str:>5} | "
+            f"{bs_str:>5} | {de_str:>5} | {cash_str:>7} | "
+            f"{s.get('signal','?'):<4} | {s.get('sector','?'):<16} | "
+            f"{s.get('news_headline','')[:65]}"
         )
+    sig_block = "TOP SIGNALS (Scanner → Balance Sheet → Technical):\n" + "\n".join(rows)
 
     window = "PRE-CLOSE (3:30 PM ET)" if datetime.utcnow().hour >= 19 else "OPEN (9:35 AM ET)"
 
-    return f"""You are MeritQuant's autonomous AI portfolio manager — institutional grade, Goldman Sachs calibre.
-Portfolio: ${PORTFOLIO_SIZE:,.0f} paper mirror of a real NGO trust. Trade window: {window}.
+    return f"""You are the Head of Quantitative Equity Strategy at MeritQuant — managing a ${PORTFOLIO_SIZE:,.0f} institutional paper portfolio modelled on an NGO endowment trust. Trade window: {window}.
 
-FRAMEWORK:
-- Buffett balance sheet discipline + macro catalyst ID + technical confirmation
-- RSI, moving averages, chart patterns as entry/exit triggers
-- Max {MAX_POSITION_PCT*100:.0f}% per position (${MAX_POSITION_USD:,.0f}) | Max {MAX_OPEN_POSITIONS} concurrent
-- Stop loss: {STOP_LOSS_PCT*100:.0f}% | Take profit: {TAKE_PROFIT_PCT*100:.0f}%
-- Min conviction score to trade: {MIN_CONVICTION}/10
-- DO NOT enter in RISK-OFF regime unless position is a hedge (VXX, GLD, TLT)
-- NEVER chase momentum — catalyst + chart must both confirm
+INVESTMENT MANDATE:
+- Buffett balance-sheet discipline: prefer cash-rich, low-leverage compounders (BS score ≥ 6/10).
+- Macro catalyst identification: every ENTER must cite a named, dated catalyst with a quantified magnitude.
+- Technical confirmation: entry only when RSI, moving averages, and chart pattern align — cite exact levels.
+- Max {MAX_POSITION_PCT*100:.0f}% per position (${MAX_POSITION_USD:,.0f}). Max {MAX_OPEN_POSITIONS} concurrent positions.
+- Stop loss: {STOP_LOSS_PCT*100:.0f}% below entry. Take profit: {TAKE_PROFIT_PCT*100:.0f}% above entry.
+- Minimum conviction: {MIN_CONVICTION}/10 — below threshold hold cash, never force a trade.
+- RISK-OFF regime: only hedges (VXX, GLD, TLT, SH). No long equity.
+- Sector overlap: do not duplicate sector exposure across open positions.
+- Risk-reward floor: minimum 2.0:1 required on all new entries. Reject any trade below this.
+- BANNED phrases: "strong fundamentals", "supportive macro", "well-positioned", "solid balance sheet" — every sentence must contain a specific number or named event.
 
 {macro_block}
 
@@ -476,16 +635,19 @@ PORTFOLIO STATE:
 TRADE MEMORY:
 {memory_to_prompt(memory)}
 
-TASK:
-1. Read macro regime. If RISK-OFF, only hedges allowed.
-2. Review signals against existing positions. Avoid sector overlap.
-3. Decide: ENTER (new position), HOLD (existing), or EXIT (thesis broken/hit target).
-4. Apply memory lessons — no repeating documented mistakes.
-5. For each action provide full structured rationale.
+ANALYTICAL CHECKLIST — every ENTER action must satisfy ALL 8 points:
+1. MACRO CATALYST: Name the specific event with probability or magnitude (e.g., "CME FedWatch 74% Sep pause", "PCE YoY printed +2.6% vs 2.9% prior").
+2. COMPANY CATALYST: Exact EPS/revenue figure vs. estimate and beat % (e.g., "Q2 EPS $2.34 vs $2.10 est, +11.4% beat").
+3. TECHNICAL: Exact RSI value, named chart pattern, 50-day MA price, 200-day MA price, volume context.
+4. BALANCE SHEET: Exact cash ($XB), total debt ($XB), D/E ratio to 2 decimal places, retained earnings 3-year trend ($XB / $YB / $ZB), buybacks Y/N.
+5. PRICE LEVELS: entry_price, stop_price (entry × {1-STOP_LOSS_PCT:.2f}), target_price (entry × {1+TAKE_PROFIT_PCT:.2f}) — all as specific dollar values.
+6. RISK-REWARD: (target − entry) ÷ (entry − stop) ≥ 2.0. Compute and state the number.
+7. SECTOR: Name the sector, portfolio weight after trade vs. S&P 500 sector weight, flag if >2× index weight.
+8. DOWNSIDE SCENARIO: One specific quantified risk (e.g., "If PCE re-accelerates above 3.2%, growth multiple compression 15–20% implies $X.XX downside").
 
 RESPOND ONLY with valid JSON — no preamble, no markdown fences:
 {{
-  "market_assessment": "2-3 sentence macro read",
+  "market_assessment": "2–3 sentences citing specific indicators: exact VIX level, yield curve spread in bps, HY spread in bps, and named macro data point with figure.",
   "regime": "RISK-ON|RISK-OFF|NEUTRAL|CAUTION",
   "actions": [
     {{
@@ -493,15 +655,21 @@ RESPOND ONLY with valid JSON — no preamble, no markdown fences:
       "action": "ENTER|EXIT|HOLD",
       "position_size_usd": 18000,
       "conviction": 8,
-      "thesis": "5-7 sentence investment case covering: (1) specific macro tailwind, (2) company-level catalyst with exact data points, (3) technical setup with precise RSI level and pattern, (4) position sizing rationale, (5) primary risk and how it is being managed.",
-      "catalyst": "Primary catalyst.",
-      "technical_setup": "RSI level, pattern, MA alignment.",
-      "risk_factors": "Key risks.",
+      "entry_price": 0.00,
+      "stop_price": 0.00,
+      "target_price": 0.00,
+      "risk_reward_ratio": 0.0,
+      "thesis": "7 sentences — each must contain a specific number or named catalyst: (1) macro tailwind with exact data point and source, (2) company catalyst with precise EPS/revenue beat, (3) RSI exact value and named pattern name, (4) 50-day and 200-day MA prices confirming trend, (5) balance sheet — cash vs. total debt and D/E ratio, (6) retained earnings 3-year trajectory and what it signals, (7) primary downside scenario with quantified price impact and how stop at $X.XX contains the loss.",
+      "catalyst": "Single named catalyst with exact figure, date, and why it is a near-term price driver.",
+      "technical_setup": "RSI X.X, pattern name, price vs. 50-day $X.XX and 200-day $Y.YY, volume X% above 20-day avg.",
+      "balance_sheet_read": "Cash $X.XB, total debt $Y.YB, D/E Z.ZZ, retained earnings $AB/$BB/$CB (3yr most-recent-first), buybacks Y/N, preferred Y/N, BS score N/10.",
+      "sector_positioning": "Sector name. Portfolio sector weight after trade X.X% vs. SPX weight Y.Y%. Concentration flag: Y/N.",
+      "risk_factors": "Named risk with specific quantified scenario and the exact dollar stop that limits the loss.",
       "tier": "1|2|3|4"
     }}
   ],
-  "portfolio_notes": "Overall portfolio management comment.",
-  "memory_applied": "Which past lessons influenced decisions today."
+  "portfolio_notes": "Cash reserve %, sector concentration summary with weights, and overall risk posture — all with specific numbers.",
+  "memory_applied": "Which past lessons influenced today — cite specific ticker and date if applicable."
 }}"""
 
 def call_claude(prompt: str) -> Optional[dict]:
@@ -929,6 +1097,20 @@ def main():
 
     # Build macro context
     macro = build_macro_context()
+
+    # Enrich signals with SEC EDGAR balance sheet data
+    log.info("Fetching balance sheet data from SEC EDGAR...")
+    _load_cik_map()  # pre-warm CIK map with a single HTTP request
+    for s in signals:
+        bs = fetch_balance_sheet(s.get("ticker", ""))
+        if bs:
+            s["bs_score"] = bs["score"]
+            s["bs_cash"]  = round(bs["cash"] / 1e9, 2) if bs.get("cash") else None
+            s["bs_de"]    = bs.get("de_ratio")
+            s["bs_re"]    = bs.get("retained", [])
+        else:
+            s["bs_score"] = None   # ETF / foreign / not in EDGAR
+        time.sleep(0.15)  # respect SEC EDGAR rate limits
 
     # Refresh prices on open positions
     portfolio = update_prices(portfolio)
