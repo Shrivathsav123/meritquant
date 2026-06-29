@@ -20,7 +20,7 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import inch
 from reportlab.platypus import (SimpleDocTemplate, Paragraph, Spacer,
                                  Table, TableStyle, HRFlowable)
-from reportlab.lib.enums import TA_CENTER
+from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY, TA_RIGHT
 import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment
 
@@ -812,253 +812,531 @@ def _parse_thesis_points(thesis: str) -> list:
 
 def build_pdf(decision: dict, portfolio: dict, macro: dict,
               actions: list, auto_exits: list) -> bytes:
+    """Goldman Sachs-style institutional trade report."""
     buf = io.BytesIO()
     doc = SimpleDocTemplate(buf, pagesize=letter,
-                            leftMargin=0.85*inch, rightMargin=0.85*inch,
-                            topMargin=0.85*inch, bottomMargin=0.85*inch)
-    styles = getSampleStyleSheet()
+                            leftMargin=0.65*inch, rightMargin=0.65*inch,
+                            topMargin=0.6*inch, bottomMargin=0.6*inch)
 
-    # ── Type scale ─────────────────────────────────────────────────────────
-    W = 6.8 * inch  # usable width
+    # ── Colour palette ────────────────────────────────────────────────────────
+    NAVY  = colors.HexColor("#0d1f3c")
+    BLUE  = colors.HexColor("#1a4a8a")
+    BLUE2 = colors.HexColor("#2a6db5")
+    GOLD  = colors.HexColor("#b8962e")
+    GREEN = colors.HexColor("#1a6e3e")
+    RED   = colors.HexColor("#9e2020")
+    AMBER = colors.HexColor("#b86e00")
+    LIGHT = colors.HexColor("#f0f4f9")
+    CARD  = colors.HexColor("#f8faff")
+    GREY  = colors.HexColor("#6b7280")
+    WHITE = colors.white
+    BLACK = colors.HexColor("#111827")
 
-    title_s = ParagraphStyle("title", parent=styles["Normal"],
-                              fontSize=20, textColor=NAVY, spaceAfter=2,
-                              fontName="Helvetica-Bold")
-    sub_s   = ParagraphStyle("sub",   parent=styles["Normal"],
-                              fontSize=10, textColor=BLUE, spaceAfter=14)
-    h2_s    = ParagraphStyle("h2",    parent=styles["Normal"],
-                              fontSize=11, textColor=NAVY,
-                              spaceBefore=22, spaceAfter=8,
-                              fontName="Helvetica-Bold")
-    body    = ParagraphStyle("body",  parent=styles["Normal"],
-                              fontSize=9, leading=15, textColor=BODY_TEXT)
-    label_s = ParagraphStyle("lbl",   parent=styles["Normal"],
-                              fontSize=7.5, textColor=BLUE,
-                              fontName="Helvetica-Bold",
-                              spaceBefore=10, spaceAfter=3,
-                              leading=10)
-    bullet_s= ParagraphStyle("blt",   parent=styles["Normal"],
-                              fontSize=9, leading=15, textColor=BODY_TEXT,
-                              leftIndent=14, spaceBefore=3)
-    small   = ParagraphStyle("small", parent=styles["Normal"],
-                              fontSize=7.5, textColor=colors.grey,
-                              alignment=TA_CENTER)
+    # ── Style factory ─────────────────────────────────────────────────────────
+    SS = getSampleStyleSheet()
+    def S(name, **kw):
+        return ParagraphStyle(name, parent=SS["Normal"], **kw)
 
-    now_str = datetime.utcnow().strftime("%d %b %Y · %H:%M UTC")
-    window  = "PRE-CLOSE · 3:30 PM ET" if datetime.utcnow().hour >= 19 else "OPEN · 9:35 AM ET"
-    regime  = decision.get("regime", macro.get("regime", "NEUTRAL"))
-    rc = {"RISK-ON": GREEN, "RISK-OFF": RED, "CAUTION": AMBER}.get(regime, BLUE)
+    body_s = S("body", fontName="Helvetica", fontSize=8.5, textColor=BLACK,
+               leading=13, spaceAfter=0, alignment=TA_JUSTIFY)
 
-    # ── Header ─────────────────────────────────────────────────────────────
-    story = [
-        Paragraph("MeritQuant — Autonomous Trade Report", title_s),
-        Paragraph(f"{window}  ·  {now_str}", sub_s),
-        HRFlowable(width="100%", thickness=2, color=BLUE),
-        Spacer(1, 14),
-    ]
+    story    = []
+    now_str  = datetime.utcnow().strftime("%d %b %Y · %H:%M UTC")
+    window   = "PRE-CLOSE · 3:30 PM ET" if datetime.utcnow().hour >= 19 else "OPEN · 9:35 AM ET"
+    regime   = decision.get("regime", macro.get("regime", "NEUTRAL"))
+    rc_map   = {"RISK-ON": GREEN, "RISK-OFF": RED, "CAUTION": AMBER}
+    rc       = rc_map.get(regime, BLUE2)
+    ind      = macro.get("indicators", {})
+    port_val = portfolio.get("total_value", 0)
+    cash     = portfolio.get("cash", 0)
+    pnl      = port_val - 183_000
+    pnl_pct  = (pnl / 183_000) * 100
+    pos_list = portfolio.get("positions", [])
 
-    # ── Market Assessment ──────────────────────────────────────────────────
-    story.append(Paragraph("Market Assessment", h2_s))
-    story.append(Paragraph(decision.get("market_assessment", "—"), body))
-    story.append(Spacer(1, 10))
-    story.append(Table(
-        [[Paragraph(f"<b>REGIME: {regime}</b>",
-                    ParagraphStyle("rp", parent=body, textColor=rc,
-                                   fontName="Helvetica-Bold", fontSize=10))]],
-        colWidths=[W],
-        style=[("BACKGROUND", (0,0), (-1,-1), LIGHT),
-               ("LINEBELOW",  (0,0), (-1,-1), 3, rc),
-               ("TOPPADDING", (0,0), (-1,-1), 10),
-               ("BOTTOMPADDING", (0,0), (-1,-1), 10),
-               ("LEFTPADDING",  (0,0), (-1,-1), 14)]))
-    story.append(Spacer(1, 18))
-
-    # ── Macro Snapshot ─────────────────────────────────────────────────────
-    ind = macro.get("indicators", {})
     def iv(k):
-        val = ind.get(k, {}).get("value")
-        return f"{val:.2f}" if val is not None else "—"
+        v = ind.get(k, {}).get("value")
+        return f"{v:.2f}" if v is not None else "—"
 
-    story.append(Paragraph("Macro Snapshot", h2_s))
-    mt = Table([
-        ["Indicator",          "Value",        "Indicator",          "Value"],
-        ["VIX",                iv("VIX"),      "US Dollar (DXY)",    iv("DXY")],
-        ["Yield Curve 10Y-2Y", iv("T10Y2Y"),   "HY Credit (bps)",    iv("HY_SPREAD")],
-        ["10Y Treasury (%)",   iv("T10Y"),     "Fed Funds Rate (%)", iv("FED_RATE")],
-    ], colWidths=[2.2*inch, 1.2*inch, 2.2*inch, 1.2*inch])
-    mt.setStyle(TableStyle([
-        ("BACKGROUND",    (0,0), (-1, 0), NAVY),
-        ("TEXTCOLOR",     (0,0), (-1, 0), colors.white),
-        ("FONTNAME",      (0,0), (-1, 0), "Helvetica-Bold"),
-        ("FONTSIZE",      (0,0), (-1,-1), 8.5),
-        ("GRID",          (0,0), (-1,-1), 0.4, RULE),
-        ("ROWBACKGROUNDS",(0,1), (-1,-1), [colors.white, LIGHT]),
-        ("TOPPADDING",    (0,0), (-1,-1), 7),
-        ("BOTTOMPADDING", (0,0), (-1,-1), 7),
+    # ── COVER HEADER ──────────────────────────────────────────────────────────
+    header_data = [[
+        Paragraph("MeritQuant", S("ht", fontName="Helvetica-Bold", fontSize=22,
+                                   textColor=WHITE, spaceAfter=0)),
+        Paragraph(f"Autonomous Trade Report<br/><font size='9' color='#a0b8d4'>{window} · {now_str}</font>",
+                  S("hs", fontName="Helvetica", fontSize=13, textColor=WHITE,
+                    spaceAfter=0, leading=18)),
+    ]]
+    ht = Table(header_data, colWidths=[2.8*inch, 4.6*inch])
+    ht.setStyle(TableStyle([
+        ("BACKGROUND",    (0,0), (-1,-1), NAVY),
+        ("TOPPADDING",    (0,0), (-1,-1), 18),
+        ("BOTTOMPADDING", (0,0), (-1,-1), 18),
+        ("LEFTPADDING",   (0,0), (0,-1),  16),
+        ("LEFTPADDING",   (1,0), (1,-1),  10),
+        ("VALIGN",        (0,0), (-1,-1), "MIDDLE"),
+    ]))
+    story.append(ht)
+    story.append(Table([[""]], colWidths=[7.45*inch],
+                       style=[("BACKGROUND",    (0,0), (-1,-1), GOLD),
+                              ("TOPPADDING",    (0,0), (-1,-1), 1),
+                              ("BOTTOMPADDING", (0,0), (-1,-1), 1)]))
+    story.append(Spacer(1, 10))
+
+    # ── KPI ROW ───────────────────────────────────────────────────────────────
+    pnl_col  = GREEN if pnl >= 0 else RED
+    cash_pct = (cash / port_val * 100) if port_val else 0
+    kpi_vals = [
+        ("PORTFOLIO VALUE", f"${port_val:,.0f}", NAVY),
+        ("NET P&L vs COST", f"{'+'if pnl>=0 else ''}{pnl:,.0f} ({pnl_pct:+.2f}%)", pnl_col),
+        ("CASH RESERVE",    f"${cash:,.0f} ({cash_pct:.1f}%)", BLUE),
+        ("POSITIONS",       f"{len(pos_list)} / 6", NAVY),
+        ("REGIME",          regime, rc),
+    ]
+    kpi_cells = []
+    for lbl, v, col in kpi_vals:
+        kpi_cells.append(
+            Table([[Paragraph(lbl, S(f"kl{lbl}", fontName="Helvetica-Bold", fontSize=6.5,
+                                     textColor=GREY, letterSpacing=1, spaceAfter=2))],
+                   [Paragraph(v,   S(f"kv{lbl}", fontName="Helvetica-Bold", fontSize=11,
+                                     textColor=col, spaceAfter=0))]],
+                  colWidths=[1.38*inch],
+                  style=[("BACKGROUND",    (0,0), (-1,-1), CARD),
+                         ("BOX",           (0,0), (-1,-1), 0.5, colors.HexColor("#dde8f5")),
+                         ("TOPPADDING",    (0,0), (-1,-1), 9),
+                         ("BOTTOMPADDING", (0,0), (-1,-1), 9),
+                         ("LEFTPADDING",   (0,0), (-1,-1), 10)])
+        )
+    kpi_row = Table([kpi_cells], colWidths=[1.49*inch]*5)
+    kpi_row.setStyle(TableStyle([
+        ("TOPPADDING",    (0,0), (-1,-1), 0), ("BOTTOMPADDING", (0,0), (-1,-1), 0),
+        ("LEFTPADDING",   (0,0), (-1,-1), 0), ("RIGHTPADDING",  (0,0), (-1,-1), 4),
+    ]))
+    story.append(kpi_row)
+    story.append(Spacer(1, 12))
+
+    # ── MARKET ASSESSMENT ─────────────────────────────────────────────────────
+    assess_text = decision.get("market_assessment", "—")
+    assess_box  = Table([[
+        Paragraph("MARKET ASSESSMENT", S("mah", fontName="Helvetica-Bold", fontSize=7,
+                                          textColor=BLUE2, letterSpacing=2, spaceAfter=4)),
+        Paragraph(regime, S("reg", fontName="Helvetica-Bold", fontSize=8,
+                             textColor=rc, spaceAfter=0)),
+    ],[
+        Paragraph(assess_text, body_s), "",
+    ]], colWidths=[5.8*inch, 1.5*inch])
+    assess_box.setStyle(TableStyle([
+        ("SPAN",          (0,1), (1,1)),
+        ("BACKGROUND",    (0,0), (-1,-1), CARD),
+        ("BOX",           (0,0), (-1,-1), 0.8, BLUE2),
+        ("LINEBEFORE",    (0,0), (0,-1),  3, BLUE2),
+        ("TOPPADDING",    (0,0), (-1,-1), 10), ("BOTTOMPADDING", (0,0), (-1,-1), 10),
+        ("LEFTPADDING",   (0,0), (-1,-1), 12), ("RIGHTPADDING",  (0,0), (-1,-1), 10),
+        ("VALIGN",        (0,0), (-1,-1), "TOP"),
+    ]))
+    story.append(assess_box)
+    story.append(Spacer(1, 10))
+
+    # ── MACRO SNAPSHOT ────────────────────────────────────────────────────────
+    macro_hdr = Table([["INDICATOR", "VALUE", "INDICATOR", "VALUE"]],
+                      colWidths=[1.95*inch, 0.8*inch, 1.95*inch, 0.8*inch])
+    macro_hdr.setStyle(TableStyle([
+        ("BACKGROUND",    (0,0), (-1,-1), NAVY), ("TEXTCOLOR", (0,0), (-1,-1), WHITE),
+        ("FONTNAME",      (0,0), (-1,-1), "Helvetica-Bold"), ("FONTSIZE", (0,0), (-1,-1), 7),
+        ("TOPPADDING",    (0,0), (-1,-1), 5), ("BOTTOMPADDING", (0,0), (-1,-1), 5),
         ("LEFTPADDING",   (0,0), (-1,-1), 8),
     ]))
-    story += [mt, Spacer(1, 20)]
+    macro_rows = [
+        ["VIX",                    iv("VIX"),    "HY Credit Spread (bps)", iv("HY_SPREAD")],
+        ["Yield Curve 10Y-2Y (%)", iv("T10Y2Y"), "10Y Treasury (%)",       iv("T10Y")],
+        ["US Dollar (DXY)",        iv("DXY"),    "Fed Funds Rate (%)",     iv("FED_RATE")],
+    ]
+    macro_body = Table(macro_rows, colWidths=[1.95*inch, 0.8*inch, 1.95*inch, 0.8*inch])
+    macro_body.setStyle(TableStyle([
+        ("FONTNAME",       (0,0), (-1,-1), "Helvetica"), ("FONTSIZE", (0,0), (-1,-1), 8),
+        ("FONTNAME",       (1,0), (1,-1),  "Helvetica-Bold"),
+        ("FONTNAME",       (3,0), (3,-1),  "Helvetica-Bold"),
+        ("TEXTCOLOR",      (1,0), (1,-1),  NAVY), ("TEXTCOLOR", (3,0), (3,-1), NAVY),
+        ("ROWBACKGROUNDS", (0,0), (-1,-1), [WHITE, CARD]),
+        ("GRID",           (0,0), (-1,-1), 0.4, colors.HexColor("#dde8f5")),
+        ("TOPPADDING",     (0,0), (-1,-1), 5), ("BOTTOMPADDING", (0,0), (-1,-1), 5),
+        ("LEFTPADDING",    (0,0), (-1,-1), 8),
+    ]))
+    story.append(macro_hdr)
+    story.append(macro_body)
+    story.append(Spacer(1, 12))
 
-    # ── Trade Decisions ────────────────────────────────────────────────────
+    # ── TRADE DECISIONS ───────────────────────────────────────────────────────
     if actions:
-        story.append(Paragraph("Trade Decisions", h2_s))
+        story.append(Table([["TRADE DECISIONS"]], colWidths=[7.45*inch],
+                           style=[("BACKGROUND",    (0,0), (-1,-1), NAVY),
+                                  ("TEXTCOLOR",     (0,0), (-1,-1), WHITE),
+                                  ("FONTNAME",      (0,0), (-1,-1), "Helvetica-Bold"),
+                                  ("FONTSIZE",      (0,0), (-1,-1), 8),
+                                  ("TOPPADDING",    (0,0), (-1,-1), 7),
+                                  ("BOTTOMPADDING", (0,0), (-1,-1), 7),
+                                  ("LEFTPADDING",   (0,0), (-1,-1), 12)]))
+        story.append(Spacer(1, 4))
+
         for a in actions:
             act    = a.get("action", "")
             ticker = a.get("ticker", "")
-            ac     = GREEN if act == "ENTER" else RED if act == "EXIT" else BLUE
-            conv   = a.get("conviction", "—")
-            tier   = a.get("tier", "?")
             size   = a.get("position_size_usd", 0)
-            ep     = a.get("entry_price")
-            sp     = a.get("stop_price")
-            tp     = a.get("target_price")
-            rr     = a.get("risk_reward_ratio")
+            conv   = a.get("conviction", 0)
+            tier   = a.get("tier", "?")
+            thesis = a.get("thesis", "—")
+            cat    = a.get("catalyst", "—")
+            tech   = a.get("technical_setup", "—")
+            risk   = a.get("risk_factors", "—")
+            bs     = a.get("balance_sheet_read", "—")
+            entry  = a.get("entry_price", 0)
+            stop   = a.get("stop_price", 0)
+            target = a.get("target_price", 0)
+            rr     = a.get("risk_reward_ratio", "—")
+            ac     = GREEN if act == "ENTER" else RED if act == "EXIT" else BLUE2
 
-            # Action header bar
-            meta_right = f"${size:,.0f}  ·  Conv <b>{conv}/10</b>  ·  Tier <b>{tier}</b>"
-            story.append(Table(
-                [[Paragraph(f"<b>{act} — {ticker}</b>",
-                            ParagraphStyle("ah", parent=body, textColor=ac,
-                                           fontName="Helvetica-Bold", fontSize=12)),
-                  Paragraph(meta_right,
-                            ParagraphStyle("am", parent=body, alignment=2, fontSize=9))]],
-                colWidths=[3.6*inch, 3.2*inch],
-                style=[("BACKGROUND",    (0,0), (-1,-1), LIGHT),
-                       ("LINEBELOW",     (0,0), (-1,-1), 2.5, ac),
-                       ("TOPPADDING",    (0,0), (-1,-1), 10),
-                       ("BOTTOMPADDING", (0,0), (-1,-1), 10),
-                       ("LEFTPADDING",   (0,0), (0, -1), 12),
-                       ("RIGHTPADDING",  (-1,0),(-1,-1), 12)]))
+            # Action banner
+            story.append(Table([[
+                Paragraph(f"{act} — {ticker}", S("ab", fontName="Helvetica-Bold",
+                                                   fontSize=13, textColor=WHITE, spaceAfter=0)),
+                Paragraph(f"${size:,.0f} · Conviction {conv}/10 · Tier {tier}",
+                          S("am", fontName="Helvetica", fontSize=9,
+                            textColor=WHITE, spaceAfter=0, alignment=TA_RIGHT)),
+            ]], colWidths=[4*inch, 3.45*inch],
+                style=[("BACKGROUND",    (0,0), (-1,-1), ac),
+                       ("TOPPADDING",    (0,0), (-1,-1), 9), ("BOTTOMPADDING", (0,0), (-1,-1), 9),
+                       ("LEFTPADDING",   (0,0), (-1,-1), 12), ("RIGHTPADDING",  (0,0), (-1,-1), 12),
+                       ("VALIGN",        (0,0), (-1,-1), "MIDDLE")]))
 
-            # Price levels row (only for ENTER)
-            if act == "ENTER" and any(x is not None for x in [ep, sp, tp]):
-                ep_str = f"${ep:.2f}" if ep else "—"
-                sp_str = f"${sp:.2f}" if sp else "—"
-                tp_str = f"${tp:.2f}" if tp else "—"
-                rr_str = f"{rr:.1f}:1" if rr else "—"
-                price_data = [[
-                    Paragraph(f"<b>Entry</b><br/>{ep_str}",
-                              ParagraphStyle("pc", parent=body, alignment=1, fontSize=8.5)),
-                    Paragraph(f"<b>Stop (−8%)</b><br/>{sp_str}",
-                              ParagraphStyle("pc", parent=body, alignment=1, fontSize=8.5,
-                                             textColor=RED)),
-                    Paragraph(f"<b>Target (+20%)</b><br/>{tp_str}",
-                              ParagraphStyle("pc", parent=body, alignment=1, fontSize=8.5,
-                                             textColor=GREEN)),
-                    Paragraph(f"<b>Risk-Reward</b><br/>{rr_str}",
-                              ParagraphStyle("pc", parent=body, alignment=1, fontSize=8.5)),
-                ]]
-                story.append(Table(price_data, colWidths=[W/4]*4,
-                    style=[("GRID",         (0,0), (-1,-1), 0.4, RULE),
-                           ("BACKGROUND",   (0,0), (-1,-1), colors.white),
-                           ("TOPPADDING",   (0,0), (-1,-1), 8),
-                           ("BOTTOMPADDING",(0,0), (-1,-1), 8)]))
+            # Price row
+            if any([entry, stop, target]):
+                pr_cells = []
+                for lbl, pval, col in [
+                    ("ENTRY",         f"${entry:.2f}" if entry else "—",  NAVY),
+                    ("STOP LOSS",     f"${stop:.2f}"  if stop  else "—",  RED),
+                    ("PRICE TARGET",  f"${target:.2f}" if target else "—", GREEN),
+                    ("RISK : REWARD", str(rr), BLUE2),
+                ]:
+                    pr_cells.append(Table([[
+                        Paragraph(lbl, S(f"prl{lbl}", fontName="Helvetica-Bold",
+                                          fontSize=6.5, textColor=GREY, letterSpacing=1, spaceAfter=2))
+                    ],[
+                        Paragraph(pval, S(f"prv{lbl}", fontName="Helvetica-Bold",
+                                           fontSize=11, textColor=col, spaceAfter=0))
+                    ]], colWidths=[1.85*inch],
+                        style=[("BACKGROUND",    (0,0), (-1,-1), CARD),
+                               ("TOPPADDING",    (0,0), (-1,-1), 7),
+                               ("BOTTOMPADDING", (0,0), (-1,-1), 7),
+                               ("LEFTPADDING",   (0,0), (-1,-1), 10),
+                               ("BOX",           (0,0), (-1,-1), 0.4, colors.HexColor("#dde8f5"))]))
+                story.append(Table([pr_cells], colWidths=[1.865*inch]*4,
+                                   style=[("TOPPADDING",    (0,0), (-1,-1), 0),
+                                          ("BOTTOMPADDING", (0,0), (-1,-1), 0),
+                                          ("LEFTPADDING",   (0,0), (-1,-1), 0),
+                                          ("RIGHTPADDING",  (0,0), (-1,-1), 0)]))
 
+            # Section block helper
+            def section_block(label, text, border_col=BLUE2):
+                return Table([[
+                    Paragraph(label, S(f"sl{label}", fontName="Helvetica-Bold", fontSize=7,
+                                       textColor=border_col, letterSpacing=1.5, spaceAfter=3))
+                ],[
+                    Paragraph(text, body_s),
+                ]], colWidths=[7.45*inch],
+                    style=[("BACKGROUND",    (0,0), (-1,-1), CARD),
+                           ("LINEBEFORE",    (0,0), (0,-1),  3, border_col),
+                           ("TOPPADDING",    (0,0), (0, 0),  8), ("BOTTOMPADDING", (0,0), (0,0), 2),
+                           ("TOPPADDING",    (0,1), (0, 1),  4), ("BOTTOMPADDING", (0,1), (0,1), 8),
+                           ("LEFTPADDING",   (0,0), (-1,-1), 12), ("RIGHTPADDING",  (0,0), (-1,-1), 12)])
+
+            story.append(Spacer(1, 2))
+            story.append(section_block("INVESTMENT THESIS", thesis, BLUE2))
+            story.append(Spacer(1, 2))
+            story.append(section_block("PRIMARY CATALYST", cat, GOLD))
+            story.append(Spacer(1, 2))
+
+            # Balance sheet + Technical side by side
+            bs_block = Table([[
+                Paragraph("BALANCE SHEET", S("bsl", fontName="Helvetica-Bold", fontSize=7,
+                                              textColor=GREEN, letterSpacing=1.5, spaceAfter=3))
+            ],[
+                Paragraph(bs, S("bsb", fontName="Helvetica", fontSize=8.5,
+                                 textColor=BLACK, leading=13, spaceAfter=0))
+            ]], colWidths=[3.6*inch],
+                style=[("BACKGROUND",    (0,0), (-1,-1), CARD),
+                       ("LINEBEFORE",    (0,0), (0,-1),  3, GREEN),
+                       ("TOPPADDING",    (0,0), (0, 0),  8), ("BOTTOMPADDING", (0,0), (0,0), 2),
+                       ("TOPPADDING",    (0,1), (0, 1),  4), ("BOTTOMPADDING", (0,1), (0,1), 8),
+                       ("LEFTPADDING",   (0,0), (-1,-1), 12)])
+            tech_block = Table([[
+                Paragraph("TECHNICAL SETUP", S("tsl", fontName="Helvetica-Bold", fontSize=7,
+                                               textColor=AMBER, letterSpacing=1.5, spaceAfter=3))
+            ],[
+                Paragraph(tech, S("tsb", fontName="Helvetica", fontSize=8.5,
+                                   textColor=BLACK, leading=13, spaceAfter=0))
+            ]], colWidths=[3.65*inch],
+                style=[("BACKGROUND",    (0,0), (-1,-1), CARD),
+                       ("LINEBEFORE",    (0,0), (0,-1),  3, AMBER),
+                       ("TOPPADDING",    (0,0), (0, 0),  8), ("BOTTOMPADDING", (0,0), (0,0), 2),
+                       ("TOPPADDING",    (0,1), (0, 1),  4), ("BOTTOMPADDING", (0,1), (0,1), 8),
+                       ("LEFTPADDING",   (0,0), (-1,-1), 12)])
+            story.append(Table([[bs_block, tech_block]],
+                               colWidths=[3.72*inch, 3.73*inch],
+                               style=[("TOPPADDING",    (0,0), (-1,-1), 0),
+                                      ("BOTTOMPADDING", (0,0), (-1,-1), 0),
+                                      ("LEFTPADDING",   (0,0), (-1,-1), 0),
+                                      ("RIGHTPADDING",  (0,0), (0,-1),  4),
+                                      ("RIGHTPADDING",  (1,0), (1,-1),  0)]))
+            story.append(Spacer(1, 2))
+            story.append(section_block("KEY RISK FACTORS", risk, RED))
+            story.append(Spacer(1, 10))
+            story.append(HRFlowable(width="100%", thickness=0.5, color=colors.HexColor("#dde8f5")))
             story.append(Spacer(1, 8))
 
-            # Investment thesis — numbered points, one per line
-            thesis_raw = a.get("thesis", "—")
-            points = _parse_thesis_points(thesis_raw)
-            story.append(Paragraph("INVESTMENT THESIS", label_s))
-            if points:
-                for pt in points:
-                    story.append(Paragraph(pt, bullet_s))
-            else:
-                story.append(Paragraph(thesis_raw, body))
+    elif not pos_list:
+        story.append(Table([["NO TRADE DECISIONS THIS SESSION"]], colWidths=[7.45*inch],
+                           style=[("BACKGROUND",    (0,0), (-1,-1), CARD),
+                                  ("TEXTCOLOR",     (0,0), (-1,-1), GREY),
+                                  ("FONTNAME",      (0,0), (-1,-1), "Helvetica"),
+                                  ("FONTSIZE",      (0,0), (-1,-1), 9),
+                                  ("ALIGN",         (0,0), (-1,-1), "CENTER"),
+                                  ("TOPPADDING",    (0,0), (-1,-1), 18),
+                                  ("BOTTOMPADDING", (0,0), (-1,-1), 18)]))
+    story.append(Spacer(1, 10))
 
-            # Supporting fields
-            fields = [
-                ("CATALYST",        "catalyst"),
-                ("TECHNICAL SETUP", "technical_setup"),
-                ("BALANCE SHEET",   "balance_sheet_read"),
-                ("SECTOR",          "sector_positioning"),
-                ("RISK FACTORS",    "risk_factors"),
-            ]
-            for lbl, key in fields:
-                val = a.get(key, "")
-                if val and val not in ("—", ""):
-                    story.append(Paragraph(lbl, label_s))
-                    story.append(Paragraph(val, body))
+    # ── OPEN POSITIONS — full per-position cards ──────────────────────────────
+    if pos_list:
+        story.append(Table([["OPEN POSITIONS — FULL POSITION REVIEW"]],
+                           colWidths=[7.45*inch],
+                           style=[("BACKGROUND",    (0,0), (-1,-1), NAVY),
+                                  ("TEXTCOLOR",     (0,0), (-1,-1), WHITE),
+                                  ("FONTNAME",      (0,0), (-1,-1), "Helvetica-Bold"),
+                                  ("FONTSIZE",      (0,0), (-1,-1), 8),
+                                  ("TOPPADDING",    (0,0), (-1,-1), 7),
+                                  ("BOTTOMPADDING", (0,0), (-1,-1), 7),
+                                  ("LEFTPADDING",   (0,0), (-1,-1), 12)]))
+        story.append(Spacer(1, 6))
 
-            story += [Spacer(1, 18),
-                      HRFlowable(width="100%", thickness=0.5, color=RULE),
-                      Spacer(1, 14)]
+        for pos in pos_list:
+            tk      = pos.get("ticker", "")
+            shares  = pos.get("shares", 0)
+            ep      = pos.get("entry_price", 0)
+            cp      = pos.get("current_price", ep)
+            cv      = pos.get("current_value", 0)
+            pu      = pos.get("unrealised_pnl", 0)
+            pp      = pos.get("unrealised_pct", 0)
+            thesis  = pos.get("thesis_summary", "No thesis recorded.")
+            cat     = pos.get("catalyst", "—")
+            tech    = pos.get("technical_setup", "—")
+            risk    = pos.get("risk_factors", "—")
+            conv    = pos.get("conviction", "—")
+            tier    = pos.get("tier", "—")
+            bs_read = pos.get("balance_sheet_read", "—")
+            entry_d = pos.get("entry_date", "")[:10]
+            pc      = GREEN if pp >= 0 else RED
 
-    # ── Auto-exits ────────────────────────────────────────────────────────
+            # Position header
+            story.append(Table([[
+                Paragraph(f"{tk}", S(f"ph{tk}", fontName="Helvetica-Bold",
+                                     fontSize=16, textColor=WHITE, spaceAfter=0)),
+                Paragraph(
+                    f"<font size='8' color='#a0b8d4'>{shares:.1f} shares · Entry ${ep:.2f}"
+                    f" · Conv {conv}/10 · Tier {tier} · Since {entry_d}</font>",
+                    S(f"pm{tk}", fontName="Helvetica", fontSize=8, textColor=WHITE,
+                      spaceAfter=0, alignment=TA_RIGHT)),
+            ]], colWidths=[3*inch, 4.45*inch],
+                style=[("BACKGROUND",    (0,0), (-1,-1), BLUE),
+                       ("TOPPADDING",    (0,0), (-1,-1), 10), ("BOTTOMPADDING", (0,0), (-1,-1), 10),
+                       ("LEFTPADDING",   (0,0), (-1,-1), 14), ("RIGHTPADDING",  (0,0), (-1,-1), 14),
+                       ("VALIGN",        (0,0), (-1,-1), "MIDDLE")]))
+
+            # P&L metrics row
+            pm_cells = []
+            for lbl, pval, col in [
+                ("CURRENT PRICE",  f"${cp:.2f}", NAVY),
+                ("POSITION VALUE", f"${cv:,.0f}", NAVY),
+                ("UNREALISED P&L", f"{'+'if pu>=0 else ''}${pu:,.0f}", pc),
+                ("RETURN",         f"{pp*100:+.2f}%", pc),
+            ]:
+                pm_cells.append(Table([[
+                    Paragraph(lbl, S(f"pml{lbl}{tk}", fontName="Helvetica-Bold",
+                                     fontSize=6.5, textColor=GREY,
+                                     letterSpacing=1, spaceAfter=2))
+                ],[
+                    Paragraph(pval, S(f"pmv{lbl}{tk}", fontName="Helvetica-Bold",
+                                      fontSize=11, textColor=col, spaceAfter=0))
+                ]], colWidths=[1.85*inch],
+                    style=[("BACKGROUND",    (0,0), (-1,-1), CARD),
+                           ("TOPPADDING",    (0,0), (-1,-1), 7),
+                           ("BOTTOMPADDING", (0,0), (-1,-1), 7),
+                           ("LEFTPADDING",   (0,0), (-1,-1), 10),
+                           ("BOX",           (0,0), (-1,-1), 0.4, colors.HexColor("#dde8f5"))]))
+            story.append(Table([pm_cells], colWidths=[1.865*inch]*4,
+                               style=[("TOPPADDING",    (0,0), (-1,-1), 0),
+                                      ("BOTTOMPADDING", (0,0), (-1,-1), 0),
+                                      ("LEFTPADDING",   (0,0), (-1,-1), 0),
+                                      ("RIGHTPADDING",  (0,0), (-1,-1), 0)]))
+
+            # Thesis
+            story.append(Table([[
+                Paragraph("INVESTMENT THESIS", S(f"ptl{tk}", fontName="Helvetica-Bold",
+                                                  fontSize=7, textColor=BLUE2,
+                                                  letterSpacing=1.5, spaceAfter=3))
+            ],[
+                Paragraph(thesis, S(f"ptb{tk}", fontName="Helvetica", fontSize=8.5,
+                                    textColor=BLACK, leading=13.5, spaceAfter=0,
+                                    alignment=TA_JUSTIFY))
+            ]], colWidths=[7.45*inch],
+                style=[("BACKGROUND",    (0,0), (-1,-1), CARD),
+                       ("LINEBEFORE",    (0,0), (0,-1),  3, BLUE2),
+                       ("TOPPADDING",    (0,0), (0, 0),  8), ("BOTTOMPADDING", (0,0), (0,0), 2),
+                       ("TOPPADDING",    (0,1), (0, 1),  4), ("BOTTOMPADDING", (0,1), (0,1), 8),
+                       ("LEFTPADDING",   (0,0), (-1,-1), 12), ("RIGHTPADDING",  (0,0), (-1,-1), 12)]))
+            story.append(Spacer(1, 2))
+
+            # Catalyst + Technical side by side
+            cat_blk = Table([[
+                Paragraph("CATALYST", S(f"catl{tk}", fontName="Helvetica-Bold", fontSize=7,
+                                        textColor=GOLD, letterSpacing=1.5, spaceAfter=3))
+            ],[
+                Paragraph(cat, S(f"catb{tk}", fontName="Helvetica", fontSize=8.5,
+                                  textColor=BLACK, leading=13, spaceAfter=0))
+            ]], colWidths=[3.6*inch],
+                style=[("BACKGROUND",    (0,0), (-1,-1), CARD),
+                       ("LINEBEFORE",    (0,0), (0,-1),  3, GOLD),
+                       ("TOPPADDING",    (0,0), (0, 0),  8), ("BOTTOMPADDING", (0,0), (0,0), 2),
+                       ("TOPPADDING",    (0,1), (0, 1),  4), ("BOTTOMPADDING", (0,1), (0,1), 8),
+                       ("LEFTPADDING",   (0,0), (-1,-1), 12)])
+            tch_blk = Table([[
+                Paragraph("TECHNICAL SETUP", S(f"techl{tk}", fontName="Helvetica-Bold",
+                                               fontSize=7, textColor=AMBER,
+                                               letterSpacing=1.5, spaceAfter=3))
+            ],[
+                Paragraph(tech, S(f"techb{tk}", fontName="Helvetica", fontSize=8.5,
+                                   textColor=BLACK, leading=13, spaceAfter=0))
+            ]], colWidths=[3.65*inch],
+                style=[("BACKGROUND",    (0,0), (-1,-1), CARD),
+                       ("LINEBEFORE",    (0,0), (0,-1),  3, AMBER),
+                       ("TOPPADDING",    (0,0), (0, 0),  8), ("BOTTOMPADDING", (0,0), (0,0), 2),
+                       ("TOPPADDING",    (0,1), (0, 1),  4), ("BOTTOMPADDING", (0,1), (0,1), 8),
+                       ("LEFTPADDING",   (0,0), (-1,-1), 12)])
+            story.append(Table([[cat_blk, tch_blk]],
+                               colWidths=[3.72*inch, 3.73*inch],
+                               style=[("TOPPADDING",    (0,0), (-1,-1), 0),
+                                      ("BOTTOMPADDING", (0,0), (-1,-1), 0),
+                                      ("LEFTPADDING",   (0,0), (-1,-1), 0),
+                                      ("RIGHTPADDING",  (0,0), (0,-1),  4),
+                                      ("RIGHTPADDING",  (1,0), (1,-1),  0)]))
+            story.append(Spacer(1, 2))
+
+            # Balance sheet + Risk side by side
+            bs_blk = Table([[
+                Paragraph("BALANCE SHEET", S(f"bsl2{tk}", fontName="Helvetica-Bold",
+                                              fontSize=7, textColor=GREEN,
+                                              letterSpacing=1.5, spaceAfter=3))
+            ],[
+                Paragraph(bs_read if bs_read != "—" else "Balance sheet data not available for this ticker.",
+                          S(f"bsb2{tk}", fontName="Helvetica", fontSize=8.5,
+                            textColor=BLACK, leading=13, spaceAfter=0))
+            ]], colWidths=[3.6*inch],
+                style=[("BACKGROUND",    (0,0), (-1,-1), CARD),
+                       ("LINEBEFORE",    (0,0), (0,-1),  3, GREEN),
+                       ("TOPPADDING",    (0,0), (0, 0),  8), ("BOTTOMPADDING", (0,0), (0,0), 2),
+                       ("TOPPADDING",    (0,1), (0, 1),  4), ("BOTTOMPADDING", (0,1), (0,1), 8),
+                       ("LEFTPADDING",   (0,0), (-1,-1), 12)])
+            rsk_blk = Table([[
+                Paragraph("KEY RISKS", S(f"rskl{tk}", fontName="Helvetica-Bold",
+                                         fontSize=7, textColor=RED,
+                                         letterSpacing=1.5, spaceAfter=3))
+            ],[
+                Paragraph(risk if risk != "—" else "No specific risk factors recorded.",
+                          S(f"rskb{tk}", fontName="Helvetica", fontSize=8.5,
+                            textColor=BLACK, leading=13, spaceAfter=0))
+            ]], colWidths=[3.65*inch],
+                style=[("BACKGROUND",    (0,0), (-1,-1), CARD),
+                       ("LINEBEFORE",    (0,0), (0,-1),  3, RED),
+                       ("TOPPADDING",    (0,0), (0, 0),  8), ("BOTTOMPADDING", (0,0), (0,0), 2),
+                       ("TOPPADDING",    (0,1), (0, 1),  4), ("BOTTOMPADDING", (0,1), (0,1), 8),
+                       ("LEFTPADDING",   (0,0), (-1,-1), 12)])
+            story.append(Table([[bs_blk, rsk_blk]],
+                               colWidths=[3.72*inch, 3.73*inch],
+                               style=[("TOPPADDING",    (0,0), (-1,-1), 0),
+                                      ("BOTTOMPADDING", (0,0), (-1,-1), 0),
+                                      ("LEFTPADDING",   (0,0), (-1,-1), 0),
+                                      ("RIGHTPADDING",  (0,0), (0,-1),  4),
+                                      ("RIGHTPADDING",  (1,0), (1,-1),  0)]))
+            story.append(Spacer(1, 12))
+            story.append(HRFlowable(width="100%", thickness=0.5, color=colors.HexColor("#dde8f5")))
+            story.append(Spacer(1, 8))
+
+    # ── AUTO EXITS ────────────────────────────────────────────────────────────
     if auto_exits:
-        story.append(Paragraph("Automatic Exits (SL / TP)", h2_s))
-        for ticker, reason, pnl in auto_exits:
-            c = GREEN if pnl > 0 else RED
-            story.append(Paragraph(
-                f"<b>{ticker}</b>: {reason} — <b>{pnl*100:+.1f}%</b>",
-                ParagraphStyle("ex", parent=body, textColor=c, spaceBefore=4)))
-        story.append(Spacer(1, 14))
+        story.append(Spacer(1, 4))
+        story.append(Table([["AUTOMATIC EXITS (STOP LOSS / TAKE PROFIT)"]],
+                           colWidths=[7.45*inch],
+                           style=[("BACKGROUND",    (0,0), (-1,-1), RED),
+                                  ("TEXTCOLOR",     (0,0), (-1,-1), WHITE),
+                                  ("FONTNAME",      (0,0), (-1,-1), "Helvetica-Bold"),
+                                  ("FONTSIZE",      (0,0), (-1,-1), 8),
+                                  ("TOPPADDING",    (0,0), (-1,-1), 7),
+                                  ("BOTTOMPADDING", (0,0), (-1,-1), 7),
+                                  ("LEFTPADDING",   (0,0), (-1,-1), 12)]))
+        story.append(Spacer(1, 4))
+        for ticker, reason, pnl_p in auto_exits:
+            col = GREEN if pnl_p > 0 else RED
+            story.append(Table([[
+                Paragraph(f"{ticker} — {reason}",
+                          S(f"ex{ticker}", fontName="Helvetica-Bold",
+                            fontSize=10, textColor=col, spaceAfter=0)),
+                Paragraph(f"P&L: {pnl_p*100:+.1f}%",
+                          S(f"exp{ticker}", fontName="Helvetica-Bold",
+                            fontSize=11, textColor=col, spaceAfter=0,
+                            alignment=TA_RIGHT)),
+            ]], colWidths=[5*inch, 2.45*inch],
+                style=[("BACKGROUND",    (0,0), (-1,-1), CARD),
+                       ("BOX",           (0,0), (-1,-1), 0.5, col),
+                       ("TOPPADDING",    (0,0), (-1,-1), 10), ("BOTTOMPADDING", (0,0), (-1,-1), 10),
+                       ("LEFTPADDING",   (0,0), (-1,-1), 14), ("RIGHTPADDING",  (0,0), (-1,-1), 14),
+                       ("VALIGN",        (0,0), (-1,-1), "MIDDLE")]))
+            story.append(Spacer(1, 4))
 
-    # ── Portfolio Snapshot ────────────────────────────────────────────────
-    story.append(Paragraph("Portfolio Snapshot", h2_s))
-    pv   = portfolio.get("total_value", 0)
-    cash = portfolio.get("cash", 0)
-    pnl_total = pv - 183_000
-    pnl_pct   = pnl_total / 183_000 * 100
-    pc = GREEN if pnl_total >= 0 else RED
-    story.append(Paragraph(
-        f"Total: <b>${pv:,.0f}</b>  ·  "
-        f"Cash: <b>${cash:,.0f}</b>  ·  "
-        f"Positions: <b>{len(portfolio.get('positions',[]))}/{MAX_OPEN_POSITIONS}</b>  ·  "
-        f"P&amp;L vs cost: <b><font color='{'#1a6e3e' if pnl_total >= 0 else '#9e2020'}'>"
-        f"{pnl_total:+,.0f} ({pnl_pct:+.2f}%)</font></b>", body))
-    story.append(Spacer(1, 8))
+    # ── PORTFOLIO NOTES + MEMORY ──────────────────────────────────────────────
+    notes  = decision.get("portfolio_notes", "")
+    memory = decision.get("memory_applied", "")
+    if notes:
+        story.append(Spacer(1, 4))
+        story.append(Table([[
+            Paragraph("PORTFOLIO NOTES", S("pnl", fontName="Helvetica-Bold", fontSize=7,
+                                           textColor=NAVY, letterSpacing=1.5, spaceAfter=4))
+        ],[
+            Paragraph(notes, body_s),
+        ]], colWidths=[7.45*inch],
+            style=[("BACKGROUND",    (0,0), (-1,-1), LIGHT),
+                   ("BOX",           (0,0), (-1,-1), 0.8, NAVY),
+                   ("TOPPADDING",    (0,0), (-1,-1), 10), ("BOTTOMPADDING", (0,0), (-1,-1), 10),
+                   ("LEFTPADDING",   (0,0), (-1,-1), 12), ("RIGHTPADDING",  (0,0), (-1,-1), 12)]))
+        story.append(Spacer(1, 6))
+    if memory:
+        story.append(Table([[
+            Paragraph("MEMORY APPLIED", S("mapl", fontName="Helvetica-Bold", fontSize=7,
+                                          textColor=BLUE2, letterSpacing=1.5, spaceAfter=4))
+        ],[
+            Paragraph(memory, body_s),
+        ]], colWidths=[7.45*inch],
+            style=[("BACKGROUND",    (0,0), (-1,-1), CARD),
+                   ("LINEBEFORE",    (0,0), (0,-1),  3, GOLD),
+                   ("TOPPADDING",    (0,0), (-1,-1), 10), ("BOTTOMPADDING", (0,0), (-1,-1), 10),
+                   ("LEFTPADDING",   (0,0), (-1,-1), 12), ("RIGHTPADDING",  (0,0), (-1,-1), 12)]))
 
-    if portfolio.get("positions"):
-        ph = [["Ticker", "Shares", "Entry $", "Current $", "Value $", "P&L $", "P&L %"]]
-        for p in portfolio["positions"]:
-            pp = p.get("unrealised_pct", 0)
-            ph.append([
-                p["ticker"],
-                f"{p['shares']:.1f}",
-                f"${p['entry_price']:.2f}",
-                f"${p.get('current_price', p['entry_price']):.2f}",
-                f"${p.get('current_value', 0):,.0f}",
-                f"${p.get('unrealised_pnl', 0):+,.0f}",
-                f"{pp*100:+.1f}%",
-            ])
-        # Proportional column widths summing to W
-        pt = Table(ph, colWidths=[0.75*inch, 0.75*inch, 0.9*inch,
-                                   0.9*inch, 1.1*inch, 1.05*inch, 1.05*inch])
-        n_rows = len(ph)
-        pnl_col_styles = []
-        for row_i, p in enumerate(portfolio["positions"], 1):
-            pp = p.get("unrealised_pct", 0)
-            pnl_col_styles.append(
-                ("TEXTCOLOR", (6, row_i), (6, row_i), GREEN if pp >= 0 else RED))
-        pt.setStyle(TableStyle([
-            ("BACKGROUND",    (0,0), (-1, 0), NAVY),
-            ("TEXTCOLOR",     (0,0), (-1, 0), colors.white),
-            ("FONTNAME",      (0,0), (-1, 0), "Helvetica-Bold"),
-            ("FONTSIZE",      (0,0), (-1,-1), 8.5),
-            ("GRID",          (0,0), (-1,-1), 0.4, RULE),
-            ("ROWBACKGROUNDS",(0,1), (-1,-1), [colors.white, LIGHT]),
-            ("ALIGN",         (1,0), (-1,-1), "CENTER"),
-            ("TOPPADDING",    (0,0), (-1,-1), 7),
-            ("BOTTOMPADDING", (0,0), (-1,-1), 7),
-            ("LEFTPADDING",   (0,0), (-1,-1), 6),
-            ("FONTNAME",      (6,1), (6,n_rows-1), "Helvetica-Bold"),
-        ] + pnl_col_styles))
-        story.append(pt)
-
-    if decision.get("portfolio_notes"):
-        story.append(Paragraph("PORTFOLIO NOTES", label_s))
-        story.append(Paragraph(decision["portfolio_notes"], body))
-    if decision.get("memory_applied"):
-        story.append(Paragraph("MEMORY APPLIED", label_s))
-        story.append(Paragraph(decision["memory_applied"], body))
-
-    story += [
-        Spacer(1, 24),
-        HRFlowable(width="100%", thickness=1, color=RULE),
-        Spacer(1, 6),
-        Paragraph("MeritQuant Autonomous Trader  ·  Paper Portfolio  ·  Not financial advice", small),
-    ]
+    # ── FOOTER ────────────────────────────────────────────────────────────────
+    story.append(Spacer(1, 16))
+    story.append(Table([["MeritQuant Autonomous Trader · Paper Portfolio Mirror · Not financial advice"]],
+                       colWidths=[7.45*inch],
+                       style=[("BACKGROUND",    (0,0), (-1,-1), NAVY),
+                              ("TEXTCOLOR",     (0,0), (-1,-1), colors.HexColor("#6b8cb0")),
+                              ("FONTNAME",      (0,0), (-1,-1), "Helvetica"),
+                              ("FONTSIZE",      (0,0), (-1,-1), 7),
+                              ("ALIGN",         (0,0), (-1,-1), "CENTER"),
+                              ("TOPPADDING",    (0,0), (-1,-1), 8),
+                              ("BOTTOMPADDING", (0,0), (-1,-1), 8)]))
     doc.build(story)
     return buf.getvalue()
 
