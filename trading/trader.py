@@ -6,7 +6,7 @@ Trade windows: 9:35 AM ET (open) and 3:30 PM ET (pre-close).
 GitHub Actions TRADE_MODE env var prevents timing drift failures.
 """
 
-import os, json, time, logging, io, requests
+import os, json, re, time, logging, io, requests
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 from typing import Optional
@@ -659,7 +659,7 @@ RESPOND ONLY with valid JSON — no preamble, no markdown fences:
       "stop_price": 0.00,
       "target_price": 0.00,
       "risk_reward_ratio": 0.0,
-      "thesis": "7 sentences — each must contain a specific number or named catalyst: (1) macro tailwind with exact data point and source, (2) company catalyst with precise EPS/revenue beat, (3) RSI exact value and named pattern name, (4) 50-day and 200-day MA prices confirming trend, (5) balance sheet — cash vs. total debt and D/E ratio, (6) retained earnings 3-year trajectory and what it signals, (7) primary downside scenario with quantified price impact and how stop at $X.XX contains the loss.",
+      "thesis": "7 sentences numbered (1)–(7). STRICT RULE: every sentence must contain at least one of: a price level ($X.XX), a percentage (X.X%), a ratio (X.Xx), or a named date/event. Any sentence without a number is invalid — rewrite it until it has one. Write as a PM who owns this position: concise, specific, zero filler, no generic descriptors. (1) Macro: exact VIX level and the specific named policy or data print driving the regime (e.g. 'PCE +2.6% vs 2.9% prior, CME FedWatch 74% Sep pause'). (2) Company catalyst: exact EPS or revenue figure, beat % vs estimate, and the event date. (3) Entry trigger: exact RSI value, pattern name, and the specific price that confirmed the entry. (4) MA confirmation: 50-day at $X.XX and 200-day at $Y.YY — state the spread as a % and what the cross/gap signals. (5) Balance sheet: cash $X.XB vs total debt $Y.YB, D/E ratio to 2 decimal places, retained earnings grew/fell X% last year. (6) Sizing: $X deployed = X.X% of the $183k portfolio, leaves $Y cash, room for N more full-size positions. (7) Stop and target: stop at $X.XX (-8%), target $Y.YY (+20%), R:R = Z.Z:1 — name the exact catalyst or price level that would trigger the stop.",
       "catalyst": "Single named catalyst with exact figure, date, and why it is a near-term price driver.",
       "technical_setup": "RSI X.X, pattern name, price vs. 50-day $X.XX and 200-day $Y.YY, volume X% above 20-day avg.",
       "balance_sheet_read": "Cash $X.XB, total debt $Y.YB, D/E Z.ZZ, retained earnings $AB/$BB/$CB (3yr most-recent-first), buybacks Y/N, preferred Y/N, BS score N/10.",
@@ -783,7 +783,7 @@ def execute(decision: dict, portfolio: dict, trade_log: list) -> tuple:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# 8. PDF REPORT  (institutional quality)
+# 8. PDF REPORT  (Goldman Sachs morning note style)
 # ─────────────────────────────────────────────────────────────────────────────
 NAVY  = colors.HexColor("#0d1f3c")
 BLUE  = colors.HexColor("#2a6db5")
@@ -791,133 +791,274 @@ GREEN = colors.HexColor("#1a6e3e")
 RED   = colors.HexColor("#9e2020")
 LIGHT = colors.HexColor("#f4f8fd")
 AMBER = colors.HexColor("#d07a10")
+RULE  = colors.HexColor("#dde5f0")
+BODY_TEXT = colors.HexColor("#2c3e50")
+
+
+def _parse_thesis_points(thesis: str) -> list:
+    """Split '(1) ... (2) ... (3) ...' into individual point strings."""
+    parts = re.split(r'\s*\((\d+)\)\s*', thesis.strip())
+    # parts: ['pre-text', '1', 'sentence1', '2', 'sentence2', ...]
+    result = []
+    i = 1
+    while i < len(parts) - 1:
+        num  = parts[i]
+        text = parts[i + 1].strip()
+        if text:
+            result.append(f"({num})  {text}")
+        i += 2
+    return result if result else []
+
 
 def build_pdf(decision: dict, portfolio: dict, macro: dict,
               actions: list, auto_exits: list) -> bytes:
     buf = io.BytesIO()
     doc = SimpleDocTemplate(buf, pagesize=letter,
-                            leftMargin=0.75*inch, rightMargin=0.75*inch,
-                            topMargin=0.75*inch, bottomMargin=0.75*inch)
-    styles  = getSampleStyleSheet()
-    body    = ParagraphStyle("body",  parent=styles["Normal"], fontSize=9,  leading=14)
-    title_s = ParagraphStyle("title", parent=styles["Normal"], fontSize=18, textColor=NAVY, spaceAfter=4, fontName="Helvetica-Bold")
-    sub_s   = ParagraphStyle("sub",   parent=styles["Normal"], fontSize=10, textColor=BLUE, spaceAfter=12)
-    h2_s    = ParagraphStyle("h2",    parent=styles["Normal"], fontSize=12, textColor=NAVY, spaceBefore=14, spaceAfter=6, fontName="Helvetica-Bold")
-    small   = ParagraphStyle("small", parent=styles["Normal"], fontSize=8,  textColor=colors.grey, alignment=TA_CENTER)
+                            leftMargin=0.85*inch, rightMargin=0.85*inch,
+                            topMargin=0.85*inch, bottomMargin=0.85*inch)
+    styles = getSampleStyleSheet()
+
+    # ── Type scale ─────────────────────────────────────────────────────────
+    W = 6.8 * inch  # usable width
+
+    title_s = ParagraphStyle("title", parent=styles["Normal"],
+                              fontSize=20, textColor=NAVY, spaceAfter=2,
+                              fontName="Helvetica-Bold")
+    sub_s   = ParagraphStyle("sub",   parent=styles["Normal"],
+                              fontSize=10, textColor=BLUE, spaceAfter=14)
+    h2_s    = ParagraphStyle("h2",    parent=styles["Normal"],
+                              fontSize=11, textColor=NAVY,
+                              spaceBefore=22, spaceAfter=8,
+                              fontName="Helvetica-Bold")
+    body    = ParagraphStyle("body",  parent=styles["Normal"],
+                              fontSize=9, leading=15, textColor=BODY_TEXT)
+    label_s = ParagraphStyle("lbl",   parent=styles["Normal"],
+                              fontSize=7.5, textColor=BLUE,
+                              fontName="Helvetica-Bold",
+                              spaceBefore=10, spaceAfter=3,
+                              leading=10)
+    bullet_s= ParagraphStyle("blt",   parent=styles["Normal"],
+                              fontSize=9, leading=15, textColor=BODY_TEXT,
+                              leftIndent=14, spaceBefore=3)
+    small   = ParagraphStyle("small", parent=styles["Normal"],
+                              fontSize=7.5, textColor=colors.grey,
+                              alignment=TA_CENTER)
 
     now_str = datetime.utcnow().strftime("%d %b %Y · %H:%M UTC")
     window  = "PRE-CLOSE · 3:30 PM ET" if datetime.utcnow().hour >= 19 else "OPEN · 9:35 AM ET"
     regime  = decision.get("regime", macro.get("regime", "NEUTRAL"))
     rc = {"RISK-ON": GREEN, "RISK-OFF": RED, "CAUTION": AMBER}.get(regime, BLUE)
 
+    # ── Header ─────────────────────────────────────────────────────────────
     story = [
         Paragraph("MeritQuant — Autonomous Trade Report", title_s),
         Paragraph(f"{window}  ·  {now_str}", sub_s),
         HRFlowable(width="100%", thickness=2, color=BLUE),
-        Spacer(1, 8),
-
-        Paragraph("Market Assessment", h2_s),
-        Paragraph(decision.get("market_assessment", "—"), body),
-        Spacer(1, 4),
-        Table([[Paragraph(f"<b>REGIME: {regime}</b>",
-                ParagraphStyle("rp", parent=body, textColor=rc, fontName="Helvetica-Bold"))]],
-              colWidths=[6.5*inch],
-              style=[("BACKGROUND",(0,0),(-1,-1),LIGHT),
-                     ("BOX",(0,0),(-1,-1),1.5,rc),
-                     ("TOPPADDING",(0,0),(-1,-1),8),
-                     ("BOTTOMPADDING",(0,0),(-1,-1),8)]),
-        Spacer(1, 12),
+        Spacer(1, 14),
     ]
 
-    # Macro snapshot table
+    # ── Market Assessment ──────────────────────────────────────────────────
+    story.append(Paragraph("Market Assessment", h2_s))
+    story.append(Paragraph(decision.get("market_assessment", "—"), body))
+    story.append(Spacer(1, 10))
+    story.append(Table(
+        [[Paragraph(f"<b>REGIME: {regime}</b>",
+                    ParagraphStyle("rp", parent=body, textColor=rc,
+                                   fontName="Helvetica-Bold", fontSize=10))]],
+        colWidths=[W],
+        style=[("BACKGROUND", (0,0), (-1,-1), LIGHT),
+               ("LINEBELOW",  (0,0), (-1,-1), 3, rc),
+               ("TOPPADDING", (0,0), (-1,-1), 10),
+               ("BOTTOMPADDING", (0,0), (-1,-1), 10),
+               ("LEFTPADDING",  (0,0), (-1,-1), 14)]))
+    story.append(Spacer(1, 18))
+
+    # ── Macro Snapshot ─────────────────────────────────────────────────────
     ind = macro.get("indicators", {})
-    def iv(k): 
+    def iv(k):
         val = ind.get(k, {}).get("value")
         return f"{val:.2f}" if val is not None else "—"
 
     story.append(Paragraph("Macro Snapshot", h2_s))
     mt = Table([
-        ["Indicator", "Value", "Indicator", "Value"],
-        ["VIX",              iv("VIX"),      "US Dollar (DXY)",   iv("DXY")],
-        ["Yield Curve 10Y-2Y", iv("T10Y2Y"), "HY Credit (bps)",   iv("HY_SPREAD")],
-        ["10Y Treasury (%)", iv("T10Y"),     "Fed Funds Rate (%)", iv("FED_RATE")],
-    ], colWidths=[2.1*inch, 1.1*inch, 2.1*inch, 1.2*inch])
+        ["Indicator",          "Value",        "Indicator",          "Value"],
+        ["VIX",                iv("VIX"),      "US Dollar (DXY)",    iv("DXY")],
+        ["Yield Curve 10Y-2Y", iv("T10Y2Y"),   "HY Credit (bps)",    iv("HY_SPREAD")],
+        ["10Y Treasury (%)",   iv("T10Y"),     "Fed Funds Rate (%)", iv("FED_RATE")],
+    ], colWidths=[2.2*inch, 1.2*inch, 2.2*inch, 1.2*inch])
     mt.setStyle(TableStyle([
-        ("BACKGROUND",(0,0),(-1,0),NAVY), ("TEXTCOLOR",(0,0),(-1,0),colors.white),
-        ("FONTNAME",(0,0),(-1,0),"Helvetica-Bold"),
-        ("FONTSIZE",(0,0),(-1,-1),8.5),
-        ("GRID",(0,0),(-1,-1),0.5,colors.HexColor("#dde5f0")),
-        ("ROWBACKGROUNDS",(0,1),(-1,-1),[colors.white, LIGHT]),
-        ("TOPPADDING",(0,0),(-1,-1),5), ("BOTTOMPADDING",(0,0),(-1,-1),5),
+        ("BACKGROUND",    (0,0), (-1, 0), NAVY),
+        ("TEXTCOLOR",     (0,0), (-1, 0), colors.white),
+        ("FONTNAME",      (0,0), (-1, 0), "Helvetica-Bold"),
+        ("FONTSIZE",      (0,0), (-1,-1), 8.5),
+        ("GRID",          (0,0), (-1,-1), 0.4, RULE),
+        ("ROWBACKGROUNDS",(0,1), (-1,-1), [colors.white, LIGHT]),
+        ("TOPPADDING",    (0,0), (-1,-1), 7),
+        ("BOTTOMPADDING", (0,0), (-1,-1), 7),
+        ("LEFTPADDING",   (0,0), (-1,-1), 8),
     ]))
-    story += [mt, Spacer(1, 12)]
+    story += [mt, Spacer(1, 20)]
 
-    # Actions
+    # ── Trade Decisions ────────────────────────────────────────────────────
     if actions:
         story.append(Paragraph("Trade Decisions", h2_s))
         for a in actions:
-            act  = a.get("action", "")
-            ac   = GREEN if act == "ENTER" else RED if act == "EXIT" else BLUE
-            story.append(Table([[
-                Paragraph(f"<b>{act} — {a.get('ticker')}</b>",
-                           ParagraphStyle("ah", parent=body, textColor=ac, fontName="Helvetica-Bold")),
-                Paragraph(f"${a.get('position_size_usd',0):,.0f}  |  Conviction {a.get('conviction','—')}/10  |  Tier {a.get('tier','?')}",
-                           ParagraphStyle("am", parent=body, alignment=1))
-            ]], colWidths=[3.25*inch, 3.25*inch],
-               style=[("BACKGROUND",(0,0),(-1,-1),LIGHT), ("BOX",(0,0),(-1,-1),1,ac),
-                      ("TOPPADDING",(0,0),(-1,-1),6), ("BOTTOMPADDING",(0,0),(-1,-1),6)]))
-            story.append(Spacer(1, 4))
-            for label, key in [("Thesis", "thesis"), ("Catalyst", "catalyst"),
-                                ("Technical Setup", "technical_setup"), ("Risk Factors", "risk_factors")]:
-                story.append(Paragraph(f"<b>{label}:</b> {a.get(key, '—')}", body))
+            act    = a.get("action", "")
+            ticker = a.get("ticker", "")
+            ac     = GREEN if act == "ENTER" else RED if act == "EXIT" else BLUE
+            conv   = a.get("conviction", "—")
+            tier   = a.get("tier", "?")
+            size   = a.get("position_size_usd", 0)
+            ep     = a.get("entry_price")
+            sp     = a.get("stop_price")
+            tp     = a.get("target_price")
+            rr     = a.get("risk_reward_ratio")
+
+            # Action header bar
+            meta_right = f"${size:,.0f}  ·  Conv <b>{conv}/10</b>  ·  Tier <b>{tier}</b>"
+            story.append(Table(
+                [[Paragraph(f"<b>{act} — {ticker}</b>",
+                            ParagraphStyle("ah", parent=body, textColor=ac,
+                                           fontName="Helvetica-Bold", fontSize=12)),
+                  Paragraph(meta_right,
+                            ParagraphStyle("am", parent=body, alignment=2, fontSize=9))]],
+                colWidths=[3.6*inch, 3.2*inch],
+                style=[("BACKGROUND",    (0,0), (-1,-1), LIGHT),
+                       ("LINEBELOW",     (0,0), (-1,-1), 2.5, ac),
+                       ("TOPPADDING",    (0,0), (-1,-1), 10),
+                       ("BOTTOMPADDING", (0,0), (-1,-1), 10),
+                       ("LEFTPADDING",   (0,0), (0, -1), 12),
+                       ("RIGHTPADDING",  (-1,0),(-1,-1), 12)]))
+
+            # Price levels row (only for ENTER)
+            if act == "ENTER" and any(x is not None for x in [ep, sp, tp]):
+                ep_str = f"${ep:.2f}" if ep else "—"
+                sp_str = f"${sp:.2f}" if sp else "—"
+                tp_str = f"${tp:.2f}" if tp else "—"
+                rr_str = f"{rr:.1f}:1" if rr else "—"
+                price_data = [[
+                    Paragraph(f"<b>Entry</b><br/>{ep_str}",
+                              ParagraphStyle("pc", parent=body, alignment=1, fontSize=8.5)),
+                    Paragraph(f"<b>Stop (−8%)</b><br/>{sp_str}",
+                              ParagraphStyle("pc", parent=body, alignment=1, fontSize=8.5,
+                                             textColor=RED)),
+                    Paragraph(f"<b>Target (+20%)</b><br/>{tp_str}",
+                              ParagraphStyle("pc", parent=body, alignment=1, fontSize=8.5,
+                                             textColor=GREEN)),
+                    Paragraph(f"<b>Risk-Reward</b><br/>{rr_str}",
+                              ParagraphStyle("pc", parent=body, alignment=1, fontSize=8.5)),
+                ]]
+                story.append(Table(price_data, colWidths=[W/4]*4,
+                    style=[("GRID",         (0,0), (-1,-1), 0.4, RULE),
+                           ("BACKGROUND",   (0,0), (-1,-1), colors.white),
+                           ("TOPPADDING",   (0,0), (-1,-1), 8),
+                           ("BOTTOMPADDING",(0,0), (-1,-1), 8)]))
+
             story.append(Spacer(1, 8))
 
-    # Auto-exits
+            # Investment thesis — numbered points, one per line
+            thesis_raw = a.get("thesis", "—")
+            points = _parse_thesis_points(thesis_raw)
+            story.append(Paragraph("INVESTMENT THESIS", label_s))
+            if points:
+                for pt in points:
+                    story.append(Paragraph(pt, bullet_s))
+            else:
+                story.append(Paragraph(thesis_raw, body))
+
+            # Supporting fields
+            fields = [
+                ("CATALYST",        "catalyst"),
+                ("TECHNICAL SETUP", "technical_setup"),
+                ("BALANCE SHEET",   "balance_sheet_read"),
+                ("SECTOR",          "sector_positioning"),
+                ("RISK FACTORS",    "risk_factors"),
+            ]
+            for lbl, key in fields:
+                val = a.get(key, "")
+                if val and val not in ("—", ""):
+                    story.append(Paragraph(lbl, label_s))
+                    story.append(Paragraph(val, body))
+
+            story += [Spacer(1, 18),
+                      HRFlowable(width="100%", thickness=0.5, color=RULE),
+                      Spacer(1, 14)]
+
+    # ── Auto-exits ────────────────────────────────────────────────────────
     if auto_exits:
         story.append(Paragraph("Automatic Exits (SL / TP)", h2_s))
         for ticker, reason, pnl in auto_exits:
             c = GREEN if pnl > 0 else RED
             story.append(Paragraph(
-                f"<b>{ticker}</b>: {reason}",
-                ParagraphStyle("ex", parent=body, textColor=c)))
+                f"<b>{ticker}</b>: {reason} — <b>{pnl*100:+.1f}%</b>",
+                ParagraphStyle("ex", parent=body, textColor=c, spaceBefore=4)))
+        story.append(Spacer(1, 14))
 
-    # Portfolio snapshot
+    # ── Portfolio Snapshot ────────────────────────────────────────────────
     story.append(Paragraph("Portfolio Snapshot", h2_s))
+    pv   = portfolio.get("total_value", 0)
+    cash = portfolio.get("cash", 0)
+    pnl_total = pv - 183_000
+    pnl_pct   = pnl_total / 183_000 * 100
+    pc = GREEN if pnl_total >= 0 else RED
     story.append(Paragraph(
-        f"Total: <b>${portfolio.get('total_value',0):,.0f}</b>  |  "
-        f"Cash: <b>${portfolio.get('cash',0):,.0f}</b>  |  "
-        f"Positions: <b>{len(portfolio.get('positions',[]))}/{MAX_OPEN_POSITIONS}</b>", body))
+        f"Total: <b>${pv:,.0f}</b>  ·  "
+        f"Cash: <b>${cash:,.0f}</b>  ·  "
+        f"Positions: <b>{len(portfolio.get('positions',[]))}/{MAX_OPEN_POSITIONS}</b>  ·  "
+        f"P&amp;L vs cost: <b><font color='{'#1a6e3e' if pnl_total >= 0 else '#9e2020'}'>"
+        f"{pnl_total:+,.0f} ({pnl_pct:+.2f}%)</font></b>", body))
+    story.append(Spacer(1, 8))
 
     if portfolio.get("positions"):
-        ph = [["Ticker","Shares","Entry","Current","Value","P&L $","P&L %"]]
+        ph = [["Ticker", "Shares", "Entry $", "Current $", "Value $", "P&L $", "P&L %"]]
         for p in portfolio["positions"]:
+            pp = p.get("unrealised_pct", 0)
             ph.append([
-                p["ticker"], f"{p['shares']:.1f}",
+                p["ticker"],
+                f"{p['shares']:.1f}",
                 f"${p['entry_price']:.2f}",
                 f"${p.get('current_price', p['entry_price']):.2f}",
-                f"${p.get('current_value',0):,.0f}",
-                f"${p.get('unrealised_pnl',0):+,.0f}",
-                f"{p.get('unrealised_pct',0)*100:+.1f}%",
+                f"${p.get('current_value', 0):,.0f}",
+                f"${p.get('unrealised_pnl', 0):+,.0f}",
+                f"{pp*100:+.1f}%",
             ])
-        pt = Table(ph, colWidths=[0.8*inch]*7)
+        # Proportional column widths summing to W
+        pt = Table(ph, colWidths=[0.75*inch, 0.75*inch, 0.9*inch,
+                                   0.9*inch, 1.1*inch, 1.05*inch, 1.05*inch])
+        n_rows = len(ph)
+        pnl_col_styles = []
+        for row_i, p in enumerate(portfolio["positions"], 1):
+            pp = p.get("unrealised_pct", 0)
+            pnl_col_styles.append(
+                ("TEXTCOLOR", (6, row_i), (6, row_i), GREEN if pp >= 0 else RED))
         pt.setStyle(TableStyle([
-            ("BACKGROUND",(0,0),(-1,0),NAVY), ("TEXTCOLOR",(0,0),(-1,0),colors.white),
-            ("FONTNAME",(0,0),(-1,0),"Helvetica-Bold"),
-            ("FONTSIZE",(0,0),(-1,-1),8),
-            ("GRID",(0,0),(-1,-1),0.5,colors.HexColor("#dde5f0")),
-            ("ROWBACKGROUNDS",(0,1),(-1,-1),[colors.white,LIGHT]),
-            ("ALIGN",(1,0),(-1,-1),"CENTER"),
-            ("TOPPADDING",(0,0),(-1,-1),5), ("BOTTOMPADDING",(0,0),(-1,-1),5),
-        ]))
+            ("BACKGROUND",    (0,0), (-1, 0), NAVY),
+            ("TEXTCOLOR",     (0,0), (-1, 0), colors.white),
+            ("FONTNAME",      (0,0), (-1, 0), "Helvetica-Bold"),
+            ("FONTSIZE",      (0,0), (-1,-1), 8.5),
+            ("GRID",          (0,0), (-1,-1), 0.4, RULE),
+            ("ROWBACKGROUNDS",(0,1), (-1,-1), [colors.white, LIGHT]),
+            ("ALIGN",         (1,0), (-1,-1), "CENTER"),
+            ("TOPPADDING",    (0,0), (-1,-1), 7),
+            ("BOTTOMPADDING", (0,0), (-1,-1), 7),
+            ("LEFTPADDING",   (0,0), (-1,-1), 6),
+            ("FONTNAME",      (6,1), (6,n_rows-1), "Helvetica-Bold"),
+        ] + pnl_col_styles))
         story.append(pt)
 
     if decision.get("portfolio_notes"):
-        story += [Spacer(1,8), Paragraph(f"<b>Notes:</b> {decision['portfolio_notes']}", body)]
+        story.append(Paragraph("PORTFOLIO NOTES", label_s))
+        story.append(Paragraph(decision["portfolio_notes"], body))
     if decision.get("memory_applied"):
-        story += [Paragraph(f"<b>Memory applied:</b> {decision['memory_applied']}", body)]
+        story.append(Paragraph("MEMORY APPLIED", label_s))
+        story.append(Paragraph(decision["memory_applied"], body))
 
-    story += [Spacer(1,16), HRFlowable(width="100%",thickness=1,color=BLUE),
-              Paragraph("MeritQuant Autonomous Trader · Paper Portfolio · Not financial advice", small)]
+    story += [
+        Spacer(1, 24),
+        HRFlowable(width="100%", thickness=1, color=RULE),
+        Spacer(1, 6),
+        Paragraph("MeritQuant Autonomous Trader  ·  Paper Portfolio  ·  Not financial advice", small),
+    ]
     doc.build(story)
     return buf.getvalue()
 
