@@ -33,11 +33,11 @@ log = logging.getLogger("ai_trader")
 # ── Constants ─────────────────────────────────────────────────────────────────
 PORTFOLIO_SIZE     = 183_000.0
 MAX_POSITION_PCT   = 0.10
-MAX_POSITION_USD   = PORTFOLIO_SIZE * MAX_POSITION_PCT   # $18,300
-MAX_OPEN_POSITIONS = 6
+MAX_POSITION_USD   = 18_000          # flat per-position size — no conviction-based tiers
+MAX_OPEN_POSITIONS = 10
 STOP_LOSS_PCT      = 0.08
 TAKE_PROFIT_PCT    = 0.20
-MIN_CONVICTION     = 6      # Don't trade below this score
+MIN_CONVICTION     = 5      # Don't trade below this score
 
 SIGNALS_FILE   = "data/signals.json"
 POSITIONS_FILE = "data/positions.json"
@@ -484,13 +484,16 @@ def update_memory(trade: dict, memory: dict) -> dict:
             "lesson":     trade.get("lesson", "Verify thesis confirmation before full sizing.")
         })
         memory["losing_trades"] = memory["losing_trades"][-20:]
-    elif pnl > 0.10:
+    if pnl > 0.08:
         memory["winning_patterns"].append({
-            "ticker":   trade.get("ticker"),
-            "date":     trade.get("exit_date", "")[:10],
-            "pnl_pct":  round(pnl, 4),
-            "setup":    trade.get("technical_setup", ""),
-            "catalyst": trade.get("catalyst", ""),
+            "ticker":          trade.get("ticker"),
+            "date":            trade.get("exit_date", "")[:10],
+            "pnl_pct":         round(pnl, 4),
+            "thesis_summary":  trade.get("thesis_summary", ""),
+            "catalyst":        trade.get("catalyst", ""),
+            "technical_setup": trade.get("technical_setup", ""),
+            "conviction":      trade.get("conviction", ""),
+            "entry_date":      trade.get("entry_date", "")[:10],
         })
         memory["winning_patterns"] = memory["winning_patterns"][-20:]
     return memory
@@ -504,9 +507,18 @@ def memory_to_prompt(memory: dict) -> str:
                          f"Why: {t['why_failed']} | Lesson: {t['lesson']}")
     if memory.get("winning_patterns"):
         parts.append("\nWINNING SETUPS TO REPLICATE:")
-        for p in memory["winning_patterns"][-3:]:
-            parts.append(f"  • {p['ticker']} ({p['date']}) | +{p['pnl_pct']*100:.1f}% | "
-                         f"Setup: {p['setup']} | Catalyst: {p['catalyst']}")
+        for p in memory["winning_patterns"][-5:]:
+            parts.append(
+                f"  • {p['ticker']} ({p.get('date','')}) | +{p['pnl_pct']*100:.1f}% | "
+                f"Catalyst: {p.get('catalyst','')} | "
+                f"Setup: {p.get('technical_setup', p.get('setup',''))} | "
+                f"Conviction: {p.get('conviction','—')}/10"
+            )
+        parts.append(
+            "\nREPLICATE THESE WINNING SETUPS — when you see a current signal matching a past winner "
+            "in sector, RSI range, catalyst tier, and macro regime, increase your conviction by 1 point "
+            "and prioritise entry."
+        )
     return "\n".join(parts) if parts else "No significant trade history recorded yet."
 
 
@@ -661,9 +673,8 @@ INVESTMENT MANDATE:
 - Buffett balance-sheet discipline: prefer cash-rich, low-leverage compounders (BS score ≥ 6/10).
 - Macro catalyst identification: every ENTER must cite a named, dated catalyst with a quantified magnitude.
 - Technical confirmation: entry only when RSI, moving averages, and chart pattern align — cite exact levels.
-- Max {MAX_POSITION_PCT*100:.0f}% per position (${MAX_POSITION_USD:,.0f}). Max {MAX_OPEN_POSITIONS} concurrent positions.
+- Position sizing is always $18,000 — no exceptions. You are either fully in or fully out. Conviction score is for transparency only and does not gate entry. If the setup is there, deploy full size. If you are not confident, skip entirely. Maximum {MAX_OPEN_POSITIONS} concurrent positions. Apply the winning pattern memory above — the goal is to compound on what works and avoid what has failed. Every trade you make teaches the system. Trade freely, size consistently, learn continuously.
 - Stop loss: {STOP_LOSS_PCT*100:.0f}% below entry. Take profit: {TAKE_PROFIT_PCT*100:.0f}% above entry.
-- Minimum conviction: {MIN_CONVICTION}/10 — below threshold hold cash, never force a trade.
 - RISK-OFF regime: only hedges (VXX, GLD, TLT, SH). No long equity.
 - Sector overlap: do not duplicate sector exposure across open positions.
 - Risk-reward floor: minimum 2.0:1 required on all new entries. Reject any trade below this.
@@ -750,7 +761,7 @@ def execute(decision: dict, portfolio: dict, trade_log: list) -> tuple:
     for action in decision.get("actions", []):
         ticker     = action.get("ticker", "").upper().strip()
         act        = action.get("action", "HOLD").upper()
-        size_usd   = min(float(action.get("position_size_usd", 0)), MAX_POSITION_USD)
+        size_usd   = MAX_POSITION_USD        # flat $18k — no conviction-based sizing
         conviction = int(action.get("conviction", 5))
 
         if not ticker:
