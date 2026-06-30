@@ -327,91 +327,134 @@ def _annual_trend(facts_json: dict, concept: str, n: int = 3) -> list:
 
 
 def fetch_balance_sheet(ticker: str) -> dict:
-    """
-    Pull latest 10-K fundamentals from SEC EDGAR XBRL API.
-    Returns {} for ETFs / foreign names not in EDGAR.
-    Scores balance-sheet quality 0–10 on Buffett criteria.
-    """
+    """3-tier fallback: SEC EDGAR → yfinance balance_sheet → yfinance info.
+    Always returns a populated score (0-10) and summary string."""
+
+    def _compute(cash, total_debt, equity, de_ratio, retained, treasury, preferred):
+        score = 0
+        if cash:
+            score += 2 if cash >= 5_000_000_000 else 1 if cash >= 500_000_000 else 0
+        if de_ratio is not None:
+            score += 2 if de_ratio < 0.3 else 1 if de_ratio < 0.7 else 0
+        elif total_debt == 0 and equity and equity > 0:
+            score += 2
+        if retained and retained[0] is not None and retained[0] > 0:
+            score += 1
+        if len(retained) >= 2 and None not in retained[:2]:
+            if retained[0] > retained[1]:
+                score += 1
+        if len(retained) == 3 and None not in retained:
+            if retained[1] > retained[2]:
+                score += 1
+        score += 1 if (preferred is None or preferred == 0) else 0
+        score += 1 if (treasury and treasury > 0) else 0
+        score += 1 if (equity and equity > 0) else 0
+        score = min(score, 10)
+
+        cash_s = f"${cash/1e9:.2f}B" if cash else "N/A"
+        debt_s = f"${total_debt/1e9:.2f}B" if total_debt else "$0B"
+        de_s   = f"{de_ratio:.2f}" if de_ratio is not None else "N/A"
+        if len(retained) >= 2 and None not in retained[:2]:
+            pct  = (retained[0] - retained[1]) / abs(retained[1]) * 100 if retained[1] else 0
+            re_s = f"growing (+{pct:.0f}%)" if retained[0] > retained[1] else f"declining ({pct:.0f}%)"
+        elif retained and retained[0] is not None:
+            re_s = f"${retained[0]/1e9:.1f}B"
+        else:
+            re_s = "N/A"
+        summary = (f"Cash {cash_s} vs Debt {debt_s} — D/E ratio {de_s} — "
+                   f"Retained earnings {re_s} — Buffett score {score}/10")
+        return score, summary
+
+    # Tier 1: SEC EDGAR
     cik = _load_cik_map().get(ticker.upper())
-    if not cik:
-        return {}
+    if cik:
+        try:
+            url = f"https://data.sec.gov/api/xbrl/companyfacts/CIK{int(cik):010d}.json"
+            r = requests.get(url, headers={"User-Agent": "MeritQuant research@meritquant.com"}, timeout=20)
+            if r.status_code == 200:
+                facts = r.json()
+                def one(concept):
+                    vals = _annual_trend(facts, concept, 1)
+                    return vals[0] if vals else None
+                cash      = one("CashAndCashEquivalentsAtCarryingValue")
+                lt_debt   = one("LongTermDebt") or 0
+                st_debt   = one("ShortTermBorrowings") or one("ShortTermDebt") or 0
+                equity    = one("StockholdersEquity")
+                retained  = _annual_trend(facts, "RetainedEarningsAccumulatedDeficit", 3)
+                treasury  = one("TreasuryStockValue")
+                preferred = one("PreferredStockValue")
+                total_debt = (lt_debt or 0) + (st_debt or 0)
+                de_ratio   = (total_debt / equity) if (equity and equity > 0) else None
+                if cash or equity:
+                    score, summary = _compute(cash, total_debt, equity, de_ratio, retained, treasury, preferred)
+                    return {"ticker": ticker, "source": "edgar", "cash": cash,
+                            "total_debt": total_debt, "lt_debt": lt_debt, "st_debt": st_debt,
+                            "equity": equity,
+                            "de_ratio": round(de_ratio, 3) if de_ratio is not None else None,
+                            "retained": retained, "buybacks": bool(treasury and treasury > 0),
+                            "preferred": bool(preferred and preferred > 0),
+                            "score": score, "summary": summary}
+        except Exception as e:
+            log.warning(f"SEC EDGAR {ticker}: {e}")
+
+    # Tier 2: yfinance balance_sheet DataFrame
     try:
-        url = f"https://data.sec.gov/api/xbrl/companyfacts/CIK{int(cik):010d}.json"
-        r = requests.get(
-            url,
-            headers={"User-Agent": "MeritQuant research@meritquant.com"},
-            timeout=20,
-        )
-        if r.status_code != 200:
-            return {}
-        facts = r.json()
+        yt = yf.Ticker(ticker)
+        bs = yt.balance_sheet
+        if bs is not None and not bs.empty:
+            def _row(df, *keys):
+                for k in keys:
+                    if k in df.index:
+                        vals = df.loc[k].dropna()
+                        return float(vals.iloc[0]) if len(vals) else None
+                return None
+            def _trend(df, *keys):
+                for k in keys:
+                    if k in df.index:
+                        vals = df.loc[k].dropna()
+                        return [float(v) for v in vals.iloc[:3]]
+                return []
+            cash     = _row(bs, "Cash And Cash Equivalents",
+                            "Cash Cash Equivalents And Short Term Investments",
+                            "Cash And Short Term Investments")
+            debt     = _row(bs, "Total Debt", "Long Term Debt And Capital Lease Obligation", "Long Term Debt")
+            equity   = _row(bs, "Stockholders Equity", "Common Stockholders Equity",
+                            "Total Equity Gross Minority Interest")
+            retained = _trend(bs, "Retained Earnings", "Retained Earnings Deficit", "Accumulated Deficit")
+            total_debt = debt or 0
+            de_ratio   = (total_debt / equity) if (equity and equity > 0) else None
+            if cash or equity:
+                score, summary = _compute(cash, total_debt, equity, de_ratio, retained, None, None)
+                return {"ticker": ticker, "source": "yfinance_bs", "cash": cash,
+                        "total_debt": total_debt, "equity": equity,
+                        "de_ratio": round(de_ratio, 3) if de_ratio is not None else None,
+                        "retained": retained, "buybacks": False, "preferred": False,
+                        "score": score, "summary": summary}
     except Exception as e:
-        log.warning(f"SEC EDGAR {ticker}: {e}")
-        return {}
+        log.warning(f"yfinance balance_sheet {ticker}: {e}")
 
-    def one(concept):
-        vals = _annual_trend(facts, concept, 1)
-        return vals[0] if vals else None
+    # Tier 3: yfinance .info
+    try:
+        info = yf.Ticker(ticker).info
+        cash      = info.get("totalCash")
+        total_debt = info.get("totalDebt") or 0
+        de_raw    = info.get("debtToEquity")  # yfinance: D/E × 100
+        de_ratio  = de_raw / 100 if de_raw is not None else None
+        equity    = (total_debt / de_ratio) if (de_ratio and de_ratio > 0) else None
+        score, summary = _compute(cash, total_debt, equity, de_ratio, [], None, None)
+        return {"ticker": ticker, "source": "yfinance_info", "cash": cash,
+                "total_debt": total_debt, "equity": equity,
+                "de_ratio": round(de_ratio, 3) if de_ratio is not None else None,
+                "retained": [], "buybacks": False, "preferred": False,
+                "score": score, "summary": summary}
+    except Exception as e:
+        log.warning(f"yfinance info {ticker}: {e}")
 
-    cash      = one("CashAndCashEquivalentsAtCarryingValue")
-    lt_debt   = one("LongTermDebt") or 0
-    st_debt   = one("ShortTermBorrowings") or one("ShortTermDebt") or 0
-    equity    = one("StockholdersEquity")
-    retained  = _annual_trend(facts, "RetainedEarningsAccumulatedDeficit", 3)
-    treasury  = one("TreasuryStockValue")
-    preferred = one("PreferredStockValue")
-
-    total_debt = (lt_debt or 0) + (st_debt or 0)
-    de_ratio   = (total_debt / equity) if (equity and equity > 0) else None
-
-    score = 0
-
-    # Cash adequacy (0–2)
-    if cash:
-        score += 2 if cash >= 5_000_000_000 else 1 if cash >= 500_000_000 else 0
-
-    # Leverage (0–2)
-    if de_ratio is not None:
-        score += 2 if de_ratio < 0.3 else 1 if de_ratio < 0.7 else 0
-    elif total_debt == 0 and equity and equity > 0:
-        score += 2
-
-    # Retained earnings positive (0–1)
-    if retained and retained[0] is not None and retained[0] > 0:
-        score += 1
-
-    # Retained earnings growing 2 consecutive years (0–2)
-    if len(retained) >= 2 and None not in retained[:2]:
-        if retained[0] > retained[1]:
-            score += 1
-    if len(retained) == 3 and None not in retained:
-        if retained[1] > retained[2]:
-            score += 1
-
-    # No preferred stock (0–1)
-    score += 1 if (preferred is None or preferred == 0) else 0
-
-    # Buybacks present (0–1)
-    score += 1 if (treasury and treasury > 0) else 0
-
-    # Positive equity (0–1)
-    score += 1 if (equity and equity > 0) else 0
-
-    score = min(score, 10)
-
-    return {
-        "ticker":     ticker,
-        "cash":       cash,
-        "total_debt": total_debt,
-        "lt_debt":    lt_debt,
-        "st_debt":    st_debt,
-        "equity":     equity,
-        "de_ratio":   round(de_ratio, 3) if de_ratio is not None else None,
-        "retained":   retained,
-        "buybacks":   bool(treasury and treasury > 0),
-        "preferred":  bool(preferred and preferred > 0),
-        "score":      score,
-    }
+    # All sources failed — return zero-data record with generated summary
+    score, summary = _compute(None, 0, None, None, [], None, None)
+    return {"ticker": ticker, "source": "none", "cash": None, "total_debt": 0,
+            "equity": None, "de_ratio": None, "retained": [], "buybacks": False,
+            "preferred": False, "score": score, "summary": summary}
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -742,10 +785,11 @@ def execute(decision: dict, portfolio: dict, trade_log: list) -> tuple:
                 "current_value":    size_usd,
                 "unrealised_pnl":   0.0,
                 "unrealised_pct":   0.0,
-                "thesis_summary":   action.get("thesis", ""),
+                "thesis_summary":    action.get("thesis", ""),
                 "catalyst":         action.get("catalyst", ""),
                 "technical_setup":  action.get("technical_setup", ""),
                 "risk_factors":     action.get("risk_factors", ""),
+                "balance_sheet_read": action.get("balance_sheet_read", ""),
                 "conviction":       conviction,
                 "tier":             action.get("tier", "2"),
                 "entry_date":       datetime.utcnow().isoformat(),
@@ -1233,7 +1277,7 @@ def build_pdf(decision: dict, portfolio: dict, macro: dict,
                                               fontSize=7, textColor=GREEN,
                                               letterSpacing=1.5, spaceAfter=3))
             ],[
-                Paragraph(bs_read if bs_read != "—" else "Balance sheet data not available for this ticker.",
+                Paragraph(bs_read if bs_read else "—",
                           S(f"bsb2{tk}", fontName="Helvetica", fontSize=8.5,
                             textColor=BLACK, leading=13, spaceAfter=0))
             ]], colWidths=[3.6*inch],
@@ -1517,18 +1561,16 @@ def main():
     # Build macro context
     macro = build_macro_context()
 
-    # Enrich signals with SEC EDGAR balance sheet data
-    log.info("Fetching balance sheet data from SEC EDGAR...")
+    # Enrich signals with balance sheet data (3-tier: EDGAR → yfinance BS → yfinance info)
+    log.info("Fetching balance sheet data...")
     _load_cik_map()  # pre-warm CIK map with a single HTTP request
     for s in signals:
         bs = fetch_balance_sheet(s.get("ticker", ""))
-        if bs:
-            s["bs_score"] = bs["score"]
-            s["bs_cash"]  = round(bs["cash"] / 1e9, 2) if bs.get("cash") else None
-            s["bs_de"]    = bs.get("de_ratio")
-            s["bs_re"]    = bs.get("retained", [])
-        else:
-            s["bs_score"] = None   # ETF / foreign / not in EDGAR
+        s["bs_score"]   = bs["score"]
+        s["bs_cash"]    = round(bs["cash"] / 1e9, 2) if bs.get("cash") else None
+        s["bs_de"]      = bs.get("de_ratio")
+        s["bs_re"]      = bs.get("retained", [])
+        s["bs_summary"] = bs.get("summary", "")
         time.sleep(0.15)  # respect SEC EDGAR rate limits
 
     # Refresh prices on open positions
@@ -1564,6 +1606,13 @@ def main():
             send_telegram(trade_msg(a, portfolio))
             email_alerts.send_trade_alert(a, portfolio, macro)
             time.sleep(1)
+
+    # Backfill balance_sheet_read for positions that pre-date this field
+    for pos in portfolio.get("positions", []):
+        if not pos.get("balance_sheet_read"):
+            bs = fetch_balance_sheet(pos.get("ticker", ""))
+            pos["balance_sheet_read"] = bs.get("summary", "")
+            time.sleep(0.15)
 
     # Generate and send reports
     ts         = datetime.utcnow().strftime("%Y%m%d_%H%M")
