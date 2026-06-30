@@ -216,14 +216,12 @@ def main():
     if count % 4 == 0 or len(qualifying) >= 5:
         send(format_scan_summary(results[:30], macro))
 
-    # Run global news scan — fetch from CNBC, Reuters, MarketWatch etc
+    # Run structured news feed (RSS + per-ticker Google News)
     try:
-        from news import scan_global_news, save_news_feed
-        print("[News] Scanning CNBC, Reuters, MarketWatch, Yahoo Finance...")
-        all_news = scan_global_news()
-        save_news_feed(all_news)
+        import news_fetcher
+        news_fetcher.run()
     except Exception as e:
-        print(f"[News] Global scan error: {e}")
+        print(f"[News] News fetcher error: {e}")
 
     # Save live prices for app (including macro tickers)
     try:
