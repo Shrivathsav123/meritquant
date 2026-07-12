@@ -273,11 +273,39 @@ def detect_patterns(ticker):
             elif high[-1] < high[-5] and low[-1] < low[-5]:
                 patterns.append("📉 Downtrend: Lower Highs & Lows")
 
-        # Fair Value Gap
+        # Fair Value Gap — 3-candle structural imbalance with ATR depth + volume filters
+        open_ = data["Open"].values
+        atr_s = pd.Series(
+            pd.concat([
+                data["High"] - data["Low"],
+                (data["High"] - data["Close"].shift()).abs(),
+                (data["Low"]  - data["Close"].shift()).abs(),
+            ], axis=1).max(axis=1)
+        ).rolling(14).mean().values
+        vol_ma_20 = pd.Series(volume.astype(float)).rolling(20).mean().values
+
         for i in range(2, len(close)):
-            if low[i] > high[i-2] and i >= len(close) - 5:
-                patterns.append("📊 Bullish FVG — buy on pullback")
-                break
+            gap_bottom = high[i - 2]
+            gap_top    = low[i]
+            if gap_top <= gap_bottom:
+                continue
+            if i < len(close) - 30:       # only recent FVGs
+                continue
+            gap_pct  = (gap_top - gap_bottom) / max(close[i - 2], 1)
+            if gap_pct < 0.001:
+                continue
+            b_body   = abs(close[i - 1] - open_[i - 1])
+            atr_val  = atr_s[i - 1]
+            depth_ok = not np.isnan(atr_val) and atr_val > 0 and b_body > 1.5 * atr_val
+            vm       = vol_ma_20[i - 1]
+            vol_ok   = not np.isnan(vm) and vm > 0 and volume[i - 1] > vm
+            label    = f"📊 Bullish FVG ${gap_bottom:.2f}–${gap_top:.2f}"
+            if depth_ok and vol_ok:
+                label += " ✅ depth+vol confirmed"
+            elif depth_ok:
+                label += " ✅ depth confirmed"
+            patterns.append(label)
+            break
 
     except Exception as e:
         details["error"] = str(e)

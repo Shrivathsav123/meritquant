@@ -223,6 +223,14 @@ def main():
     except Exception as e:
         print(f"[News] News fetcher error: {e}")
 
+    # FVG scanner — investing (daily/weekly/monthly) + intraday (5m/10m/15m)
+    try:
+        import fvg_scanner
+        fvg_tickers = [s["ticker"] for s in signals_for_trader[:40]]
+        fvg_scanner.run(fvg_tickers)
+    except Exception as e:
+        print(f"[FVG Scanner] Error: {e}")
+
     # Save live prices for app (including macro tickers)
     try:
         price_data = {}
