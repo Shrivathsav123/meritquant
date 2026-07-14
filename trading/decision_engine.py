@@ -14,7 +14,7 @@ ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 def get_scan_context():
     import json, os
     from datetime import datetime, timezone
-    path = '/Users/shrivathsav/Desktop/alpha_terminal_scan.json'
+    path = 'data/alpha_terminal_scan.json'
     try:
         if not os.path.exists(path):
             return ""

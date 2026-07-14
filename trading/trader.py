@@ -60,7 +60,7 @@ TRADE_MODE = os.environ.get("TRADE_MODE", "false").lower() == "true"
 def get_scan_context():
     import os as _os
     from datetime import datetime as _dt, timezone as _tz
-    path = '/Users/shrivathsav/Desktop/alpha_terminal_scan.json'
+    path = 'data/alpha_terminal_scan.json'
     try:
         if not _os.path.exists(path):
             return ""
