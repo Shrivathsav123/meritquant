@@ -708,8 +708,8 @@ def build_prompt(signals: list, macro: dict, portfolio: dict, memory: dict) -> s
     # ── Signal block (scanner score + balance sheet + technical) ──────────
     top_signals = sorted(signals, key=lambda x: x.get("score", 0), reverse=True)[:12]
     hdr = (f"  {'TICKER':<6} | {'Scan':>5} | {'RSI':>5} | {'BS':>5} | "
-           f"{'D/E':>5} | {'Cash$B':>7} | {'Sig':<4} | {'Sector':<16} | Headline")
-    sep = "  " + "-" * 110
+           f"{'D/E':>5} | {'Cash$B':>7} | {'Sig':<4} | {'Pattern':<14} | {'Gt':>3} | {'Sector':<16} | Headline")
+    sep = "  " + "-" * 130
     rows = [hdr, sep]
     for s in top_signals:
         bs_score = s.get("bs_score")
@@ -722,13 +722,15 @@ def build_prompt(signals: list, macro: dict, portfolio: dict, memory: dict) -> s
             rsi_str = f"{float(s.get('rsi', 'N/A')):.1f}"
         except (TypeError, ValueError):
             rsi_str = "  N/A"
+        top_pat   = s.get("top_pattern", "") or ""
+        pat_gates = s.get("top_pattern_gates", 0) or 0
         rows.append(
             f"  {s.get('ticker','?'):<6} | {s.get('score',0):5.1f} | {rsi_str:>5} | "
             f"{bs_str:>5} | {de_str:>5} | {cash_str:>7} | "
-            f"{s.get('signal','?'):<4} | {s.get('sector','?'):<16} | "
-            f"{s.get('news_headline','')[:65]}"
+            f"{s.get('signal','?'):<4} | {top_pat:<14} | {pat_gates:>3} | "
+            f"{s.get('sector','?'):<16} | {s.get('news_headline','')[:55]}"
         )
-    sig_block = "TOP SIGNALS (Scanner → Balance Sheet → Technical):\n" + "\n".join(rows)
+    sig_block = "TOP SIGNALS (Scanner → Balance Sheet → Technical → Pattern):\n" + "\n".join(rows)
 
     window = "PRE-CLOSE (3:30 PM ET)" if datetime.utcnow().hour >= 19 else "OPEN (9:35 AM ET)"
 

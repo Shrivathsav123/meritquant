@@ -3,10 +3,11 @@
 import sys, os, json
 from datetime import datetime
 from universe import ALL_US, NSE_STOCKS, SECTOR_ETFS, US_STOCKS
-from technical import analyze_ticker
+from technical import analyze_ticker, fetch_yahoo
 from macro import get_macro_environment, format_macro_alert
 from news import get_news_for_scanner as scan_news_for_ticker
 from telegram_alerts import send, format_stock_alert, format_scan_summary, send_startup_message
+from alpha_scan_v2 import scan_ticker, Bar
 
 try:
     from reddit_scanner import run_reddit_scan
@@ -53,6 +54,24 @@ def run_scan(tickers_dict, market="US"):
     for ticker, name in tickers_dict.items():
         try:
             result = analyze_ticker(ticker, name)
+
+            # Run multi-pattern institutional scan
+            try:
+                df = fetch_yahoo(ticker, period="6mo", interval="1d")
+                ohlcv_bars = [
+                    Bar(ts=str(idx.date()), o=float(row.Open), h=float(row.High),
+                        l=float(row.Low), c=float(row.Close), v=float(row.Volume))
+                    for idx, row in df.iterrows()
+                ] if not df.empty else []
+            except Exception:
+                ohlcv_bars = []
+
+            if ohlcv_bars:
+                pattern_result = scan_ticker(ticker, ohlcv_bars)
+                result["patterns"]          = pattern_result["setups"]
+                result["top_pattern"]       = pattern_result["top_pattern"]
+                result["top_pattern_gates"] = pattern_result["top_gates"]
+
             _news_result = scan_news_for_ticker(ticker, name)
             if isinstance(_news_result, tuple):
                 news_signals, news_score = _news_result
@@ -164,9 +183,11 @@ def main():
             "conviction":    r.get("conviction", ""),
             "rsi":           rsi_str,
             "sector":        r.get("sector", ""),
-            "patterns":      r.get("patterns", []),
-            "news_headline": news_headline,
-            "market":        r.get("market", "US"),
+            "patterns":          r.get("patterns", []),
+            "news_headline":     news_headline,
+            "market":            r.get("market", "US"),
+            "top_pattern":       r.get("top_pattern", ""),
+            "top_pattern_gates": r.get("top_pattern_gates", 0),
         })
     json.dump(signals_for_trader, open(f"{DATA_DIR}/signals.json", "w"), indent=2, default=str)
 
