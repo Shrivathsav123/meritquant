@@ -1,4 +1,4 @@
-# trading/decision_engine.py — ALPHA Quant AI with memory, macro prediction, probabilistic entry
+# trading/decision_engine.py — MeritQuant AI with memory, macro prediction, probabilistic entry
 
 import json
 import requests
@@ -9,6 +9,71 @@ from memory import get_memory_context, record_lesson
 from macro_calendar import get_macro_risk_score, get_upcoming_events_risk
 
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
+
+
+def get_scan_context():
+    import json, os
+    from datetime import datetime, timezone
+    path = '/Users/shrivathsav/Desktop/alpha_terminal_scan.json'
+    try:
+        if not os.path.exists(path):
+            return ""
+        with open(path, 'r') as f:
+            scan = json.load(f)
+        scan_time = datetime.fromisoformat(scan.get('scan_time', '').replace('Z', '+00:00'))
+        age_hours = (datetime.now(timezone.utc) - scan_time).total_seconds() / 3600
+        if age_hours > 2:
+            return f"[SCAN DATA STALE - {age_hours:.1f}hrs old, proceed with caution]"
+        return f"""
+=== ALPHA TERMINAL TECHNICAL SCAN ({scan['scan_type']} | {scan['scan_time']}) ===
+
+MACRO REGIME: {scan['macro']['regime']}
+
+VIX: {scan['macro']['vix']} | DXY: {scan['macro']['dxy']} | \nYield Spread (10Y-2Y): {scan['macro']['spread_10y_2y_bps']}bps
+
+HYG: {scan['macro']['hyg']} | LQD: {scan['macro']['lqd']}
+
+Position Size Cap: {scan['macro']['position_size_cap_pct']}% \n(${scan['macro']['position_size_cap_usd']:,.0f} max per trade)
+
+Macro Notes: {scan['macro']['macro_notes']}
+
+SECTOR ROTATION:
+
+Leading (BUY SIDE): {scan['sector_rotation']['leading_sector']} \n  ({scan['sector_rotation']['leading_avg_pct']:+.2f}%)
+
+Lagging (AVOID): {scan['sector_rotation']['lagging_sector']} \n  ({scan['sector_rotation']['lagging_avg_pct']:+.2f}%)
+
+DXY Signal: {scan['sector_rotation']['dxy_equity_signal']}
+
+Thesis: {scan['sector_rotation']['rotation_thesis']}
+
+ACTIVE FVG SETUPS (ranked by conviction):
+
+{chr(10).join([
+    f"  #{i+1} {s['symbol']} {s['direction']} | "
+    f"Entry: ${s['entry_price']} | Stop: ${s['stop_price']} | "
+    f"Target: ${s['target_1']} | R:R {s['risk_reward']:.1f}x | "
+    f"Gates: {s['gates_cleared']}/9 | Size: {s['position_size_pct']}% "
+    f"(${s['position_size_usd']:,.0f}) | {s['thesis']}"
+    for i, s in enumerate(scan.get('setups', []))
+])}
+
+WATCHLIST (not ready yet):
+
+{chr(10).join([
+    f"  {w['symbol']} - Alert at ${w['alert_price']} | Missing: {w['missing']}"
+    for w in scan.get('no_trade_watchlist', [])
+])}
+
+SCANNER DIRECTIVE FOR THIS DECISION:
+
+{scan['ai_directive']}
+
+=== END SCAN DATA ===
+
+"""
+    except Exception as e:
+        return f"[Scan data unavailable: {e}]"
 
 SECTOR_UNIVERSE = {
     "AI_BOTTLENECK":  ["LITE","COHR","VRT","AMAT","LRCX","KLAC","VICR","MPWR","CDNS","SNPS","ANET","SMCI"],
@@ -24,7 +89,7 @@ SECTOR_UNIVERSE = {
     "TELECOM_AI":     ["NOK","ERIC","INFN","CIEN","VIAV"],
 }
 
-QUANT_SYSTEM_PROMPT = """You are ALPHA — an elite quantitative trading AI combining macro economics, probabilistic analysis, and deep market memory.
+QUANT_SYSTEM_PROMPT = """You are MeritQuant — an elite quantitative trading AI combining macro economics, probabilistic analysis, and deep market memory.
 
 Your edge is NOT chart patterns alone. Your edge is the MARRIAGE of:
 1. Macro regime identification (rates, credit, dollar, VIX)
@@ -254,7 +319,7 @@ Return [] if no high-probability setups or nothing to sell."""
         resp = requests.post(
             "https://api.anthropic.com/v1/messages",
             headers={"x-api-key": ANTHROPIC_API_KEY, "anthropic-version": "2023-06-01", "content-type": "application/json"},
-            json={"model": "claude-opus-4-8", "max_tokens": 2500, "system": QUANT_SYSTEM_PROMPT, "messages": [{"role": "user", "content": prompt}]},
+            json={"model": "claude-opus-4-8", "max_tokens": 2500, "system": get_scan_context() + "\n\n" + QUANT_SYSTEM_PROMPT, "messages": [{"role": "user", "content": prompt}]},
             timeout=50,
         )
         if resp.status_code != 200:

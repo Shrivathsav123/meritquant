@@ -124,7 +124,7 @@ def format_stock_alert(result, news_signals=[], macro_env="NEUTRAL"):
     now = datetime.now(timezone.utc).strftime("%d %b %Y  %H:%M UTC")
 
     msg = (
-        f"<code>ALPHA SCANNER  |  {now}</code>\n"
+        f"<code>MERITQUANT SCANNER  |  {now}</code>\n"
         f"<code>{'─'*38}</code>\n"
         f"\n"
         f"<b>{rating}</b>  |  <b>${ticker}</b>  |  Score {score}/12\n"
@@ -177,7 +177,7 @@ def format_scan_summary(results, macro):
     env = macro.get('environment','?').replace(' 🟢','').replace(' 🔴','').replace(' 🟡','').replace(' 🟠','').replace(' ⚪','')
 
     return (
-        f"<code>ALPHA SCANNER  |  {now}</code>\n"
+        f"<code>MERITQUANT SCANNER  |  {now}</code>\n"
         f"<code>{'─'*38}</code>\n"
         f"\n"
         f"<b>MACRO  |  {env}</b>\n"
@@ -203,7 +203,7 @@ def format_scan_summary(results, macro):
 def send_startup_message():
     now = datetime.now(timezone.utc).strftime("%d %b %Y  %H:%M UTC")
     send(
-        f"<code>ALPHA SCANNER  |  {now}</code>\n"
+        f"<code>MERITQUANT SCANNER  |  {now}</code>\n"
         f"<code>{'─'*38}</code>\n"
         f"\n"
         f"<b>SYSTEM ONLINE</b>\n"

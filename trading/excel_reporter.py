@@ -72,7 +72,7 @@ def build_trade_excel():
 
     # Title row
     ws.merge_cells("A1:L1")
-    ws["A1"] = "ALPHA TERMINAL — TRADE LOG"
+    ws["A1"] = "MERITQUANT — TRADE LOG"
     ws["A1"].font      = _font(bold=True, size=16, color=WHITE)
     ws["A1"].fill      = _fill(NAVY)
     ws["A1"].alignment = _center()
@@ -264,9 +264,9 @@ def send_trade_excel(trigger_action="", trigger_ticker=""):
     try:
         excel_bytes = build_trade_excel()
         now         = datetime.utcnow().strftime("%d%b%Y")
-        filename    = f"ALPHA_TradeLog_{now}.xlsx"
+        filename    = f"MERITQUANT_TradeLog_{now}.xlsx"
         caption     = (
-            f"ALPHA TRADE LOG — Updated\n"
+            f"MERITQUANT TRADE LOG — Updated\n"
             f"Triggered by: {trigger_action} ${trigger_ticker}\n"
             f"{datetime.utcnow().strftime('%d %B %Y %H:%M UTC')}"
         )

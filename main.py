@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# main.py — Alpha Scanner
+# main.py — MeritQuant Scanner
 import sys, os, json
 from datetime import datetime
 from universe import ALL_US, NSE_STOCKS, SECTOR_ETFS, US_STOCKS
@@ -90,7 +90,7 @@ def main():
 
     dry_run = "--dry-run" in sys.argv
     count   = inc_count()
-    print(f"\n[Alpha Scanner] Scan #{count} — {datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}")
+    print(f"\n[MeritQuant Scanner] Scan #{count} — {datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}")
 
     # Macro
     print("[Macro] Scanning...")

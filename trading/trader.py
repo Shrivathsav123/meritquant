@@ -57,6 +57,71 @@ FRED_API_KEY      = os.environ.get("FRED_API_KEY", "")
 TRADE_MODE = os.environ.get("TRADE_MODE", "false").lower() == "true"
 
 
+def get_scan_context():
+    import os as _os
+    from datetime import datetime as _dt, timezone as _tz
+    path = '/Users/shrivathsav/Desktop/alpha_terminal_scan.json'
+    try:
+        if not _os.path.exists(path):
+            return ""
+        with open(path, 'r') as f:
+            scan = json.load(f)
+        scan_time = _dt.fromisoformat(scan.get('scan_time', '').replace('Z', '+00:00'))
+        age_hours = (_dt.now(_tz.utc) - scan_time).total_seconds() / 3600
+        if age_hours > 2:
+            return f"[SCAN DATA STALE - {age_hours:.1f}hrs old, proceed with caution]"
+        return f"""
+=== MERITQUANT TECHNICAL SCAN ({scan['scan_type']} | {scan['scan_time']}) ===
+
+MACRO REGIME: {scan['macro']['regime']}
+
+VIX: {scan['macro']['vix']} | DXY: {scan['macro']['dxy']} | \nYield Spread (10Y-2Y): {scan['macro']['spread_10y_2y_bps']}bps
+
+HYG: {scan['macro']['hyg']} | LQD: {scan['macro']['lqd']}
+
+Position Size Cap: {scan['macro']['position_size_cap_pct']}% \n(${scan['macro']['position_size_cap_usd']:,.0f} max per trade)
+
+Macro Notes: {scan['macro']['macro_notes']}
+
+SECTOR ROTATION:
+
+Leading (BUY SIDE): {scan['sector_rotation']['leading_sector']} \n  ({scan['sector_rotation']['leading_avg_pct']:+.2f}%)
+
+Lagging (AVOID): {scan['sector_rotation']['lagging_sector']} \n  ({scan['sector_rotation']['lagging_avg_pct']:+.2f}%)
+
+DXY Signal: {scan['sector_rotation']['dxy_equity_signal']}
+
+Thesis: {scan['sector_rotation']['rotation_thesis']}
+
+ACTIVE FVG SETUPS (ranked by conviction):
+
+{chr(10).join([
+    f"  #{i+1} {s['symbol']} {s['direction']} | "
+    f"Entry: ${s['entry_price']} | Stop: ${s['stop_price']} | "
+    f"Target: ${s['target_1']} | R:R {s['risk_reward']:.1f}x | "
+    f"Gates: {s['gates_cleared']}/9 | Size: {s['position_size_pct']}% "
+    f"(${s['position_size_usd']:,.0f}) | {s['thesis']}"
+    for i, s in enumerate(scan.get('setups', []))
+])}
+
+WATCHLIST (not ready yet):
+
+{chr(10).join([
+    f"  {w['symbol']} - Alert at ${w['alert_price']} | Missing: {w['missing']}"
+    for w in scan.get('no_trade_watchlist', [])
+])}
+
+SCANNER DIRECTIVE FOR THIS DECISION:
+
+{scan['ai_directive']}
+
+=== END SCAN DATA ===
+
+"""
+    except Exception as e:
+        return f"[Scan data unavailable: {e}]"
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # 1. UTILITY HELPERS
 # ─────────────────────────────────────────────────────────────────────────────
@@ -667,7 +732,7 @@ def build_prompt(signals: list, macro: dict, portfolio: dict, memory: dict) -> s
 
     window = "PRE-CLOSE (3:30 PM ET)" if datetime.utcnow().hour >= 19 else "OPEN (9:35 AM ET)"
 
-    return f"""You are the Head of Quantitative Equity Strategy at MeritQuant — managing a ${PORTFOLIO_SIZE:,.0f} institutional paper portfolio modelled on an NGO endowment trust. Trade window: {window}.
+    return get_scan_context() + "\n\n" + f"""You are the Head of Quantitative Equity Strategy at MeritQuant — managing a ${PORTFOLIO_SIZE:,.0f} institutional paper portfolio modelled on an NGO endowment trust. Trade window: {window}.
 
 INVESTMENT MANDATE:
 - Buffett balance-sheet discipline: prefer cash-rich, low-leverage compounders (BS score ≥ 6/10).
