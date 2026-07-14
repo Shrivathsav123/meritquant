@@ -1,0 +1,106 @@
+{
+  "scan_time": "2026-07-14T09:35:00-04:00",
+  "scan_type": "OPEN",
+  "portfolio_usd": 183000,
+  "macro": {
+    "vix": 16.55,
+    "dxy": 100.705,
+    "yield_2y": 4.191,
+    "yield_10y": 4.573,
+    "spread_10y_2y_bps": 38.2,
+    "hyg": 79.625,
+    "lqd": 107.14,
+    "regime": "NEUTRAL",
+    "position_size_cap_pct": 7,
+    "position_size_cap_usd": 12810,
+    "macro_notes": "VIX 16.55=RISK_ON. DXY 100.7 below 101=equity tailwind. Yield curve 38bps=LATE_CYCLE caps regime NEUTRAL. HYG stable. Net: NEUTRAL with bullish bias."
+  },
+  "sector_rotation": {
+    "leading_sector": "SEMIS",
+    "leading_avg_pct": 3.3,
+    "lagging_sector": "CONSUMER_TECH",
+    "lagging_avg_pct": -1.45,
+    "dxy_equity_signal": "BULLISH",
+    "rotation_thesis": "SEMIS leading: AMD +5.25%, MU +4.49%, AMAT +4.09%, INTC +3.79%. Consumer/tech distributing: CRM -3.83%, DASH -1.97%, RDDT -1.21%. AI capex cycle driving chips. Long SEMIS, avoid CONSUMER_TECH."
+  },
+  "setups": [
+    {
+      "symbol": "AMAT",
+      "direction": "LONG",
+      "fvg_type": "BULLISH",
+      "fvg_bottom": 590.0,
+      "fvg_top": 594.89,
+      "fvg_midpoint": 592.45,
+      "fvg_fresh": true,
+      "current_price": 598.11,
+      "entry_price": 592.45,
+      "stop_price": 584.1,
+      "target_1": 613.9,
+      "target_2": 629.86,
+      "risk_reward": 2.57,
+      "gates_cleared": 9,
+      "position_size_pct": 7,
+      "position_size_usd": 12810,
+      "max_hold_days": 3,
+      "thesis": "Fresh bullish FVG 590-594.89 (current bar open gap). Stacking secondary FVG 577-604. Price above 21-SMA (588.07). RSI 50.13. 200-day 352.52 far below. SEMIS leading. Enter ONLY on pullback to 590-595.",
+      "invalidation": "4H close below 577. Abort if VIX spikes above 22."
+    },
+    {
+      "symbol": "AMD",
+      "direction": "LONG",
+      "fvg_type": "BULLISH",
+      "fvg_bottom": 551.86,
+      "fvg_top": 552.93,
+      "fvg_midpoint": 552.4,
+      "fvg_fresh": true,
+      "current_price": 562.46,
+      "entry_price": 552.4,
+      "stop_price": 546.34,
+      "target_1": 574.18,
+      "target_2": 584.64,
+      "risk_reward": 3.59,
+      "gates_cleared": 9,
+      "position_size_pct": 7,
+      "position_size_usd": 12810,
+      "max_hold_days": 3,
+      "thesis": "Stacked FVG cluster 550-553 (2 overlapping FVGs). RSI 56.34. Above 200-day (291.52). R/R 3.59. Enter ONLY on pullback to 551-553.",
+      "invalidation": "4H close below 546."
+    },
+    {
+      "symbol": "MU",
+      "direction": "LONG",
+      "fvg_type": "BULLISH",
+      "fvg_bottom": 943.5,
+      "fvg_top": 967.5,
+      "fvg_midpoint": 955.5,
+      "fvg_fresh": true,
+      "current_price": 979.04,
+      "entry_price": 955.5,
+      "stop_price": 933.57,
+      "target_1": 994.79,
+      "target_2": 1025.68,
+      "risk_reward": 1.79,
+      "gates_cleared": 7,
+      "position_size_pct": 5,
+      "position_size_usd": 9150,
+      "max_hold_days": 2,
+      "thesis": "DRAM/HBM gap-up. Fresh FVG 943.5-967.5. RSI 46.28. Below 21-SMA (1025) = headwind. 7 gates, smaller size. Enter ONLY at 943-967 deep dip.",
+      "invalidation": "4H close below 933."
+    }
+  ],
+  "no_trade_watchlist": [
+    {
+      "symbol": "CRM",
+      "reason": "5 gates. Gap-down -3.83%, below 200-day (208.54). NO fresh bearish FVG. RSI 52. Watch for FVG to form on 167-169 rally before shorting."
+    },
+    {
+      "symbol": "DASH",
+      "reason": "Not scanned. Breadth too bullish for short at open. Revisit 10AM."
+    },
+    {
+      "symbol": "RDDT",
+      "reason": "Down -1.21%, no FVG confirmed. Avoid."
+    }
+  ],
+  "ai_directive": "SEMIS LONG BIAS. Primary: AMAT \u2014 enter ONLY at 590-595 FVG pullback, DO NOT chase 598+. Secondary: AMD \u2014 enter ONLY at 551-553 FVG pullback. Tertiary: MU at 943-967 deep dip only. RULES: (1) No entries above FVG zones. (2) NEUTRAL cap=7% max (2,810). (3) CRM short=watchlist only. (4) Confirm VIX stable before executing. (5) Bearish engulf + RSI<45 on any semi in first 30min = invalidate that setup."
+}
