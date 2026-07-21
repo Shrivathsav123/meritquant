@@ -796,9 +796,9 @@ RESPOND ONLY with valid JSON — no preamble, no markdown fences:
 def call_claude(prompt: str) -> Optional[dict]:
     client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
     try:
-        log.info("Calling Claude Opus 4.8...")
+        log.info("Calling Claude Sonnet 4.6...")
         msg = client.messages.create(
-            model="claude-opus-4-8",
+            model="claude-sonnet-4-6",
             max_tokens=6000,
             messages=[{"role": "user", "content": prompt}]
         )

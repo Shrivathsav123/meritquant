@@ -319,7 +319,7 @@ Return [] if no high-probability setups or nothing to sell."""
         resp = requests.post(
             "https://api.anthropic.com/v1/messages",
             headers={"x-api-key": ANTHROPIC_API_KEY, "anthropic-version": "2023-06-01", "content-type": "application/json"},
-            json={"model": "claude-opus-4-8", "max_tokens": 2500, "system": get_scan_context() + "\n\n" + QUANT_SYSTEM_PROMPT, "messages": [{"role": "user", "content": prompt}]},
+            json={"model": "claude-sonnet-4-6", "max_tokens": 2500, "system": get_scan_context() + "\n\n" + QUANT_SYSTEM_PROMPT, "messages": [{"role": "user", "content": prompt}]},
             timeout=50,
         )
         if resp.status_code != 200:
