@@ -68,7 +68,7 @@ def run_scan(tickers_dict, market="US"):
 
             if ohlcv_bars:
                 pattern_result = scan_ticker(ticker, ohlcv_bars)
-                result["patterns"]          = pattern_result["setups"]
+                result["v2_patterns"]       = pattern_result["setups"]
                 result["top_pattern"]       = pattern_result["top_pattern"]
                 result["top_pattern_gates"] = pattern_result["top_gates"]
 
