@@ -1666,7 +1666,15 @@ def main():
 
     if not decision:
         send_telegram("⚠️ <b>MeritQuant</b>: Claude returned no valid decision. Manual review required.")
-        log.error("No valid decision — aborting.")
+        log.error("No valid decision — sending fallback summary email.")
+        fallback = {
+            "regime": macro.get("regime", "UNKNOWN"),
+            "market_assessment": "AI decision engine unavailable — check Anthropic API credits at console.anthropic.com → Plans & Billing.",
+            "memory_applied": "—",
+            "portfolio_notes": f"Portfolio value ${portfolio.get('total_value',0):,.0f} | Cash ${portfolio.get('cash',0):,.0f} | {len(portfolio.get('positions',[]))} open positions.",
+            "actions": [],
+        }
+        email_alerts.send_session_summary(fallback, portfolio, macro, [], auto_exits)
         return
 
     # Execute
