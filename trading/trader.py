@@ -793,26 +793,66 @@ RESPOND ONLY with valid JSON — no preamble, no markdown fences:
   "memory_applied": "Which past lessons influenced today — cite specific ticker and date if applicable."
 }}"""
 
+def _sanitize_json(raw: str) -> str:
+    """Escape literal newlines/tabs inside JSON string values that break json.loads."""
+    m = re.search(r'\{[\s\S]*\}', raw)
+    if m:
+        raw = m.group(0)
+    result = []
+    in_string = False
+    escape_next = False
+    for ch in raw:
+        if escape_next:
+            result.append(ch)
+            escape_next = False
+        elif ch == '\\':
+            result.append(ch)
+            escape_next = True
+        elif ch == '"':
+            result.append(ch)
+            in_string = not in_string
+        elif in_string and ch == '\n':
+            result.append('\\n')
+        elif in_string and ch == '\r':
+            result.append('\\r')
+        elif in_string and ch == '\t':
+            result.append('\\t')
+        else:
+            result.append(ch)
+    return ''.join(result)
+
+
 def call_claude(prompt: str) -> Optional[dict]:
     client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+    system = (
+        "You are a quantitative trading AI. Respond ONLY with a single valid JSON object. "
+        "No markdown fences, no preamble, no trailing text after the closing brace. "
+        "All string values must use \\n for newlines — never literal newlines inside strings. "
+        "Ensure every string is properly closed and all brackets are balanced."
+    )
+    raw = ""
     try:
         log.info("Calling Claude Sonnet 4.6...")
         msg = client.messages.create(
             model="claude-sonnet-4-6",
-            max_tokens=6000,
+            max_tokens=8000,
+            system=system,
             messages=[{"role": "user", "content": prompt}]
         )
         raw = msg.content[0].text.strip()
-        # Strip any accidental markdown fences
-        if "```" in raw:
-            raw = raw.split("```")[1]
-            if raw.startswith("json"):
-                raw = raw[4:]
-        decision = json.loads(raw.strip())
+        # Strip markdown fences
+        raw = re.sub(r'^```(?:json)?\s*\n?', '', raw).strip()
+        raw = re.sub(r'\n?```\s*$', '', raw).strip()
+        # Try direct parse first
+        try:
+            decision = json.loads(raw)
+        except json.JSONDecodeError:
+            decision = json.loads(_sanitize_json(raw))
         log.info(f"Decision: regime={decision.get('regime')} | actions={len(decision.get('actions',[]))}")
         return decision
     except json.JSONDecodeError as e:
         log.error(f"JSON parse error: {e}")
+        log.error(f"Raw response (first 500 chars): {raw[:500]}")
     except Exception as e:
         log.error(f"Claude API error: {e}")
     return None
