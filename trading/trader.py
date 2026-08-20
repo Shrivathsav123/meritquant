@@ -609,6 +609,7 @@ def load_trade_log() -> list:
 
 def update_prices(portfolio: dict) -> dict:
     total = portfolio.get("cash", 0)
+    now = datetime.utcnow()
     for pos in portfolio.get("positions", []):
         price = fetch_price(pos["ticker"])
         if price:
@@ -616,9 +617,18 @@ def update_prices(portfolio: dict) -> dict:
             pos["current_value"]  = price * pos["shares"]
             pos["unrealised_pnl"] = pos["current_value"] - pos["cost_basis_total"]
             pos["unrealised_pct"] = pos["unrealised_pnl"] / pos["cost_basis_total"]
+        # Track peak gain for trailing stop
+        current_pct = pos.get("unrealised_pct", 0)
+        pos["peak_unrealised_pct"] = max(pos.get("peak_unrealised_pct", 0), current_pct)
+        # Track days held
+        try:
+            entry_dt = datetime.fromisoformat(pos["entry_date"])
+            pos["days_held"] = max(1, (now - entry_dt.replace(tzinfo=None)).days)
+        except Exception:
+            pos["days_held"] = pos.get("days_held", 1)
         total += pos.get("current_value", pos["cost_basis_total"])
     portfolio["total_value"]  = total
-    portfolio["last_updated"] = datetime.utcnow().isoformat()
+    portfolio["last_updated"] = now.isoformat()
     return portfolio
 
 def close_pos(pos: dict, reason: str) -> dict:
@@ -641,28 +651,47 @@ def close_pos(pos: dict, reason: str) -> dict:
         "trade_date":       datetime.utcnow().isoformat(),
     }
 
-def run_sl_tp(portfolio: dict, trade_log: list, memory: dict):
-    """Auto-exit positions at stop loss (−8%) or take profit (+20%)."""
+HEDGE_TICKERS = {"VXX", "GLD", "TLT", "SH", "UVXY", "SQQQ", "SPXS", "PSQ", "TAIL"}
+
+def run_sl_tp(portfolio: dict, trade_log: list, memory: dict, macro: dict = None):
+    """Auto-exit on SL, TP, trailing stop, or macro regime flip."""
     exits, remaining = [], []
+    regime = (macro or {}).get("regime", "NEUTRAL")
+
     for pos in portfolio.get("positions", []):
-        pnl = pos.get("unrealised_pct", 0)
+        pnl  = pos.get("unrealised_pct", 0)
+        peak = pos.get("peak_unrealised_pct", pnl)
+        ticker = pos["ticker"]
+        reason = None
+
         if pnl <= -STOP_LOSS_PCT:
             reason = f"STOP LOSS at {pnl*100:.1f}%"
+            log.warning(f"SL HIT: {ticker} {pnl*100:.1f}%")
+
+        elif pnl >= TAKE_PROFIT_PCT:
+            reason = f"TAKE PROFIT at +{pnl*100:.1f}%"
+            log.info(f"TP HIT: {ticker} +{pnl*100:.1f}%")
+
+        elif peak >= 0.10 and pnl < 0.03:
+            # Trailing stop: was up ≥10%, pulled back below +3% — protect the gain
+            reason = f"TRAILING STOP — peak was +{peak*100:.1f}%, now +{pnl*100:.1f}%"
+            log.info(f"TRAIL STOP: {ticker} peak={peak*100:.1f}% now={pnl*100:.1f}%")
+
+        elif regime == "RISK-OFF" and ticker not in HEDGE_TICKERS:
+            # Macro regime flip: exit all equity longs, preserve cash for hedges
+            reason = f"RISK-OFF regime exit at {pnl*100:+.1f}%"
+            log.warning(f"REGIME EXIT: {ticker} RISK-OFF, P&L {pnl*100:+.1f}%")
+
+        if reason:
             t = close_pos(pos, reason)
+            t["exit_reason"] = reason
             trade_log.append(t)
             memory = update_memory(t, memory)
             portfolio["cash"] += pos.get("current_value", pos["cost_basis_total"])
-            exits.append((pos["ticker"], reason, pnl))
-            log.warning(f"SL HIT: {pos['ticker']} {pnl*100:.1f}%")
-        elif pnl >= TAKE_PROFIT_PCT:
-            reason = f"TAKE PROFIT at +{pnl*100:.1f}%"
-            t = close_pos(pos, reason)
-            trade_log.append(t)
-            portfolio["cash"] += pos.get("current_value", pos["cost_basis_total"])
-            exits.append((pos["ticker"], reason, pnl))
-            log.info(f"TP HIT: {pos['ticker']} +{pnl*100:.1f}%")
+            exits.append((ticker, reason, pnl))
         else:
             remaining.append(pos)
+
     portfolio["positions"] = remaining
     return portfolio, trade_log, memory, exits
 
@@ -693,15 +722,32 @@ def build_prompt(signals: list, macro: dict, portfolio: dict, memory: dict) -> s
         f"Total: ${portfolio.get('total_value', 0):,.0f}  |  "
         f"Positions: {len(positions)}/{MAX_OPEN_POSITIONS}\n"
     )
+    vix_val  = ind.get("VIX",  {}).get("value") or 0
+    dxy_val  = ind.get("DXY",  {}).get("value") or 0
+    t10y_val = ind.get("T10Y", {}).get("value") or 0
+
     for p in positions:
-        entry = p.get("entry_price", 0)
-        curr  = p.get("current_price", entry)
-        sl    = entry * (1 - STOP_LOSS_PCT)
-        tp    = entry * (1 + TAKE_PROFIT_PCT)
+        entry    = p.get("entry_price", 0)
+        curr     = p.get("current_price", entry)
+        sl       = entry * (1 - STOP_LOSS_PCT)
+        tp       = entry * (1 + TAKE_PROFIT_PCT)
+        pnl_pct  = p.get("unrealised_pct", 0)
+        peak_pct = p.get("peak_unrealised_pct", pnl_pct)
+        days     = p.get("days_held", 0)
+        # Simple macro alignment check per position
+        sector = p.get("thesis_summary", "").lower()
+        is_growth = any(w in sector for w in ["tech", "semi", "ai", "growth", "biotech", "software"])
+        macro_flag = ""
+        if vix_val > 20 and is_growth:
+            macro_flag = " ⚠️VIX>"
+        if dxy_val > 104 and is_growth:
+            macro_flag += " ⚠️DXY>"
+        if t10y_val > 4.5 and is_growth:
+            macro_flag += " ⚠️TNX>"
         port_block += (
             f"  {p['ticker']}: {p['shares']:.1f}sh @ ${entry:.2f} → ${curr:.2f} | "
-            f"SL ${sl:.2f} | TP ${tp:.2f} | "
-            f"P&L {p.get('unrealised_pct', 0)*100:+.1f}% | "
+            f"P&L {pnl_pct*100:+.1f}% (Peak {peak_pct*100:+.1f}%) | {days}d held | "
+            f"SL ${sl:.2f} | TP ${tp:.2f}{macro_flag} | "
             f"Thesis: {p.get('thesis_summary', '')[:60]}\n"
         )
 
@@ -740,12 +786,41 @@ INVESTMENT MANDATE:
 - Buffett balance-sheet discipline: prefer cash-rich, low-leverage compounders (BS score ≥ 6/10).
 - Macro catalyst identification: every ENTER must cite a named, dated catalyst with a quantified magnitude.
 - Technical confirmation: entry only when RSI, moving averages, and chart pattern align — cite exact levels.
-- Position sizing is always $18,000 — no exceptions. You are either fully in or fully out. Conviction score is for transparency only and does not gate entry. If the setup is there, deploy full size. If you are not confident, skip entirely. Maximum {MAX_OPEN_POSITIONS} concurrent positions. Apply the winning pattern memory above — the goal is to compound on what works and avoid what has failed. Every trade you make teaches the system. Trade freely, size consistently, learn continuously.
-- Stop loss: {STOP_LOSS_PCT*100:.0f}% below entry. Take profit: {TAKE_PROFIT_PCT*100:.0f}% above entry.
-- RISK-OFF regime: only hedges (VXX, GLD, TLT, SH). No long equity.
-- Sector overlap: do not duplicate sector exposure across open positions.
-- Risk-reward floor: minimum 2.0:1 required on all new entries. Reject any trade below this.
-- BANNED phrases: "strong fundamentals", "supportive macro", "well-positioned", "solid balance sheet" — every sentence must contain a specific number or named event.
+- Position sizing is always $18,000 — no exceptions. Maximum {MAX_OPEN_POSITIONS} concurrent positions.
+- Hard stop loss: {STOP_LOSS_PCT*100:.0f}% below entry. Hard take profit: {TAKE_PROFIT_PCT*100:.0f}% above entry (executed automatically).
+- Risk-reward floor: minimum 2.0:1 required on all new entries.
+- BANNED phrases: "strong fundamentals", "supportive macro", "well-positioned" — every sentence must contain a specific number or named event.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EXIT & PROFIT-TAKING FRAMEWORK — MANDATORY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Evaluating exits is AS IMPORTANT as finding entries. Review EVERY open position.
+
+SMART PROFIT-TAKING RULES (don't wait for the +20% hard stop):
+• Position up ≥10% with no new catalyst in the next 30 days → EXIT and bank the gain
+• Position up ≥8% and macro is turning against the sector (see below) → EXIT immediately
+• Peak gain was ≥10% but position has pulled back below +3% → EXIT (protect the gain)
+• Thesis catalyst has expired or played out (e.g. earnings passed, FDA date passed) → EXIT regardless of P&L
+• Position held >20 days with <5% gain and no near-term catalyst → EXIT (capital is dead money)
+
+SECTOR ROTATION — MACRO-DRIVEN EXITS (use exact indicator values shown above):
+• VIX > 20 and RISING → EXIT cyclicals and growth (tech, semis, consumer, biotech). ADD hedges (GLD, TLT).
+• VIX > 25 → EXIT all equity longs except hedges. This is a risk-off event.
+• DXY > 104 → EXIT growth tech, exporters, international. ENTER domestic defensives.
+• DXY < 101 → EXIT domestic retailers. ENTER multinationals, commodities, gold miners.
+• TNX (10Y yield) above 4.5% and RISING → EXIT high-P/E growth and semis. ENTER financials (JPM, GS), energy.
+• TNX falling below 4.0% → EXIT financials/banks. ENTER growth tech, biotech, semis.
+• HY credit spread > 350bps → EXIT all risk-on equity longs. Max defensive positioning.
+• RISK-OFF or CAUTION regime → EXIT all non-hedge equity longs immediately.
+
+WHEN TO HOLD A WINNER:
+• Only hold past +10% if you can name a SPECIFIC upcoming catalyst (with date) that will drive further upside
+• Only hold past +15% if the sector rotation is STILL in your favour (VIX calm, DXY stable, TNX supportive)
+• Otherwise EXIT — a booked gain is a permanent win; an unrealised gain can vanish
+
+FOR EACH OPEN POSITION, your response must explicitly state:
+  → HOLD: [specific upcoming catalyst] / [macro alignment confirmation with exact metric]
+  → EXIT: [specific trigger — which macro signal, which catalyst expiry, which pullback rule]
 
 {macro_block}
 
@@ -1694,8 +1769,8 @@ def main():
     # Refresh prices on open positions
     portfolio = update_prices(portfolio)
 
-    # Auto SL / TP check
-    portfolio, trade_log, memory, auto_exits = run_sl_tp(portfolio, trade_log, memory)
+    # Auto SL / TP check (includes trailing stop and RISK-OFF regime exit)
+    portfolio, trade_log, memory, auto_exits = run_sl_tp(portfolio, trade_log, memory, macro)
     for ticker, reason, pnl in auto_exits:
         send_telegram(sl_tp_msg(ticker, reason, pnl))
         time.sleep(1)
