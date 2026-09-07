@@ -1381,6 +1381,95 @@ def build_pdf(decision: dict, portfolio: dict, macro: dict,
                    ("TOPPADDING",    (0,0), (-1,-1), 10), ("BOTTOMPADDING", (0,0), (-1,-1), 10),
                    ("LEFTPADDING",   (0,0), (-1,-1), 12), ("RIGHTPADDING",  (0,0), (-1,-1), 12)]))
 
+    # ── BOND-DOLLAR-CASCADE READ ─────────────────────────────────────────────
+    try:
+        import json as _json, os as _os
+        _bdmc_path = _os.path.join(_os.path.dirname(__file__), "..", "data", "bdmc_scan.json")
+        with open(_bdmc_path) as _f:
+            _bdmc = _json.load(_f)
+        _ctx = _bdmc.get("macro_context", {})
+        _flags = _bdmc.get("macro_flags", {})
+        _sigs = _bdmc.get("signals", [])
+        _bdmc_ts = _bdmc.get("timestamp", "")[:10]
+
+        story.append(Spacer(1, 12))
+        story.append(Table([[
+            Paragraph("BOND-DOLLAR-CASCADE READ", S("bh", fontName="Helvetica-Bold", fontSize=9,
+                                                    textColor=WHITE, letterSpacing=1.5))
+        ]], colWidths=[7.45*inch],
+            style=[("BACKGROUND", (0,0), (-1,-1), BLUE), ("TOPPADDING", (0,0), (-1,-1), 8),
+                   ("BOTTOMPADDING", (0,0), (-1,-1), 8), ("LEFTPADDING", (0,0), (-1,-1), 12)]))
+
+        _ry = f"{_ctx.get('real_yield', 'N/A'):.2f}%" if isinstance(_ctx.get('real_yield'), float) else "N/A"
+        _sp = f"{_ctx.get('spread_2s10s', 'N/A'):.2f}bp" if isinstance(_ctx.get('spread_2s10s'), float) else "N/A"
+        _vix = f"{_ctx.get('vix', 'N/A'):.1f}" if isinstance(_ctx.get('vix'), float) else "N/A"
+        _macro_line = (
+            f"Real Yield: {_ry}  |  2s10s: {_sp} ({_ctx.get('spread_trend','?')})  |  "
+            f"DXY: {_ctx.get('dxy_trend','?')}  |  VIX: {_vix}  |  "
+            f"Copper Regime: {_ctx.get('copper_regime','?')}"
+        )
+        story.append(Table([[Paragraph(_macro_line, body_s)]],
+                           colWidths=[7.45*inch],
+                           style=[("BACKGROUND", (0,0), (-1,-1), CARD),
+                                  ("TOPPADDING", (0,0), (-1,-1), 6),
+                                  ("BOTTOMPADDING", (0,0), (-1,-1), 6),
+                                  ("LEFTPADDING", (0,0), (-1,-1), 12)]))
+
+        if _flags.get("TREASURY_BUYBACK"):
+            _bb_text = _flags.get("treasury_buyback_detail", "")
+            story.append(Table([[Paragraph(f"⚠ TREASURY_BUYBACK: {_bb_text}", body_s)]],
+                               colWidths=[7.45*inch],
+                               style=[("BACKGROUND", (0,0), (-1,-1), colors.HexColor("#fff8e1")),
+                                      ("LINEBEFORE", (0,0), (0,-1), 3, GOLD),
+                                      ("TOPPADDING", (0,0), (-1,-1), 6),
+                                      ("BOTTOMPADDING", (0,0), (-1,-1), 6),
+                                      ("LEFTPADDING", (0,0), (-1,-1), 12)]))
+
+        if _flags.get("FOREIGN_HOLDER_FLOW") == "SELLING":
+            story.append(Table([[Paragraph(
+                "⚠ FOREIGN_HOLDER_FLOW: SELLING — yields rising, dollar-NEGATIVE (NOT domestic risk-off). TIC data lag ~6wk.",
+                body_s)]],
+                colWidths=[7.45*inch],
+                style=[("BACKGROUND", (0,0), (-1,-1), colors.HexColor("#fff0f0")),
+                       ("LINEBEFORE", (0,0), (0,-1), 3, RED),
+                       ("TOPPADDING", (0,0), (-1,-1), 6),
+                       ("BOTTOMPADDING", (0,0), (-1,-1), 6),
+                       ("LEFTPADDING", (0,0), (-1,-1), 12)]))
+
+        if _sigs:
+            _tbl_data = [["Instrument", "Direction", "Conf", "Hold", "Timeframes", "Rationale"]]
+            for _s in _sigs:
+                _tbl_data.append([
+                    _s.get("label", _s.get("symbol", "")),
+                    _s.get("direction", ""),
+                    str(_s.get("confidence", "")),
+                    _s.get("holding_period", ""),
+                    _s.get("timeframes", ""),
+                    (_s.get("rationale", ""))[:80],
+                ])
+            story.append(Table(_tbl_data,
+                               colWidths=[1.1*inch, 0.65*inch, 0.45*inch, 0.55*inch, 1.0*inch, 3.69*inch],
+                               style=[("BACKGROUND", (0,0), (-1,0), NAVY),
+                                      ("TEXTCOLOR", (0,0), (-1,0), WHITE),
+                                      ("FONTNAME", (0,0), (-1,0), "Helvetica-Bold"),
+                                      ("FONTSIZE", (0,0), (-1,-1), 7.5),
+                                      ("ROWBACKGROUNDS", (0,1), (-1,-1), [WHITE, LIGHT]),
+                                      ("GRID", (0,0), (-1,-1), 0.3, GREY),
+                                      ("TOPPADDING", (0,0), (-1,-1), 4),
+                                      ("BOTTOMPADDING", (0,0), (-1,-1), 4),
+                                      ("LEFTPADDING", (0,0), (-1,-1), 5)]))
+        else:
+            story.append(Table([[Paragraph(f"No cascade signals above 60/100 threshold as of {_bdmc_ts}.", body_s)]],
+                               colWidths=[7.45*inch],
+                               style=[("TOPPADDING", (0,0), (-1,-1), 6),
+                                      ("BOTTOMPADDING", (0,0), (-1,-1), 6),
+                                      ("LEFTPADDING", (0,0), (-1,-1), 12)]))
+        story.append(Spacer(1, 6))
+    except FileNotFoundError:
+        pass
+    except Exception as _bdmc_err:
+        log.warning("BDMC PDF section error: %s", _bdmc_err)
+
     # ── FOOTER ────────────────────────────────────────────────────────────────
     story.append(Spacer(1, 16))
     story.append(Table([["MeritQuant Autonomous Trader · Paper Portfolio Mirror · Not financial advice"]],
@@ -1482,6 +1571,66 @@ def build_excel(decision: dict, portfolio: dict, trade_log: list) -> bytes:
         for c, val in enumerate(row_vals, 1):
             ws3.cell(row=r, column=c, value=val).font = Font(size=9)
 
+    # ── Sheet 4: Bond-Dollar Cascade ─────────────────────────────────────────
+    try:
+        import json as _json, os as _os
+        _bdmc_path = _os.path.join(_os.path.dirname(__file__), "..", "data", "bdmc_scan.json")
+        with open(_bdmc_path) as _f:
+            _bdmc = _json.load(_f)
+        ws4 = wb.create_sheet("BDMC Cascade")
+        hdr(ws4, 1, 6, "Bond-Dollar-Metals-Crypto Cascade Read", fill=BLUE_H)
+
+        _ctx = _bdmc.get("macro_context", {})
+        _flags = _bdmc.get("macro_flags", {})
+        _sigs = _bdmc.get("signals", [])
+
+        _meta_rows = [
+            ("Timestamp", _bdmc.get("timestamp","")[:19]),
+            ("Real Yield", str(_ctx.get("real_yield","N/A"))),
+            ("10Y Nominal", str(_ctx.get("nominal_10y","N/A"))),
+            ("10Y Breakeven", str(_ctx.get("breakeven_10y","N/A"))),
+            ("2s10s Spread", str(_ctx.get("spread_2s10s","N/A"))),
+            ("2s10s Trend", _ctx.get("spread_trend","?")),
+            ("DXY Trend", _ctx.get("dxy_trend","?")),
+            ("VIX", str(_ctx.get("vix","N/A"))),
+            ("Copper Regime", _ctx.get("copper_regime","?")),
+            ("TREASURY_BUYBACK", str(_flags.get("TREASURY_BUYBACK", False))),
+            ("Buyback Detail", _flags.get("treasury_buyback_detail","")[:120]),
+            ("FOREIGN_HOLDER_FLOW", _flags.get("FOREIGN_HOLDER_FLOW","UNKNOWN")),
+            ("Confidence Threshold", str(_bdmc.get("confidence_threshold", 60))),
+        ]
+        for r, (k, v) in enumerate(_meta_rows, 2):
+            ws4.cell(row=r, column=1, value=k).font = Font(bold=True, size=9)
+            ws4.cell(row=r, column=2, value=v).font = Font(size=9)
+            if r % 2 == 0:
+                for c in range(1, 3):
+                    ws4.cell(row=r, column=c).fill = PatternFill("solid", fgColor=LIGHT_H)
+        ws4.column_dimensions["A"].width = 22
+        ws4.column_dimensions["B"].width = 60
+
+        _sig_start = len(_meta_rows) + 3
+        if _sigs:
+            _sig_hdrs = ["Instrument", "Symbol", "Direction", "Confidence", "Hold Period", "Timeframes", "Rationale"]
+            for c, h in enumerate(_sig_hdrs, 1):
+                cell = ws4.cell(row=_sig_start, column=c, value=h)
+                cell.fill = PatternFill("solid", fgColor=NAVY_H)
+                cell.font = Font(color="FFFFFF", bold=True, size=9)
+                ws4.column_dimensions[cell.column_letter].width = 16
+            ws4.column_dimensions["G"].width = 55
+            for r, s in enumerate(_sigs, _sig_start + 1):
+                row_vals = [
+                    s.get("label",""), s.get("symbol",""),
+                    s.get("direction",""), str(s.get("confidence","")),
+                    s.get("holding_period",""), s.get("timeframes",""),
+                    s.get("rationale","")[:120],
+                ]
+                for c, val in enumerate(row_vals, 1):
+                    ws4.cell(row=r, column=c, value=val).font = Font(size=9)
+    except FileNotFoundError:
+        pass
+    except Exception as _bdmc_err:
+        log.warning("BDMC Excel section error: %s", _bdmc_err)
+
     buf = io.BytesIO()
     wb.save(buf)
     return buf.getvalue()
@@ -1542,6 +1691,43 @@ def session_msg(decision: dict, portfolio: dict, actions: list,
     ]
     if decision.get("memory_applied"):
         lines.append(f"\n🧠 {decision['memory_applied']}")
+
+    # BDMC cascade block
+    try:
+        import json as _json, os as _os
+        _bdmc_path = _os.path.join(_os.path.dirname(__file__), "..", "data", "bdmc_scan.json")
+        with open(_bdmc_path) as _f:
+            _bdmc = _json.load(_f)
+        _sigs = _bdmc.get("signals", [])
+        _ctx = _bdmc.get("macro_context", {})
+        _flags = _bdmc.get("macro_flags", {})
+        _ry = _ctx.get("real_yield")
+        _sp = _ctx.get("spread_trend", "?")
+        _dxy = _ctx.get("dxy_trend", "?")
+
+        lines.append(f"\n📐 <b>Bond-Dollar Cascade</b>")
+        _ry_str = f"{_ry:.2f}%" if isinstance(_ry, float) else "N/A"
+        lines.append(f"Real Yield: {_ry_str}  |  2s10s: {_sp}  |  DXY: {_dxy}  |  Copper: {_ctx.get('copper_regime','?')}")
+
+        if _flags.get("TREASURY_BUYBACK"):
+            lines.append("⚠️ TREASURY_BUYBACK ACTIVE (NOT Fed QE — reversible)")
+        if _flags.get("FOREIGN_HOLDER_FLOW") == "SELLING":
+            lines.append("⚠️ FOREIGN_HOLDER_FLOW: SELLING (dollar-NEGATIVE, TIC lag ~6wk)")
+
+        if _sigs:
+            for _s in _sigs:
+                _arrow = "↑" if _s.get("direction") == "LONG" else "↓"
+                lines.append(
+                    f"  {_arrow} {_s.get('label','')} | {_s.get('direction','')} "
+                    f"| Conf: {_s.get('confidence','')}/100 | {_s.get('holding_period','')}"
+                )
+        else:
+            lines.append("No cascade signals above 60/100 threshold.")
+    except FileNotFoundError:
+        pass
+    except Exception as _bdmc_err:
+        log.warning("BDMC Telegram section error: %s", _bdmc_err)
+
     return "\n".join(lines)
 
 

@@ -14,6 +14,13 @@ except Exception as e:
     print(f"Reddit import error: {e}")
     run_reddit_scan = None
 
+try:
+    from trading.bdmc_engine import run_bdmc_scan, format_bdmc_report_section, format_bdmc_telegram
+    _BDMC_AVAILABLE = True
+except Exception as _bdmc_err:
+    print(f"[BDMC] Import error (non-fatal): {_bdmc_err}")
+    _BDMC_AVAILABLE = False
+
 
 DATA_DIR   = "data"
 STORE_FILE = f"{DATA_DIR}/scan_results.json"
@@ -290,6 +297,27 @@ def main():
     except Exception as e:
         print(f"[Reddit Scanner] Non-fatal error: {e} — continuing")
 
+
+    # ── BDMC cascade scan ─────────────────────────────────────────────────────
+    if _BDMC_AVAILABLE:
+        try:
+            print("[BDMC] Running Bond-Dollar-Metals-Crypto cascade scan...")
+            bdmc_result = run_bdmc_scan()
+            bdmc_section = format_bdmc_report_section(bdmc_result)
+            json.dump(
+                bdmc_section,
+                open(f"{DATA_DIR}/bdmc_scan.json", "w"),
+                indent=2,
+                default=str,
+            )
+            print(f"[BDMC] {bdmc_section['signal_count']} signal(s) above threshold. Saved to data/bdmc_scan.json")
+            if not dry_run and bdmc_section["signal_count"] > 0:
+                tg_block = format_bdmc_telegram(bdmc_result)
+                send(tg_block)
+        except Exception as e:
+            print(f"[BDMC] Scan error (non-fatal): {e}")
+    else:
+        print("[BDMC] Engine not available — skipping")
 
     print(f"[Scanner] Done. {alerts_sent} alerts sent.")
 
