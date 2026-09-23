@@ -1,222 +1,20 @@
 [
   {
-    "ticker": "GOOGL",
-    "name": "Alphabet (Google)",
-    "score": 9,
+    "ticker": "CLOU",
+    "name": "Global X Cloud Computing ETF",
+    "score": 7,
     "max": 12,
     "signals": [
-      "RSI oversold on DAILY, WEEKLY",
-      "\u2705 Golden Cross active",
-      "\u2705 Above 200MA",
-      "\ud83c\udf1f Fib 61.8%: $341.48",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "ma": {
-      "price": 339.02,
-      "ma50": 345.26,
-      "ma200": 337.79,
-      "ma_signal": "\u2705 Above 200MA",
-      "cross": "\u2705 Golden Cross active",
-      "near_200ma": "\ud83d\udccd At 200MA"
-    },
-    "ad": {
-      "signal": "\u26a0\ufe0f A/D declining"
-    },
-    "patterns": [
-      "\ud83c\udf1f Fib 61.8%: $341.48",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "fundamentals": {},
-    "buy_rating": "STRONG BUY",
-    "conviction": "HIGH",
-    "v2_patterns": [
-      {
-        "pattern": "CHOCH",
-        "direction": "LONG",
-        "sweep_low": 327.74,
-        "choch_level": 344.68,
-        "displacement_high": 349.91,
-        "fib_50": 338.82,
-        "fib_618": 341.44,
-        "entry_type": "OB_AGGRESSIVE",
-        "entry_price": 331.65,
-        "stop_price": 327.41,
-        "target_1": 349.91,
-        "target_2": 356.56,
-        "target_3": 363.21,
-        "risk_reward": 4.31,
-        "gates_cleared": 5,
-        "max_gates": 5,
-        "thesis": "Bullish CHoCH: liquidity swept at 327.74. Body close above internal high 344.68 \u2014 wick rejection not accepted. Displacement to 349.91. 50% discount line at 338.82. OB aggressive entry 331.65. Stop 1 tick below sweep low 327.41. TP1=349.91 (disp high), TP2=356.56 (ext liq), TP3=363.21 (HTF POI).",
-        "drawings": [
-          {
-            "type": "horizontal_line",
-            "price": 344.67999267578125,
-            "color": "yellow",
-            "label": "CHoCH Level"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 327.739990234375,
-            "color": "red",
-            "label": "Sweep Low"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 338.8249969482422,
-            "color": "blue",
-            "label": "50% Discount Line"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 341.44105853271486,
-            "color": "cyan",
-            "label": "61.8% FVG Zone"
-          },
-          {
-            "type": "rectangle",
-            "top": 338.8249969482422,
-            "bottom": 327.739990234375,
-            "color": "green",
-            "label": "Discount Zone"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 331.6499938964844,
-            "color": "lime",
-            "label": "CHoCH Entry"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 327.41225024414064,
-            "color": "red",
-            "label": "Hard Stop"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 349.9100036621094,
-            "color": "green",
-            "label": "TP1 Disp High"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 356.5610076904297,
-            "color": "green",
-            "label": "TP2 Ext Liq"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 363.21201171875,
-            "color": "lime",
-            "label": "TP3 HTF POI"
-          }
-        ],
-        "symbol": "GOOGL",
-        "position_size_pct": 7.0,
-        "position_size_usd": 12810
-      },
-      {
-        "pattern": "FVG",
-        "direction": "LONG",
-        "fvg_top": 311.05999755859375,
-        "fvg_bottom": 305.6300048828125,
-        "midpoint": 308.3450012207031,
-        "size_pct": 1.711,
-        "bars_ago": 115,
-        "entry_price": 308.35,
-        "stop_price": 305.32,
-        "target_1": 326.61,
-        "target_2": 342.17,
-        "target_3": 359.27,
-        "risk_reward": 6.05,
-        "gates_cleared": 3,
-        "max_gates": 9,
-        "thesis": "Bullish FVG 305.63\u2013311.06 (1.711%). Fresh (115 bars ago), unfilled. Entry midpoint 308.35.",
-        "drawings": [
-          {
-            "type": "rectangle",
-            "top": 311.05999755859375,
-            "bottom": 305.6300048828125,
-            "color": "cyan",
-            "label": "FVG Zone"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 308.3450012207031,
-            "color": "cyan",
-            "label": "FVG Entry"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 305.3243748779297,
-            "color": "red",
-            "label": "FVG Stop"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 326.6129974365235,
-            "color": "green",
-            "label": "FVG TP1"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 342.16599731445314,
-            "color": "lime",
-            "label": "FVG TP2"
-          }
-        ],
-        "symbol": "GOOGL",
-        "position_size_pct": 7.0,
-        "position_size_usd": 12810
-      }
-    ],
-    "top_pattern": "CHOCH",
-    "top_pattern_gates": 5,
-    "news_signals": [
-      {
-        "title": "Google Stock Soars On Q1 Earnings As Analysts Trumpet 'Full Stack' AI Platform - Investor's Business Daily",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Google Earnings Beat. Cloud Capex Boom To Hit Free Cash Flow. - Investor's Business Daily",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Google falls more than 6% on capex growth expectations despite earnings beat - Yahoo Finance",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Google expands Pentagon partnership with AI deal for classified operations - Yahoo Finance",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      }
-    ],
-    "market": "US"
-  },
-  {
-    "ticker": "AMZN",
-    "name": "Amazon.com",
-    "score": 8,
-    "max": 12,
-    "signals": [
-      "RSI oversold on DAILY, WEEKLY",
       "\u2705 Golden Cross active",
       "\u2705 Above 200MA",
       "A/D rising \u2014 institutions loading",
-      "\ud83d\udccd Near Support: $244.30",
-      "\ud83c\udf1f Fib 61.8%: $249.48"
+      "\ud83d\ude80 Testing Resistance: $29.29",
+      "\ud83d\udcc8 Uptrend: Higher Highs & Lows"
     ],
     "ma": {
-      "price": 249.01,
-      "ma50": 256.14,
-      "ma200": 240.5,
+      "price": 29.11,
+      "ma50": 26.77,
+      "ma200": 22.68,
       "ma_signal": "\u2705 Above 200MA",
       "cross": "\u2705 Golden Cross active"
     },
@@ -224,8 +22,8 @@
       "signal": "\u2705 Institutions accumulating"
     },
     "patterns": [
-      "\ud83d\udccd Near Support: $244.30",
-      "\ud83c\udf1f Fib 61.8%: $249.48",
+      "\ud83d\ude80 Testing Resistance: $29.29",
+      "\ud83d\udcc8 Uptrend: Higher Highs & Lows",
       "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
     "fundamentals": {},
@@ -235,149 +33,54 @@
       {
         "pattern": "FVG",
         "direction": "LONG",
-        "fvg_top": 223.27000427246094,
-        "fvg_bottom": 213.97000122070312,
-        "midpoint": 218.62000274658203,
-        "size_pct": 4.203,
-        "bars_ago": 115,
-        "entry_price": 218.62,
-        "stop_price": 213.76,
-        "target_1": 234.43,
-        "target_2": 245.6,
-        "target_3": 257.88,
-        "risk_reward": 3.25,
+        "fvg_top": 21.110000610351562,
+        "fvg_bottom": 19.9950008392334,
+        "midpoint": 20.55250072479248,
+        "size_pct": 5.297,
+        "bars_ago": 98,
+        "entry_price": 20.55,
+        "stop_price": 19.98,
+        "target_1": 22.17,
+        "target_2": 23.22,
+        "target_3": 24.38,
+        "risk_reward": 2.79,
         "gates_cleared": 3,
         "max_gates": 9,
-        "thesis": "Bullish FVG 213.97\u2013223.27 (4.203%). Fresh (115 bars ago), unfilled. Entry midpoint 218.62.",
+        "thesis": "Bullish FVG 20.00\u201321.11 (5.297%). Fresh (98 bars ago), unfilled. Entry midpoint 20.55.",
         "drawings": [
           {
             "type": "rectangle",
-            "top": 223.27000427246094,
-            "bottom": 213.97000122070312,
+            "top": 21.110000610351562,
+            "bottom": 19.9950008392334,
             "color": "cyan",
             "label": "FVG Zone"
           },
           {
             "type": "horizontal_line",
-            "price": 218.62000274658203,
+            "price": 20.55250072479248,
             "color": "cyan",
             "label": "FVG Entry"
           },
           {
             "type": "horizontal_line",
-            "price": 213.75603121948242,
+            "price": 19.975005838394164,
             "color": "red",
             "label": "FVG Stop"
           },
           {
             "type": "horizontal_line",
-            "price": 234.433504486084,
+            "price": 22.16550064086914,
             "color": "green",
             "label": "FVG TP1"
           },
           {
             "type": "horizontal_line",
-            "price": 245.59700469970704,
+            "price": 23.221000671386722,
             "color": "lime",
             "label": "FVG TP2"
           }
         ],
-        "symbol": "AMZN",
-        "position_size_pct": 7.0,
-        "position_size_usd": 12810
-      },
-      {
-        "pattern": "FIBONACCI",
-        "direction": "LONG",
-        "swing_low": 244.3,
-        "swing_high": 259.49,
-        "move_pct": 6.22,
-        "golden_pocket_top": 250.1,
-        "golden_pocket_bot": 249.62,
-        "fib_786_stop": 247.55,
-        "ext_1272": 263.62,
-        "ext_1618": 268.88,
-        "ext_2618": 284.07,
-        "in_pocket": false,
-        "entry_price": 249.86,
-        "stop_price": 247.3,
-        "target_1": 259.49,
-        "target_2": 268.88,
-        "target_3": 284.07,
-        "risk_reward": 3.77,
-        "gates_cleared": 2,
-        "max_gates": 4,
-        "thesis": "Fibonacci golden pocket 61.8%\u201365%: swing 244.30\u2192259.49 (+6.2%). Golden pocket 249.62\u2013250.10. Approaching zone. Entry 249.86, stop below 78.6% at 247.30. TP1 prior high 259.49, TP2 161.8% 268.88, TP3 261.8% 284.07.",
-        "drawings": [
-          {
-            "type": "horizontal_line",
-            "price": 259.489990234375,
-            "color": "white",
-            "label": "0% Swing High"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 253.68741513061522,
-            "color": "gray",
-            "label": "38.2%"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 251.8949966430664,
-            "color": "gray",
-            "label": "50.0%"
-          },
-          {
-            "type": "rectangle",
-            "top": 250.1025781555176,
-            "bottom": 249.61649856567382,
-            "color": "gold",
-            "label": "Golden Pocket 61.8\u201365%"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 250.1025781555176,
-            "color": "gold",
-            "label": "61.8% Entry Top"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 249.61649856567382,
-            "color": "gold",
-            "label": "65.0% Entry Bot"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 247.5506603088379,
-            "color": "red",
-            "label": "78.6% Invalidation"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 244.3000030517578,
-            "color": "white",
-            "label": "100% Swing Low"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 259.489990234375,
-            "color": "green",
-            "label": "TP1: Prior High"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 268.87740231323244,
-            "color": "lime",
-            "label": "TP2: 161.8%"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 284.0673894958496,
-            "color": "white",
-            "label": "TP3: 261.8%"
-          }
-        ],
-        "symbol": "AMZN",
+        "symbol": "CLOU",
         "position_size_pct": 7.0,
         "position_size_usd": 12810
       }
@@ -386,7 +89,25 @@
     "top_pattern_gates": 3,
     "news_signals": [
       {
-        "title": "Amazon.com Inc (AMZN) (Q2 2026) Earnings Call Highlights: Record Revenue and AWS Acceleration ... - Yahoo Finance",
+        "title": "Kingsoft Cloud: Upgrade To BUY Ahead Of Q2 2026 Print - AI Engine Shift Drives 100%+ Upside - Seeking Alpha",
+        "source": "News",
+        "score": 2,
+        "bull": true
+      },
+      {
+        "title": "Oracle Q4 earnings beat on revenue but miss on cloud sales - Yahoo Finance",
+        "source": "News",
+        "score": 2,
+        "bull": true
+      },
+      {
+        "title": "Gilead's Q2 2026 Revenue Accelerates, But $11B Acquisition Costs Cloud Earnings - Surprise Factor Analysis - dars.gov.et",
+        "source": "News",
+        "score": 2,
+        "bull": true
+      },
+      {
+        "title": "Google Cloud secures sovereign cloud contract with NATO - Data Center Dynamics",
         "source": "News",
         "score": 2,
         "bull": true
@@ -407,8 +128,8 @@
       "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
     "ma": {
-      "price": 614.58,
-      "ma50": 498.6,
+      "price": 613.72,
+      "ma50": 498.59,
       "ma200": 358.61,
       "ma_signal": "\u2705 Above 200MA",
       "cross": "\u2705 Golden Cross active"
@@ -577,188 +298,6 @@
     "market": "US"
   },
   {
-    "ticker": "QCOM",
-    "name": "Qualcomm",
-    "score": 7,
-    "max": 12,
-    "signals": [
-      "\ud83d\udd25 GOLDEN CROSS!",
-      "\u2705 Above 200MA",
-      "\ud83d\ude80 Testing Resistance: $199.61",
-      "\ud83d\udcc8 Uptrend: Higher Highs & Lows"
-    ],
-    "ma": {
-      "price": 197.49,
-      "ma50": 168.89,
-      "ma200": 168.78,
-      "ma_signal": "\u2705 Above 200MA",
-      "cross": "\ud83d\udd25 GOLDEN CROSS!"
-    },
-    "ad": {
-      "signal": "\u26a0\ufe0f A/D declining"
-    },
-    "patterns": [
-      "\ud83d\ude80 Testing Resistance: $199.61",
-      "\ud83d\udcc8 Uptrend: Higher Highs & Lows",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "fundamentals": {},
-    "buy_rating": "STRONG BUY",
-    "conviction": "HIGH",
-    "v2_patterns": [
-      {
-        "pattern": "CHOCH",
-        "direction": "LONG",
-        "sweep_low": 156.23,
-        "choch_level": 166.97,
-        "displacement_high": 171.38,
-        "fib_50": 163.81,
-        "fib_618": 165.59,
-        "entry_type": "OB_AGGRESSIVE",
-        "entry_price": 162.92,
-        "stop_price": 156.07,
-        "target_1": 171.38,
-        "target_2": 175.93,
-        "target_3": 180.47,
-        "risk_reward": 1.24,
-        "gates_cleared": 4,
-        "max_gates": 5,
-        "thesis": "Bullish CHoCH: liquidity swept at 156.23. Body close above internal high 166.97 \u2014 wick rejection not accepted. Displacement to 171.38. 50% discount line at 163.81. OB aggressive entry 162.92. Stop 1 tick below sweep low 156.07. TP1=171.38 (disp high), TP2=175.93 (ext liq), TP3=180.47 (HTF POI).",
-        "drawings": [
-          {
-            "type": "horizontal_line",
-            "price": 166.97000122070312,
-            "color": "yellow",
-            "label": "CHoCH Level"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 156.22999572753906,
-            "color": "red",
-            "label": "Sweep Low"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 163.80500030517578,
-            "color": "blue",
-            "label": "50% Discount Line"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 165.59270138549806,
-            "color": "cyan",
-            "label": "61.8% FVG Zone"
-          },
-          {
-            "type": "rectangle",
-            "top": 163.80500030517578,
-            "bottom": 156.22999572753906,
-            "color": "green",
-            "label": "Discount Zone"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 162.9199981689453,
-            "color": "lime",
-            "label": "CHoCH Entry"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 156.07376573181153,
-            "color": "red",
-            "label": "Hard Stop"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 171.3800048828125,
-            "color": "green",
-            "label": "TP1 Disp High"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 175.92500762939454,
-            "color": "green",
-            "label": "TP2 Ext Liq"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 180.47001037597656,
-            "color": "lime",
-            "label": "TP3 HTF POI"
-          }
-        ],
-        "symbol": "QCOM",
-        "position_size_pct": 7.0,
-        "position_size_usd": 12810
-      },
-      {
-        "pattern": "FVG",
-        "direction": "LONG",
-        "fvg_top": 147.0500030517578,
-        "fvg_bottom": 136.99000549316406,
-        "midpoint": 142.02000427246094,
-        "size_pct": 6.758,
-        "bars_ago": 103,
-        "entry_price": 142.02,
-        "stop_price": 136.85,
-        "target_1": 154.4,
-        "target_2": 161.76,
-        "target_3": 169.84,
-        "risk_reward": 2.4,
-        "gates_cleared": 3,
-        "max_gates": 9,
-        "thesis": "Bullish FVG 136.99\u2013147.05 (6.758%). Fresh (103 bars ago), unfilled. Entry midpoint 142.02.",
-        "drawings": [
-          {
-            "type": "rectangle",
-            "top": 147.0500030517578,
-            "bottom": 136.99000549316406,
-            "color": "cyan",
-            "label": "FVG Zone"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 142.02000427246094,
-            "color": "cyan",
-            "label": "FVG Entry"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 136.8530154876709,
-            "color": "red",
-            "label": "FVG Stop"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 154.40250320434572,
-            "color": "green",
-            "label": "FVG TP1"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 161.7550033569336,
-            "color": "lime",
-            "label": "FVG TP2"
-          }
-        ],
-        "symbol": "QCOM",
-        "position_size_pct": 7.0,
-        "position_size_usd": 12810
-      }
-    ],
-    "top_pattern": "CHOCH",
-    "top_pattern_gates": 4,
-    "news_signals": [
-      {
-        "title": "QCOM Q2 2026 Earnings: EPS Beats Estimates, But Stock Declines on Mixed Signals - Earnings Beat Streak - careplusvn.com",
-        "source": "News",
-        "score": 4,
-        "bull": true
-      }
-    ],
-    "market": "US"
-  },
-  {
     "ticker": "AVGO",
     "name": "Broadcom",
     "score": 7,
@@ -771,8 +310,8 @@
       "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
     "ma": {
-      "price": 355.36,
-      "ma50": 378.44,
+      "price": 355.17,
+      "ma50": 378.43,
       "ma200": 368.88,
       "ma_signal": "\u26a0\ufe0f Below 200MA",
       "cross": "\u2705 Golden Cross active"
@@ -842,6 +381,101 @@
         "position_size_usd": 12810
       },
       {
+        "pattern": "FIBONACCI",
+        "direction": "LONG",
+        "swing_low": 335.81,
+        "swing_high": 363.97,
+        "move_pct": 8.39,
+        "golden_pocket_top": 346.57,
+        "golden_pocket_bot": 345.67,
+        "fib_786_stop": 341.84,
+        "ext_1272": 371.63,
+        "ext_1618": 381.37,
+        "ext_2618": 409.53,
+        "in_pocket": false,
+        "entry_price": 346.12,
+        "stop_price": 341.49,
+        "target_1": 363.97,
+        "target_2": 381.37,
+        "target_3": 409.53,
+        "risk_reward": 3.86,
+        "gates_cleared": 3,
+        "max_gates": 4,
+        "thesis": "Fibonacci golden pocket 61.8%\u201365%: swing 335.81\u2192363.97 (+8.4%). Golden pocket 345.67\u2013346.57. Approaching zone. Entry 346.12, stop below 78.6% at 341.49. TP1 prior high 363.97, TP2 161.8% 381.37, TP3 261.8% 409.53.",
+        "drawings": [
+          {
+            "type": "horizontal_line",
+            "price": 363.9700012207031,
+            "color": "white",
+            "label": "0% Swing High"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 353.21287982177734,
+            "color": "gray",
+            "label": "38.2%"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 349.88999938964844,
+            "color": "gray",
+            "label": "50.0%"
+          },
+          {
+            "type": "rectangle",
+            "top": 346.56711895751954,
+            "bottom": 345.665998840332,
+            "color": "gold",
+            "label": "Golden Pocket 61.8\u201365%"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 346.56711895751954,
+            "color": "gold",
+            "label": "61.8% Entry Top"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 345.665998840332,
+            "color": "gold",
+            "label": "65.0% Entry Bot"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 341.8362383422851,
+            "color": "red",
+            "label": "78.6% Invalidation"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 335.80999755859375,
+            "color": "white",
+            "label": "100% Swing Low"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 363.9700012207031,
+            "color": "green",
+            "label": "TP1: Prior High"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 381.3728834838867,
+            "color": "lime",
+            "label": "TP2: 161.8%"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 409.5328871459961,
+            "color": "white",
+            "label": "TP3: 261.8%"
+          }
+        ],
+        "symbol": "AVGO",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      },
+      {
         "pattern": "DIVERGENCE",
         "direction": "LONG",
         "divergence_type": "REGULAR_BULLISH",
@@ -849,15 +483,15 @@
         "low1_rsi": 38.07,
         "low2_price": 335.81,
         "low2_rsi": 38.55,
-        "entry_price": 355.36,
+        "entry_price": 355.21,
         "stop_price": 334.13,
         "target_1": 372.7,
         "target_2": 383.88,
         "target_3": 402.52,
-        "risk_reward": 0.82,
+        "risk_reward": 0.83,
         "gates_cleared": 2,
         "max_gates": 4,
-        "thesis": "REGULAR BULLISH: Price 342.33\u2192335.81 (LL), RSI 38.1\u219238.6 (HL). RSI=38.6 . Entry 355.36, stop 334.13, TP1 372.70, R:R 0.82.",
+        "thesis": "REGULAR BULLISH: Price 342.33\u2192335.81 (LL), RSI 38.1\u219238.6 (HL). RSI=38.6 . Entry 355.21, stop 334.13, TP1 372.70, R:R 0.83.",
         "drawings": [
           {
             "type": "horizontal_line",
@@ -887,7 +521,7 @@
     "top_pattern_gates": 3,
     "news_signals": [
       {
-        "title": "$8.4B in AI chips powers Broadcom surge and $10B buyback - stocktitan.net",
+        "title": "$8.4B in AI chips powers Broadcom surge and $10B buyback - Stock Titan",
         "source": "News",
         "score": 2,
         "bull": true
@@ -914,7 +548,7 @@
       "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
     "ma": {
-      "price": 307.08,
+      "price": 307.05,
       "ma50": 305.96,
       "ma200": 268.66,
       "ma_signal": "\u2705 Above 200MA",
@@ -1023,7 +657,7 @@
       "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
     "ma": {
-      "price": 187.4,
+      "price": 187.58,
       "ma50": 191.1,
       "ma200": 174.94,
       "ma_signal": "\u2705 Above 200MA",
@@ -1132,8 +766,8 @@
       "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
     "ma": {
-      "price": 331.16,
-      "ma50": 261.69,
+      "price": 331.31,
+      "ma50": 261.7,
       "ma200": 209.18,
       "ma_signal": "\u2705 Above 200MA",
       "cross": "\u2705 Golden Cross active"
@@ -1296,7 +930,7 @@
         "low1_rsi": 47.95,
         "low2_price": 238.03,
         "low2_rsi": 44.22,
-        "entry_price": 331.16,
+        "entry_price": 331.46,
         "stop_price": 236.84,
         "target_1": 274.8,
         "target_2": 283.04,
@@ -1304,7 +938,7 @@
         "risk_reward": -0.6,
         "gates_cleared": 1,
         "max_gates": 4,
-        "thesis": "HIDDEN BULLISH: Price 225.46\u2192238.03 (HL), RSI 48.0\u219244.2 (LL). RSI=44.2 . Entry 331.16, stop 236.84, TP1 274.80, R:R -0.6.",
+        "thesis": "HIDDEN BULLISH: Price 225.46\u2192238.03 (HL), RSI 48.0\u219244.2 (LL). RSI=44.2 . Entry 331.46, stop 236.84, TP1 274.80, R:R -0.6.",
         "drawings": [
           {
             "type": "horizontal_line",
@@ -1338,9 +972,106 @@
         "source": "News",
         "score": 4,
         "bull": true
+      }
+    ],
+    "market": "US"
+  },
+  {
+    "ticker": "MRVL",
+    "name": "Marvell Technology",
+    "score": 7,
+    "max": 12,
+    "signals": [
+      "\u2705 Golden Cross active",
+      "\u2705 Above 200MA",
+      "A/D rising \u2014 institutions loading",
+      "\ud83d\ude80 Testing Resistance: $264.95",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "ma": {
+      "price": 259.76,
+      "ma50": 217.22,
+      "ma200": 160.04,
+      "ma_signal": "\u2705 Above 200MA",
+      "cross": "\u2705 Golden Cross active"
+    },
+    "ad": {
+      "signal": "\u2705 Institutions accumulating"
+    },
+    "patterns": [
+      "\ud83d\ude80 Testing Resistance: $264.95",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "fundamentals": {},
+    "buy_rating": "STRONG BUY",
+    "conviction": "HIGH",
+    "v2_patterns": [
+      {
+        "pattern": "FVG",
+        "direction": "LONG",
+        "fvg_top": 159.25999450683594,
+        "fvg_bottom": 157.2100067138672,
+        "midpoint": 158.23500061035156,
+        "size_pct": 1.241,
+        "bars_ago": 99,
+        "entry_price": 158.24,
+        "stop_price": 157.05,
+        "target_1": 167.22,
+        "target_2": 175.19,
+        "target_3": 183.95,
+        "risk_reward": 7.6,
+        "gates_cleared": 3,
+        "max_gates": 9,
+        "thesis": "Bullish FVG 157.21\u2013159.26 (1.241%). Fresh (99 bars ago), unfilled. Entry midpoint 158.24.",
+        "drawings": [
+          {
+            "type": "rectangle",
+            "top": 159.25999450683594,
+            "bottom": 157.2100067138672,
+            "color": "cyan",
+            "label": "FVG Zone"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 158.23500061035156,
+            "color": "cyan",
+            "label": "FVG Entry"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 157.05279670715333,
+            "color": "red",
+            "label": "FVG Stop"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 167.22299423217774,
+            "color": "green",
+            "label": "FVG TP1"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 175.18599395751954,
+            "color": "lime",
+            "label": "FVG TP2"
+          }
+        ],
+        "symbol": "MRVL",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      }
+    ],
+    "top_pattern": "FVG",
+    "top_pattern_gates": 3,
+    "news_signals": [
+      {
+        "title": "Marvell will show 38 ways to connect AI data centers in Spain - Stock Titan",
+        "source": "News",
+        "score": 2,
+        "bull": true
       },
       {
-        "title": "Arm Earnings: Data Centers Becoming Increasingly Important for the Growth Story - Morningstar",
+        "title": "Why Marvell\u2019s Earnings Beat Wasn\u2019t Big Enough for Such Great Expectations - barrons.com",
         "source": "News",
         "score": 2,
         "bull": true
@@ -1349,21 +1080,484 @@
     "market": "US"
   },
   {
-    "ticker": "AAPL",
-    "name": "Apple Inc",
-    "score": 7,
+    "ticker": "ARKQ",
+    "name": "ARK Autonomous Tech ETF",
+    "score": 6,
+    "max": 12,
+    "signals": [
+      "\u2705 Above 200MA",
+      "A/D rising \u2014 institutions loading",
+      "\ud83d\ude80 Testing Resistance: $126.48",
+      "\ud83d\udcd0 Fib 38.2%: $123.39"
+    ],
+    "ma": {
+      "price": 124.89,
+      "ma50": 121.78,
+      "ma200": 124.25,
+      "ma_signal": "\u2705 Above 200MA",
+      "near_200ma": "\ud83d\udccd At 200MA"
+    },
+    "ad": {
+      "signal": "\u2705 Institutions accumulating"
+    },
+    "patterns": [
+      "\ud83d\ude80 Testing Resistance: $126.48",
+      "\ud83d\udcd0 Fib 38.2%: $123.39",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "fundamentals": {},
+    "buy_rating": "STRONG BUY",
+    "conviction": "HIGH",
+    "v2_patterns": [
+      {
+        "pattern": "ELLIOTT_WAVE",
+        "direction": "LONG",
+        "w1_origin": 121.03,
+        "w1_peak": 132.0,
+        "w1_length": 10.97,
+        "wave_a_low": 119.25,
+        "wave_b_high": 124.71,
+        "wave_c_target": 111.96,
+        "fib_618": 125.22,
+        "fib_500": 126.51,
+        "c_equals_a": false,
+        "entry_price": 125.22,
+        "stop_price": 120.97,
+        "target_1": 132.0,
+        "target_2": 138.78,
+        "target_3": 149.75,
+        "risk_reward": 1.59,
+        "gates_cleared": 3,
+        "max_gates": 5,
+        "thesis": "Prechter W2\u2192W3: Wave 1 origin 121.03\u2192peak 132.00 (+9.1%, 5-wave validated). Wave 2 ABC: A low=119.25, B high=124.71, C=A target=111.96. Near 61.8% zone. Entry at 61.8% 125.22, hard stop at Wave 1 origin 120.97. TP1=132.00 (100%), TP2=138.78 (161.8%), TP3=149.75 (261.8%).",
+        "drawings": [
+          {
+            "type": "text",
+            "price": 121.02999877929688,
+            "label": "W1 Origin",
+            "color": "white"
+          },
+          {
+            "type": "text",
+            "price": 132.0,
+            "label": "\u2460 Peak",
+            "color": "white"
+          },
+          {
+            "type": "text",
+            "price": 119.25,
+            "label": "A",
+            "color": "orange"
+          },
+          {
+            "type": "text",
+            "price": 124.70500183105469,
+            "label": "B",
+            "color": "orange"
+          },
+          {
+            "type": "text",
+            "price": 111.95500183105469,
+            "label": "C (proj)",
+            "color": "orange"
+          },
+          {
+            "type": "rectangle",
+            "top": 125.22053924560547,
+            "bottom": 123.9683338531494,
+            "color": "cyan",
+            "label": "Entry Zone 61.8%"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 125.22053924560547,
+            "color": "cyan",
+            "label": "61.8% Entry"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 126.51499938964844,
+            "color": "blue",
+            "label": "50% Support"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 120.96948377990724,
+            "color": "red",
+            "label": "\u26d4 W1 Origin / Hard Stop"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 132.0,
+            "color": "green",
+            "label": "TP1: 100% W1 Peak"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 138.77946075439453,
+            "color": "lime",
+            "label": "TP2: 161.8% Extension"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 149.74946197509766,
+            "color": "white",
+            "label": "TP3: 261.8% Runner"
+          }
+        ],
+        "symbol": "ARKQ",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      },
+      {
+        "pattern": "DIVERGENCE",
+        "direction": "LONG",
+        "divergence_type": "REGULAR_BULLISH",
+        "low1_price": 119.25,
+        "low1_rsi": 48.89,
+        "low2_price": 117.98,
+        "low2_rsi": 50.77,
+        "entry_price": 124.89,
+        "stop_price": 117.39,
+        "target_1": 124.71,
+        "target_2": 128.45,
+        "target_3": 134.68,
+        "risk_reward": -0.03,
+        "gates_cleared": 2,
+        "max_gates": 4,
+        "thesis": "REGULAR BULLISH: Price 119.25\u2192117.98 (LL), RSI 48.9\u219250.8 (HL). RSI=50.8 . Entry 124.89, stop 117.39, TP1 124.71, R:R -0.03.",
+        "drawings": [
+          {
+            "type": "horizontal_line",
+            "price": 117.9800033569336,
+            "color": "yellow",
+            "label": "REGULAR_BULLISH \u2014 RSI 51"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 117.39010334014893,
+            "color": "red",
+            "label": "Divergence Stop"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 124.70500183105469,
+            "color": "green",
+            "label": "Div TP1"
+          }
+        ],
+        "symbol": "ARKQ",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      }
+    ],
+    "top_pattern": "ELLIOTT_WAVE",
+    "top_pattern_gates": 3,
+    "news_signals": [
+      {
+        "title": "RKLB Stock Eyes Worst Month Ever, But Cathie Wood Keeps Buying \u2014 ARK Adds Rocket Lab, Cuts Exposure To $8B Takeover Target - es.tradingview.com",
+        "source": "News",
+        "score": 2,
+        "bull": true
+      }
+    ],
+    "market": "US"
+  },
+  {
+    "ticker": "ARKX",
+    "name": "ARK Space Exploration ETF",
+    "score": 6,
+    "max": 12,
+    "signals": [
+      "\u2705 Above 200MA",
+      "A/D rising \u2014 institutions loading",
+      "\ud83d\ude80 Testing Resistance: $33.13",
+      "\ud83d\udcd0 Fib 38.2%: $33.19"
+    ],
+    "ma": {
+      "price": 32.74,
+      "ma50": 32.25,
+      "ma200": 32.31,
+      "ma_signal": "\u2705 Above 200MA",
+      "near_200ma": "\ud83d\udccd At 200MA"
+    },
+    "ad": {
+      "signal": "\u2705 Institutions accumulating"
+    },
+    "patterns": [
+      "\ud83d\ude80 Testing Resistance: $33.13",
+      "\ud83d\udcd0 Fib 38.2%: $33.19",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "fundamentals": {},
+    "buy_rating": "STRONG BUY",
+    "conviction": "HIGH",
+    "v2_patterns": [
+      {
+        "pattern": "ELLIOTT_WAVE",
+        "direction": "LONG",
+        "w1_origin": 32.33,
+        "w1_peak": 35.47,
+        "w1_length": 3.14,
+        "wave_a_low": 31.62,
+        "wave_b_high": 32.74,
+        "wave_c_target": 28.89,
+        "fib_618": 33.53,
+        "fib_500": 33.9,
+        "c_equals_a": false,
+        "entry_price": 33.53,
+        "stop_price": 32.31,
+        "target_1": 35.47,
+        "target_2": 37.41,
+        "target_3": 40.55,
+        "risk_reward": 1.6,
+        "gates_cleared": 3,
+        "max_gates": 5,
+        "thesis": "Prechter W2\u2192W3: Wave 1 origin 32.33\u2192peak 35.47 (+9.7%, 5-wave validated). Wave 2 ABC: A low=31.62, B high=32.74, C=A target=28.89. Near 61.8% zone. Entry at 61.8% 33.53, hard stop at Wave 1 origin 32.31. TP1=35.47 (100%), TP2=37.41 (161.8%), TP3=40.55 (261.8%).",
+        "drawings": [
+          {
+            "type": "text",
+            "price": 32.33000183105469,
+            "label": "W1 Origin",
+            "color": "white"
+          },
+          {
+            "type": "text",
+            "price": 35.470001220703125,
+            "label": "\u2460 Peak",
+            "color": "white"
+          },
+          {
+            "type": "text",
+            "price": 31.6200008392334,
+            "label": "A",
+            "color": "orange"
+          },
+          {
+            "type": "text",
+            "price": 32.73500061035156,
+            "label": "B",
+            "color": "orange"
+          },
+          {
+            "type": "text",
+            "price": 28.885000228881836,
+            "label": "C (proj)",
+            "color": "orange"
+          },
+          {
+            "type": "rectangle",
+            "top": 33.52948159790039,
+            "bottom": 33.19418678192139,
+            "color": "cyan",
+            "label": "Entry Zone 61.8%"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 33.52948159790039,
+            "color": "cyan",
+            "label": "61.8% Entry"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 33.900001525878906,
+            "color": "blue",
+            "label": "50% Support"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 32.31383683013916,
+            "color": "red",
+            "label": "\u26d4 W1 Origin / Hard Stop"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 35.470001220703125,
+            "color": "green",
+            "label": "TP1: 100% W1 Peak"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 37.41052084350586,
+            "color": "lime",
+            "label": "TP2: 161.8% Extension"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 40.550520233154295,
+            "color": "white",
+            "label": "TP3: 261.8% Runner"
+          }
+        ],
+        "symbol": "ARKX",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      },
+      {
+        "pattern": "FIBONACCI",
+        "direction": "LONG",
+        "swing_low": 31.22,
+        "swing_high": 33.13,
+        "move_pct": 6.12,
+        "golden_pocket_top": 31.95,
+        "golden_pocket_bot": 31.89,
+        "fib_786_stop": 31.63,
+        "ext_1272": 33.65,
+        "ext_1618": 34.31,
+        "ext_2618": 36.22,
+        "in_pocket": false,
+        "entry_price": 31.92,
+        "stop_price": 31.6,
+        "target_1": 33.13,
+        "target_2": 34.31,
+        "target_3": 36.22,
+        "risk_reward": 3.76,
+        "gates_cleared": 2,
+        "max_gates": 4,
+        "thesis": "Fibonacci golden pocket 61.8%\u201365%: swing 31.22\u219233.13 (+6.1%). Golden pocket 31.89\u201331.95. Approaching zone. Entry 31.92, stop below 78.6% at 31.60. TP1 prior high 33.13, TP2 161.8% 34.31, TP3 261.8% 36.22.",
+        "drawings": [
+          {
+            "type": "horizontal_line",
+            "price": 33.130001068115234,
+            "color": "white",
+            "label": "0% Swing High"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 32.40038039779663,
+            "color": "gray",
+            "label": "38.2%"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 32.17500019073486,
+            "color": "gray",
+            "label": "50.0%"
+          },
+          {
+            "type": "rectangle",
+            "top": 31.949619983673095,
+            "bottom": 31.88849992752075,
+            "color": "gold",
+            "label": "Golden Pocket 61.8\u201365%"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 31.949619983673095,
+            "color": "gold",
+            "label": "61.8% Entry Top"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 31.88849992752075,
+            "color": "gold",
+            "label": "65.0% Entry Bot"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 31.628739688873292,
+            "color": "red",
+            "label": "78.6% Invalidation"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 31.219999313354492,
+            "color": "white",
+            "label": "100% Swing Low"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 33.130001068115234,
+            "color": "green",
+            "label": "TP1: Prior High"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 34.310382152557374,
+            "color": "lime",
+            "label": "TP2: 161.8%"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 36.220383907318116,
+            "color": "white",
+            "label": "TP3: 261.8%"
+          }
+        ],
+        "symbol": "ARKX",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      },
+      {
+        "pattern": "DIVERGENCE",
+        "direction": "LONG",
+        "divergence_type": "REGULAR_BULLISH",
+        "low1_price": 31.62,
+        "low1_rsi": 46.59,
+        "low2_price": 31.22,
+        "low2_rsi": 49.98,
+        "entry_price": 32.74,
+        "stop_price": 31.06,
+        "target_1": 32.74,
+        "target_2": 33.72,
+        "target_3": 35.35,
+        "risk_reward": 0.0,
+        "gates_cleared": 2,
+        "max_gates": 4,
+        "thesis": "REGULAR BULLISH: Price 31.62\u219231.22 (LL), RSI 46.6\u219250.0 (HL). RSI=50.0 . Entry 32.74, stop 31.06, TP1 32.74, R:R 0.0.",
+        "drawings": [
+          {
+            "type": "horizontal_line",
+            "price": 31.219999313354492,
+            "color": "yellow",
+            "label": "REGULAR_BULLISH \u2014 RSI 50"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 31.06389931678772,
+            "color": "red",
+            "label": "Divergence Stop"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 32.73500061035156,
+            "color": "green",
+            "label": "Div TP1"
+          }
+        ],
+        "symbol": "ARKX",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      }
+    ],
+    "top_pattern": "ELLIOTT_WAVE",
+    "top_pattern_gates": 3,
+    "news_signals": [
+      {
+        "title": "RKLB Stock Eyes Worst Month Ever, But Cathie Wood Keeps Buying \u2014 ARK Adds Rocket Lab, Cuts Exposure To $8B Takeover Target - es.tradingview.com",
+        "source": "News",
+        "score": 2,
+        "bull": true
+      }
+    ],
+    "market": "US"
+  },
+  {
+    "ticker": "CIBR",
+    "name": "First Trust Cybersecurity ETF",
+    "score": 6,
     "max": 12,
     "signals": [
       "\u2705 Golden Cross active",
       "\u2705 Above 200MA",
       "A/D rising \u2014 institutions loading",
-      "\ud83d\ude80 Testing Resistance: $341.80",
+      "\ud83d\ude80 Testing Resistance: $103.99",
       "\ud83d\udcc8 Uptrend: Higher Highs & Lows"
     ],
     "ma": {
-      "price": 337.3,
-      "ma50": 321.02,
-      "ma200": 286.87,
+      "price": 103.78,
+      "ma50": 95.59,
+      "ma200": 78.81,
       "ma_signal": "\u2705 Above 200MA",
       "cross": "\u2705 Golden Cross active"
     },
@@ -1371,7 +1565,7 @@
       "signal": "\u2705 Institutions accumulating"
     },
     "patterns": [
-      "\ud83d\ude80 Testing Resistance: $341.80",
+      "\ud83d\ude80 Testing Resistance: $103.99",
       "\ud83d\udcc8 Uptrend: Higher Highs & Lows"
     ],
     "fundamentals": {},
@@ -1381,54 +1575,195 @@
       {
         "pattern": "FVG",
         "direction": "LONG",
-        "fvg_top": 278.3699951171875,
-        "fvg_bottom": 271.0400085449219,
-        "midpoint": 274.7050018310547,
-        "size_pct": 2.701,
-        "bars_ago": 99,
-        "entry_price": 274.71,
-        "stop_price": 270.77,
-        "target_1": 292.29,
-        "target_2": 306.21,
-        "target_3": 321.52,
-        "risk_reward": 4.47,
+        "fvg_top": 79.94999694824219,
+        "fvg_bottom": 79.51499938964844,
+        "midpoint": 79.73249816894531,
+        "size_pct": 0.538,
+        "bars_ago": 87,
+        "entry_price": 79.73,
+        "stop_price": 79.44,
+        "target_1": 83.95,
+        "target_2": 87.94,
+        "target_3": 92.34,
+        "risk_reward": 14.19,
         "gates_cleared": 3,
         "max_gates": 9,
-        "thesis": "Bullish FVG 271.04\u2013278.37 (2.701%). Fresh (99 bars ago), unfilled. Entry midpoint 274.71.",
+        "thesis": "Bullish FVG 79.51\u201379.95 (0.538%). Fresh (87 bars ago), unfilled. Entry midpoint 79.73.",
         "drawings": [
           {
             "type": "rectangle",
-            "top": 278.3699951171875,
-            "bottom": 271.0400085449219,
+            "top": 79.94999694824219,
+            "bottom": 79.51499938964844,
             "color": "cyan",
             "label": "FVG Zone"
           },
           {
             "type": "horizontal_line",
-            "price": 274.7050018310547,
+            "price": 79.73249816894531,
             "color": "cyan",
             "label": "FVG Entry"
           },
           {
             "type": "horizontal_line",
-            "price": 270.768968536377,
+            "price": 79.4354843902588,
             "color": "red",
             "label": "FVG Stop"
           },
           {
             "type": "horizontal_line",
-            "price": 292.2884948730469,
+            "price": 83.9474967956543,
             "color": "green",
             "label": "FVG TP1"
           },
           {
             "type": "horizontal_line",
-            "price": 306.2069946289063,
+            "price": 87.94499664306642,
             "color": "lime",
             "label": "FVG TP2"
           }
         ],
-        "symbol": "AAPL",
+        "symbol": "CIBR",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      },
+      {
+        "pattern": "ELLIOTT_WAVE",
+        "direction": "LONG",
+        "w1_origin": 94.69,
+        "w1_peak": 102.35,
+        "w1_length": 7.65,
+        "wave_a_low": 91.12,
+        "wave_b_high": 101.04,
+        "wave_c_target": 89.81,
+        "fib_618": 97.62,
+        "fib_500": 98.52,
+        "c_equals_a": false,
+        "entry_price": 97.62,
+        "stop_price": 94.65,
+        "target_1": 102.35,
+        "target_2": 107.08,
+        "target_3": 114.74,
+        "risk_reward": 1.59,
+        "gates_cleared": 3,
+        "max_gates": 5,
+        "thesis": "Prechter W2\u2192W3: Wave 1 origin 94.69\u2192peak 102.35 (+8.1%, 5-wave validated). Wave 2 ABC: A low=91.12, B high=101.04, C=A target=89.81. Near 61.8% zone. Entry at 61.8% 97.62, hard stop at Wave 1 origin 94.65. TP1=102.35 (100%), TP2=107.08 (161.8%), TP3=114.74 (261.8%).",
+        "drawings": [
+          {
+            "type": "text",
+            "price": 94.69499969482422,
+            "label": "W1 Origin",
+            "color": "white"
+          },
+          {
+            "type": "text",
+            "price": 102.3499984741211,
+            "label": "\u2460 Peak",
+            "color": "white"
+          },
+          {
+            "type": "text",
+            "price": 91.12000274658203,
+            "label": "A",
+            "color": "orange"
+          },
+          {
+            "type": "text",
+            "price": 101.03900146484375,
+            "label": "B",
+            "color": "orange"
+          },
+          {
+            "type": "text",
+            "price": 89.80900573730469,
+            "label": "C (proj)",
+            "color": "orange"
+          },
+          {
+            "type": "rectangle",
+            "top": 97.61920922851563,
+            "bottom": 96.64301713623047,
+            "color": "cyan",
+            "label": "Entry Zone 61.8%"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 97.61920922851563,
+            "color": "cyan",
+            "label": "61.8% Entry"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 98.52249908447266,
+            "color": "blue",
+            "label": "50% Support"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 94.64765219497681,
+            "color": "red",
+            "label": "\u26d4 W1 Origin / Hard Stop"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 102.3499984741211,
+            "color": "green",
+            "label": "TP1: 100% W1 Peak"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 107.08078771972656,
+            "color": "lime",
+            "label": "TP2: 161.8% Extension"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 114.73578649902343,
+            "color": "white",
+            "label": "TP3: 261.8% Runner"
+          }
+        ],
+        "symbol": "CIBR",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      },
+      {
+        "pattern": "DIVERGENCE",
+        "direction": "LONG",
+        "divergence_type": "HIDDEN_BULLISH",
+        "low1_price": 91.12,
+        "low1_rsi": 62.34,
+        "low2_price": 92.68,
+        "low2_rsi": 49.78,
+        "entry_price": 103.78,
+        "stop_price": 92.22,
+        "target_1": 101.04,
+        "target_2": 104.07,
+        "target_3": 109.12,
+        "risk_reward": -0.24,
+        "gates_cleared": 1,
+        "max_gates": 4,
+        "thesis": "HIDDEN BULLISH: Price 91.12\u219292.68 (HL), RSI 62.3\u219249.8 (LL). RSI=49.8 . Entry 103.78, stop 92.22, TP1 101.04, R:R -0.24.",
+        "drawings": [
+          {
+            "type": "horizontal_line",
+            "price": 92.68000030517578,
+            "color": "yellow",
+            "label": "HIDDEN_BULLISH \u2014 RSI 50"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 92.2166003036499,
+            "color": "red",
+            "label": "Divergence Stop"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 101.03900146484375,
+            "color": "green",
+            "label": "Div TP1"
+          }
+        ],
+        "symbol": "CIBR",
         "position_size_pct": 7.0,
         "position_size_usd": 12810
       }
@@ -1437,13 +1772,7 @@
     "top_pattern_gates": 3,
     "news_signals": [
       {
-        "title": "Earnings call transcript: Apple Q2 2026 sees earnings beat, stock rises - Investing.com",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Apple stock dips 1% on report of strained OpenAI partnership - Investing.com",
+        "title": "CIBR: Why AI Proves To Be A Tailwind, Not Cybersecurity's Demise (Rating Upgrade) - Seeking Alpha",
         "source": "News",
         "score": 2,
         "bull": true
@@ -1463,7 +1792,7 @@
       "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
     "ma": {
-      "price": 120.77,
+      "price": 120.81,
       "ma50": 97.69,
       "ma200": 77.93,
       "ma_signal": "\u2705 Above 200MA",
@@ -1638,6 +1967,244 @@
     "market": "US"
   },
   {
+    "ticker": "TSM",
+    "name": "Taiwan Semiconductor",
+    "score": 6,
+    "max": 12,
+    "signals": [
+      "\u2705 Golden Cross active",
+      "\u2705 Above 200MA",
+      "A/D rising \u2014 institutions loading",
+      "\ud83d\ude80 Testing Resistance: $450.87",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "ma": {
+      "price": 446.93,
+      "ma50": 418.1,
+      "ma200": 380.85,
+      "ma_signal": "\u2705 Above 200MA",
+      "cross": "\u2705 Golden Cross active"
+    },
+    "ad": {
+      "signal": "\u2705 Institutions accumulating"
+    },
+    "patterns": [
+      "\ud83d\ude80 Testing Resistance: $450.87",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "fundamentals": {},
+    "buy_rating": "STRONG BUY",
+    "conviction": "HIGH",
+    "v2_patterns": [
+      {
+        "pattern": "FVG",
+        "direction": "LONG",
+        "fvg_top": 375.80999755859375,
+        "fvg_bottom": 370.75,
+        "midpoint": 373.2799987792969,
+        "size_pct": 1.306,
+        "bars_ago": 105,
+        "entry_price": 373.28,
+        "stop_price": 370.38,
+        "target_1": 394.6,
+        "target_2": 413.39,
+        "target_3": 434.06,
+        "risk_reward": 7.35,
+        "gates_cleared": 3,
+        "max_gates": 9,
+        "thesis": "Bullish FVG 370.75\u2013375.81 (1.306%). Fresh (105 bars ago), unfilled. Entry midpoint 373.28.",
+        "drawings": [
+          {
+            "type": "rectangle",
+            "top": 375.80999755859375,
+            "bottom": 370.75,
+            "color": "cyan",
+            "label": "FVG Zone"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 373.2799987792969,
+            "color": "cyan",
+            "label": "FVG Entry"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 370.37925,
+            "color": "red",
+            "label": "FVG Stop"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 394.6004974365234,
+            "color": "green",
+            "label": "FVG TP1"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 413.39099731445316,
+            "color": "lime",
+            "label": "FVG TP2"
+          }
+        ],
+        "symbol": "TSM",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      },
+      {
+        "pattern": "ELLIOTT_WAVE",
+        "direction": "LONG",
+        "w1_origin": 407.99,
+        "w1_peak": 436.04,
+        "w1_length": 28.05,
+        "wave_a_low": 407.72,
+        "wave_b_high": 425.68,
+        "wave_c_target": 397.36,
+        "fib_618": 418.71,
+        "fib_500": 422.01,
+        "c_equals_a": false,
+        "entry_price": 418.71,
+        "stop_price": 407.79,
+        "target_1": 436.04,
+        "target_2": 453.37,
+        "target_3": 481.42,
+        "risk_reward": 1.59,
+        "gates_cleared": 3,
+        "max_gates": 5,
+        "thesis": "Prechter W2\u2192W3: Wave 1 origin 407.99\u2192peak 436.04 (+6.9%, 5-wave validated). Wave 2 ABC: A low=407.72, B high=425.68, C=A target=397.36. Near 61.8% zone. Entry at 61.8% 418.71, hard stop at Wave 1 origin 407.79. TP1=436.04 (100%), TP2=453.37 (161.8%), TP3=481.42 (261.8%).",
+        "drawings": [
+          {
+            "type": "text",
+            "price": 407.989990234375,
+            "label": "W1 Origin",
+            "color": "white"
+          },
+          {
+            "type": "text",
+            "price": 436.0400085449219,
+            "label": "\u2460 Peak",
+            "color": "white"
+          },
+          {
+            "type": "text",
+            "price": 407.7200012207031,
+            "label": "A",
+            "color": "orange"
+          },
+          {
+            "type": "text",
+            "price": 425.67999267578125,
+            "label": "B",
+            "color": "orange"
+          },
+          {
+            "type": "text",
+            "price": 397.3599853515625,
+            "label": "C (proj)",
+            "color": "orange"
+          },
+          {
+            "type": "rectangle",
+            "top": 418.7050972290039,
+            "bottom": 414.5180462567139,
+            "color": "cyan",
+            "label": "Entry Zone 61.8%"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 418.7050972290039,
+            "color": "cyan",
+            "label": "61.8% Entry"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 422.01499938964844,
+            "color": "blue",
+            "label": "50% Support"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 407.78599523925783,
+            "color": "red",
+            "label": "\u26d4 W1 Origin / Hard Stop"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 436.0400085449219,
+            "color": "green",
+            "label": "TP1: 100% W1 Peak"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 453.37491986083984,
+            "color": "lime",
+            "label": "TP2: 161.8% Extension"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 481.4249381713867,
+            "color": "white",
+            "label": "TP3: 261.8% Runner"
+          }
+        ],
+        "symbol": "TSM",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      },
+      {
+        "pattern": "DIVERGENCE",
+        "direction": "LONG",
+        "divergence_type": "HIDDEN_BULLISH",
+        "low1_price": 407.82,
+        "low1_rsi": 56.78,
+        "low2_price": 412.55,
+        "low2_rsi": 47.95,
+        "entry_price": 446.93,
+        "stop_price": 410.49,
+        "target_1": 444.29,
+        "target_2": 457.62,
+        "target_3": 479.83,
+        "risk_reward": -0.07,
+        "gates_cleared": 1,
+        "max_gates": 4,
+        "thesis": "HIDDEN BULLISH: Price 407.82\u2192412.55 (HL), RSI 56.8\u219248.0 (LL). RSI=48.0 . Entry 446.93, stop 410.49, TP1 444.29, R:R -0.07.",
+        "drawings": [
+          {
+            "type": "horizontal_line",
+            "price": 412.54998779296875,
+            "color": "yellow",
+            "label": "HIDDEN_BULLISH \u2014 RSI 48"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 410.4872378540039,
+            "color": "red",
+            "label": "Divergence Stop"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 444.2900085449219,
+            "color": "green",
+            "label": "Div TP1"
+          }
+        ],
+        "symbol": "TSM",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      }
+    ],
+    "top_pattern": "FVG",
+    "top_pattern_gates": 3,
+    "news_signals": [
+      {
+        "title": "TSMC Beats, Raises Guidance but Shares Slide \u2014 Here\u2019s What\u2019s Spooking Investors - NAI500",
+        "source": "News",
+        "score": 2,
+        "bull": true
+      }
+    ],
+    "market": "US"
+  },
+  {
     "ticker": "SNDK",
     "name": "SanDisk Corp",
     "score": 6,
@@ -1649,9 +2216,9 @@
       "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
     "ma": {
-      "price": 1827.78,
-      "ma50": 1504.29,
-      "ma200": 1084.21,
+      "price": 1826.0,
+      "ma50": 1504.26,
+      "ma200": 1084.2,
       "ma_signal": "\u2705 Above 200MA",
       "cross": "\u2705 Golden Cross active"
     },
@@ -1727,7 +2294,7 @@
         "low1_rsi": 53.24,
         "low2_price": 1504.2,
         "low2_rsi": 52.85,
-        "entry_price": 1827.48,
+        "entry_price": 1826.26,
         "stop_price": 1496.68,
         "target_1": 1807.38,
         "target_2": 1861.6,
@@ -1735,7 +2302,7 @@
         "risk_reward": -0.06,
         "gates_cleared": 1,
         "max_gates": 4,
-        "thesis": "HIDDEN BULLISH: Price 1435.61\u21921504.20 (HL), RSI 53.2\u219252.9 (LL). RSI=52.9 . Entry 1827.48, stop 1496.68, TP1 1807.38, R:R -0.06.",
+        "thesis": "HIDDEN BULLISH: Price 1435.61\u21921504.20 (HL), RSI 53.2\u219252.9 (LL). RSI=52.9 . Entry 1826.26, stop 1496.68, TP1 1807.38, R:R -0.06.",
         "drawings": [
           {
             "type": "horizontal_line",
@@ -1781,6 +2348,12 @@
         "source": "News",
         "score": 2,
         "bull": true
+      },
+      {
+        "title": "Sandisk (SNDK) Is Up 23.2% After Record Q3 Results And New $6 Billion Buyback Plan - What's Changed - Yahoo Finance",
+        "source": "News",
+        "score": 2,
+        "bull": true
       }
     ],
     "market": "US"
@@ -1798,9 +2371,9 @@
       "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
     "ma": {
-      "price": 1734.36,
-      "ma50": 1720.6,
-      "ma200": 1515.45,
+      "price": 1736.63,
+      "ma50": 1720.64,
+      "ma200": 1515.46,
       "ma_signal": "\u2705 Above 200MA",
       "cross": "\u2705 Golden Cross active"
     },
@@ -1983,113 +2556,6 @@
     "market": "US"
   },
   {
-    "ticker": "MRVL",
-    "name": "Marvell Technology",
-    "score": 6,
-    "max": 12,
-    "signals": [
-      "\u2705 Golden Cross active",
-      "\u2705 Above 200MA",
-      "A/D rising \u2014 institutions loading",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "ma": {
-      "price": 259.12,
-      "ma50": 217.21,
-      "ma200": 160.03,
-      "ma_signal": "\u2705 Above 200MA",
-      "cross": "\u2705 Golden Cross active"
-    },
-    "ad": {
-      "signal": "\u2705 Institutions accumulating"
-    },
-    "patterns": [
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "fundamentals": {},
-    "buy_rating": "STRONG BUY",
-    "conviction": "HIGH",
-    "v2_patterns": [
-      {
-        "pattern": "FVG",
-        "direction": "LONG",
-        "fvg_top": 159.25999450683594,
-        "fvg_bottom": 157.2100067138672,
-        "midpoint": 158.23500061035156,
-        "size_pct": 1.241,
-        "bars_ago": 99,
-        "entry_price": 158.24,
-        "stop_price": 157.05,
-        "target_1": 167.22,
-        "target_2": 175.19,
-        "target_3": 183.95,
-        "risk_reward": 7.6,
-        "gates_cleared": 3,
-        "max_gates": 9,
-        "thesis": "Bullish FVG 157.21\u2013159.26 (1.241%). Fresh (99 bars ago), unfilled. Entry midpoint 158.24.",
-        "drawings": [
-          {
-            "type": "rectangle",
-            "top": 159.25999450683594,
-            "bottom": 157.2100067138672,
-            "color": "cyan",
-            "label": "FVG Zone"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 158.23500061035156,
-            "color": "cyan",
-            "label": "FVG Entry"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 157.05279670715333,
-            "color": "red",
-            "label": "FVG Stop"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 167.22299423217774,
-            "color": "green",
-            "label": "FVG TP1"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 175.18599395751954,
-            "color": "lime",
-            "label": "FVG TP2"
-          }
-        ],
-        "symbol": "MRVL",
-        "position_size_pct": 7.0,
-        "position_size_usd": 12810
-      }
-    ],
-    "top_pattern": "FVG",
-    "top_pattern_gates": 3,
-    "news_signals": [
-      {
-        "title": "Marvell will show 38 ways to connect AI data centers in Spain - stocktitan.net",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Why Marvell\u2019s Earnings Beat Wasn\u2019t Big Enough for Such Great Expectations - Barron's",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Marvell\u2019s stock sinks despite earnings beat and strong guidance - SiliconANGLE",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      }
-    ],
-    "market": "US"
-  },
-  {
     "ticker": "SMCI",
     "name": "Super Micro Computer",
     "score": 6,
@@ -2101,7 +2567,7 @@
       "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
     "ma": {
-      "price": 41.55,
+      "price": 41.42,
       "ma50": 34.09,
       "ma200": 31.68,
       "ma_signal": "\u2705 Above 200MA",
@@ -2197,1122 +2663,6 @@
     "market": "US"
   },
   {
-    "ticker": "ARKQ",
-    "name": "ARK Autonomous Tech ETF",
-    "score": 6,
-    "max": 12,
-    "signals": [
-      "\u2705 Above 200MA",
-      "A/D rising \u2014 institutions loading",
-      "\ud83d\ude80 Testing Resistance: $126.48",
-      "\ud83d\udcd0 Fib 38.2%: $123.39"
-    ],
-    "ma": {
-      "price": 124.95,
-      "ma50": 121.79,
-      "ma200": 124.25,
-      "ma_signal": "\u2705 Above 200MA",
-      "near_200ma": "\ud83d\udccd At 200MA"
-    },
-    "ad": {
-      "signal": "\u2705 Institutions accumulating"
-    },
-    "patterns": [
-      "\ud83d\ude80 Testing Resistance: $126.48",
-      "\ud83d\udcd0 Fib 38.2%: $123.39",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "fundamentals": {},
-    "buy_rating": "STRONG BUY",
-    "conviction": "HIGH",
-    "v2_patterns": [
-      {
-        "pattern": "ELLIOTT_WAVE",
-        "direction": "LONG",
-        "w1_origin": 121.03,
-        "w1_peak": 132.0,
-        "w1_length": 10.97,
-        "wave_a_low": 119.25,
-        "wave_b_high": 124.71,
-        "wave_c_target": 111.96,
-        "fib_618": 125.22,
-        "fib_500": 126.51,
-        "c_equals_a": false,
-        "entry_price": 125.22,
-        "stop_price": 120.97,
-        "target_1": 132.0,
-        "target_2": 138.78,
-        "target_3": 149.75,
-        "risk_reward": 1.59,
-        "gates_cleared": 3,
-        "max_gates": 5,
-        "thesis": "Prechter W2\u2192W3: Wave 1 origin 121.03\u2192peak 132.00 (+9.1%, 5-wave validated). Wave 2 ABC: A low=119.25, B high=124.71, C=A target=111.96. Near 61.8% zone. Entry at 61.8% 125.22, hard stop at Wave 1 origin 120.97. TP1=132.00 (100%), TP2=138.78 (161.8%), TP3=149.75 (261.8%).",
-        "drawings": [
-          {
-            "type": "text",
-            "price": 121.02999877929688,
-            "label": "W1 Origin",
-            "color": "white"
-          },
-          {
-            "type": "text",
-            "price": 132.0,
-            "label": "\u2460 Peak",
-            "color": "white"
-          },
-          {
-            "type": "text",
-            "price": 119.25,
-            "label": "A",
-            "color": "orange"
-          },
-          {
-            "type": "text",
-            "price": 124.70500183105469,
-            "label": "B",
-            "color": "orange"
-          },
-          {
-            "type": "text",
-            "price": 111.95500183105469,
-            "label": "C (proj)",
-            "color": "orange"
-          },
-          {
-            "type": "rectangle",
-            "top": 125.22053924560547,
-            "bottom": 123.9683338531494,
-            "color": "cyan",
-            "label": "Entry Zone 61.8%"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 125.22053924560547,
-            "color": "cyan",
-            "label": "61.8% Entry"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 126.51499938964844,
-            "color": "blue",
-            "label": "50% Support"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 120.96948377990724,
-            "color": "red",
-            "label": "\u26d4 W1 Origin / Hard Stop"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 132.0,
-            "color": "green",
-            "label": "TP1: 100% W1 Peak"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 138.77946075439453,
-            "color": "lime",
-            "label": "TP2: 161.8% Extension"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 149.74946197509766,
-            "color": "white",
-            "label": "TP3: 261.8% Runner"
-          }
-        ],
-        "symbol": "ARKQ",
-        "position_size_pct": 7.0,
-        "position_size_usd": 12810
-      },
-      {
-        "pattern": "DIVERGENCE",
-        "direction": "LONG",
-        "divergence_type": "REGULAR_BULLISH",
-        "low1_price": 119.25,
-        "low1_rsi": 48.89,
-        "low2_price": 117.98,
-        "low2_rsi": 50.77,
-        "entry_price": 124.95,
-        "stop_price": 117.39,
-        "target_1": 124.71,
-        "target_2": 128.45,
-        "target_3": 134.68,
-        "risk_reward": -0.03,
-        "gates_cleared": 2,
-        "max_gates": 4,
-        "thesis": "REGULAR BULLISH: Price 119.25\u2192117.98 (LL), RSI 48.9\u219250.8 (HL). RSI=50.8 . Entry 124.95, stop 117.39, TP1 124.71, R:R -0.03.",
-        "drawings": [
-          {
-            "type": "horizontal_line",
-            "price": 117.9800033569336,
-            "color": "yellow",
-            "label": "REGULAR_BULLISH \u2014 RSI 51"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 117.39010334014893,
-            "color": "red",
-            "label": "Divergence Stop"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 124.70500183105469,
-            "color": "green",
-            "label": "Div TP1"
-          }
-        ],
-        "symbol": "ARKQ",
-        "position_size_pct": 7.0,
-        "position_size_usd": 12810
-      }
-    ],
-    "top_pattern": "ELLIOTT_WAVE",
-    "top_pattern_gates": 3,
-    "news_signals": [
-      {
-        "title": "RKLB Stock Eyes Worst Month Ever, But Cathie Wood Keeps Buying \u2014 ARK Adds Rocket Lab, Cuts Exposure To $8B Takeover Target - TradingView",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      }
-    ],
-    "market": "US"
-  },
-  {
-    "ticker": "NVDA",
-    "name": "NVIDIA Corporation",
-    "score": 5,
-    "max": 12,
-    "signals": [
-      "\u2705 Golden Cross active",
-      "\u2705 Above 200MA",
-      "A/D rising \u2014 institutions loading",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "ma": {
-      "price": 225.22,
-      "ma50": 215.03,
-      "ma200": 198.84,
-      "ma_signal": "\u2705 Above 200MA",
-      "cross": "\u2705 Golden Cross active"
-    },
-    "ad": {
-      "signal": "\u2705 Institutions accumulating"
-    },
-    "patterns": [
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "fundamentals": {},
-    "buy_rating": "BUY",
-    "conviction": "MEDIUM",
-    "v2_patterns": [
-      {
-        "pattern": "FVG",
-        "direction": "LONG",
-        "fvg_top": 195.74000549316406,
-        "fvg_bottom": 189.66000366210938,
-        "midpoint": 192.70000457763672,
-        "size_pct": 3.094,
-        "bars_ago": 111,
-        "entry_price": 192.7,
-        "stop_price": 189.47,
-        "target_1": 205.53,
-        "target_2": 215.31,
-        "target_3": 226.08,
-        "risk_reward": 3.97,
-        "gates_cleared": 3,
-        "max_gates": 9,
-        "thesis": "Bullish FVG 189.66\u2013195.74 (3.094%). Fresh (111 bars ago), unfilled. Entry midpoint 192.70.",
-        "drawings": [
-          {
-            "type": "rectangle",
-            "top": 195.74000549316406,
-            "bottom": 189.66000366210938,
-            "color": "cyan",
-            "label": "FVG Zone"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 192.70000457763672,
-            "color": "cyan",
-            "label": "FVG Entry"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 189.47034365844726,
-            "color": "red",
-            "label": "FVG Stop"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 205.5270057678223,
-            "color": "green",
-            "label": "FVG TP1"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 215.3140060424805,
-            "color": "lime",
-            "label": "FVG TP2"
-          }
-        ],
-        "symbol": "NVDA",
-        "position_size_pct": 7.0,
-        "position_size_usd": 12810
-      }
-    ],
-    "top_pattern": "FVG",
-    "top_pattern_gates": 3,
-    "news_signals": [
-      {
-        "title": "NVDA: Nvidia Stock Jumps 5% as Traders Cheer Record Revenue, Rare Bold Guidance - TradingView",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      }
-    ],
-    "market": "US"
-  },
-  {
-    "ticker": "CRM",
-    "name": "Salesforce",
-    "score": 5,
-    "max": 12,
-    "signals": [
-      "\u2705 Golden Cross active",
-      "\u2705 Above 200MA",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
-    ],
-    "ma": {
-      "price": 239.58,
-      "ma50": 209.76,
-      "ma200": 201.58,
-      "ma_signal": "\u2705 Above 200MA",
-      "cross": "\u2705 Golden Cross active"
-    },
-    "ad": {
-      "signal": "\u26a0\ufe0f A/D declining"
-    },
-    "patterns": [
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
-    ],
-    "fundamentals": {},
-    "buy_rating": "BUY",
-    "conviction": "MEDIUM",
-    "v2_patterns": [],
-    "top_pattern": "NONE",
-    "top_pattern_gates": 0,
-    "news_signals": [
-      {
-        "title": "Salesforce climbs on earnings beat as company commits $50 billion for buybacks - CNBC",
-        "source": "News",
-        "score": 4,
-        "bull": true
-      },
-      {
-        "title": "Salesforce Stock Is Down 30% in 2026. Here\u2019s What the $25 Billion Buyback Means for CRM Investors - TIKR.com",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Salesforce\u2019s (NYSE:CRM) Q2 CY2026 Earnings Results: Non-GAAP EPS Beats Expectations, Stock Jumps 11.8% - Yahoo Finance",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      }
-    ],
-    "market": "US"
-  },
-  {
-    "ticker": "NOW",
-    "name": "ServiceNow",
-    "score": 5,
-    "max": 12,
-    "signals": [
-      "\u2705 Golden Cross active",
-      "\u2705 Above 200MA",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
-    ],
-    "ma": {
-      "price": 140.49,
-      "ma50": 123.84,
-      "ma200": 117.13,
-      "ma_signal": "\u2705 Above 200MA",
-      "cross": "\u2705 Golden Cross active"
-    },
-    "ad": {
-      "signal": "\u26a0\ufe0f A/D declining"
-    },
-    "patterns": [
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
-    ],
-    "fundamentals": {},
-    "buy_rating": "BUY",
-    "conviction": "MEDIUM",
-    "v2_patterns": [
-      {
-        "pattern": "FVG",
-        "direction": "LONG",
-        "fvg_top": 91.97000122070312,
-        "fvg_bottom": 88.58000183105469,
-        "midpoint": 90.2750015258789,
-        "size_pct": 3.746,
-        "bars_ago": 89,
-        "entry_price": 90.28,
-        "stop_price": 88.49,
-        "target_1": 96.57,
-        "target_2": 101.17,
-        "target_3": 106.23,
-        "risk_reward": 3.53,
-        "gates_cleared": 3,
-        "max_gates": 9,
-        "thesis": "Bullish FVG 88.58\u201391.97 (3.746%). Fresh (89 bars ago), unfilled. Entry midpoint 90.28.",
-        "drawings": [
-          {
-            "type": "rectangle",
-            "top": 91.97000122070312,
-            "bottom": 88.58000183105469,
-            "color": "cyan",
-            "label": "FVG Zone"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 90.2750015258789,
-            "color": "cyan",
-            "label": "FVG Entry"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 88.49142182922363,
-            "color": "red",
-            "label": "FVG Stop"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 96.56850128173828,
-            "color": "green",
-            "label": "FVG TP1"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 101.16700134277345,
-            "color": "lime",
-            "label": "FVG TP2"
-          }
-        ],
-        "symbol": "NOW",
-        "position_size_pct": 7.0,
-        "position_size_usd": 12810
-      }
-    ],
-    "top_pattern": "FVG",
-    "top_pattern_gates": 3,
-    "news_signals": [
-      {
-        "title": "ServiceNow (NYSE:NOW) Rallies After Q2 Earnings Beat and Raised Guidance, Reinforcing Its Position as a High-Growth AI Stock - ChartMill",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "ServiceNow\u2019s Q2 Earnings Beat Every Line Except One. Here\u2019s What Fell. - TIKR.com",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "ServiceNow reports Q2 earnings beat with 24.5% subscription revenue growth - eciks.org",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      }
-    ],
-    "market": "US"
-  },
-  {
-    "ticker": "TSM",
-    "name": "Taiwan Semiconductor",
-    "score": 4,
-    "max": 12,
-    "signals": [
-      "\u2705 Golden Cross active",
-      "\u2705 Above 200MA",
-      "A/D rising \u2014 institutions loading",
-      "\ud83d\ude80 Testing Resistance: $450.87",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "ma": {
-      "price": 446.49,
-      "ma50": 418.09,
-      "ma200": 380.85,
-      "ma_signal": "\u2705 Above 200MA",
-      "cross": "\u2705 Golden Cross active"
-    },
-    "ad": {
-      "signal": "\u2705 Institutions accumulating"
-    },
-    "patterns": [
-      "\ud83d\ude80 Testing Resistance: $450.87",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "fundamentals": {},
-    "buy_rating": "BUY",
-    "conviction": "MEDIUM",
-    "v2_patterns": [
-      {
-        "pattern": "FVG",
-        "direction": "LONG",
-        "fvg_top": 375.80999755859375,
-        "fvg_bottom": 370.75,
-        "midpoint": 373.2799987792969,
-        "size_pct": 1.306,
-        "bars_ago": 105,
-        "entry_price": 373.28,
-        "stop_price": 370.38,
-        "target_1": 394.6,
-        "target_2": 413.39,
-        "target_3": 434.06,
-        "risk_reward": 7.35,
-        "gates_cleared": 3,
-        "max_gates": 9,
-        "thesis": "Bullish FVG 370.75\u2013375.81 (1.306%). Fresh (105 bars ago), unfilled. Entry midpoint 373.28.",
-        "drawings": [
-          {
-            "type": "rectangle",
-            "top": 375.80999755859375,
-            "bottom": 370.75,
-            "color": "cyan",
-            "label": "FVG Zone"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 373.2799987792969,
-            "color": "cyan",
-            "label": "FVG Entry"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 370.37925,
-            "color": "red",
-            "label": "FVG Stop"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 394.6004974365234,
-            "color": "green",
-            "label": "FVG TP1"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 413.39099731445316,
-            "color": "lime",
-            "label": "FVG TP2"
-          }
-        ],
-        "symbol": "TSM",
-        "position_size_pct": 7.0,
-        "position_size_usd": 12810
-      },
-      {
-        "pattern": "ELLIOTT_WAVE",
-        "direction": "LONG",
-        "w1_origin": 407.99,
-        "w1_peak": 436.04,
-        "w1_length": 28.05,
-        "wave_a_low": 407.72,
-        "wave_b_high": 425.68,
-        "wave_c_target": 397.36,
-        "fib_618": 418.71,
-        "fib_500": 422.01,
-        "c_equals_a": false,
-        "entry_price": 418.71,
-        "stop_price": 407.79,
-        "target_1": 436.04,
-        "target_2": 453.37,
-        "target_3": 481.42,
-        "risk_reward": 1.59,
-        "gates_cleared": 3,
-        "max_gates": 5,
-        "thesis": "Prechter W2\u2192W3: Wave 1 origin 407.99\u2192peak 436.04 (+6.9%, 5-wave validated). Wave 2 ABC: A low=407.72, B high=425.68, C=A target=397.36. Near 61.8% zone. Entry at 61.8% 418.71, hard stop at Wave 1 origin 407.79. TP1=436.04 (100%), TP2=453.37 (161.8%), TP3=481.42 (261.8%).",
-        "drawings": [
-          {
-            "type": "text",
-            "price": 407.989990234375,
-            "label": "W1 Origin",
-            "color": "white"
-          },
-          {
-            "type": "text",
-            "price": 436.0400085449219,
-            "label": "\u2460 Peak",
-            "color": "white"
-          },
-          {
-            "type": "text",
-            "price": 407.7200012207031,
-            "label": "A",
-            "color": "orange"
-          },
-          {
-            "type": "text",
-            "price": 425.67999267578125,
-            "label": "B",
-            "color": "orange"
-          },
-          {
-            "type": "text",
-            "price": 397.3599853515625,
-            "label": "C (proj)",
-            "color": "orange"
-          },
-          {
-            "type": "rectangle",
-            "top": 418.7050972290039,
-            "bottom": 414.5180462567139,
-            "color": "cyan",
-            "label": "Entry Zone 61.8%"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 418.7050972290039,
-            "color": "cyan",
-            "label": "61.8% Entry"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 422.01499938964844,
-            "color": "blue",
-            "label": "50% Support"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 407.78599523925783,
-            "color": "red",
-            "label": "\u26d4 W1 Origin / Hard Stop"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 436.0400085449219,
-            "color": "green",
-            "label": "TP1: 100% W1 Peak"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 453.37491986083984,
-            "color": "lime",
-            "label": "TP2: 161.8% Extension"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 481.4249381713867,
-            "color": "white",
-            "label": "TP3: 261.8% Runner"
-          }
-        ],
-        "symbol": "TSM",
-        "position_size_pct": 7.0,
-        "position_size_usd": 12810
-      },
-      {
-        "pattern": "DIVERGENCE",
-        "direction": "LONG",
-        "divergence_type": "HIDDEN_BULLISH",
-        "low1_price": 407.82,
-        "low1_rsi": 56.78,
-        "low2_price": 412.55,
-        "low2_rsi": 47.95,
-        "entry_price": 446.49,
-        "stop_price": 410.49,
-        "target_1": 444.29,
-        "target_2": 457.62,
-        "target_3": 479.83,
-        "risk_reward": -0.06,
-        "gates_cleared": 1,
-        "max_gates": 4,
-        "thesis": "HIDDEN BULLISH: Price 407.82\u2192412.55 (HL), RSI 56.8\u219248.0 (LL). RSI=48.0 . Entry 446.49, stop 410.49, TP1 444.29, R:R -0.06.",
-        "drawings": [
-          {
-            "type": "horizontal_line",
-            "price": 412.54998779296875,
-            "color": "yellow",
-            "label": "HIDDEN_BULLISH \u2014 RSI 48"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 410.4872378540039,
-            "color": "red",
-            "label": "Divergence Stop"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 444.2900085449219,
-            "color": "green",
-            "label": "Div TP1"
-          }
-        ],
-        "symbol": "TSM",
-        "position_size_pct": 7.0,
-        "position_size_usd": 12810
-      }
-    ],
-    "top_pattern": "FVG",
-    "top_pattern_gates": 3,
-    "news_signals": [],
-    "market": "US"
-  },
-  {
-    "ticker": "PLTR",
-    "name": "Palantir Technologies",
-    "score": 4,
-    "max": 12,
-    "signals": [
-      "\u2705 Golden Cross active",
-      "\u2705 Above 200MA",
-      "A/D rising \u2014 institutions loading",
-      "\ud83d\ude80 Testing Resistance: $193.79",
-      "\ud83d\udcc8 Uptrend: Higher Highs & Lows"
-    ],
-    "ma": {
-      "price": 191.41,
-      "ma50": 160.61,
-      "ma200": 151.89,
-      "ma_signal": "\u2705 Above 200MA",
-      "cross": "\u2705 Golden Cross active"
-    },
-    "ad": {
-      "signal": "\u2705 Institutions accumulating"
-    },
-    "patterns": [
-      "\ud83d\ude80 Testing Resistance: $193.79",
-      "\ud83d\udcc8 Uptrend: Higher Highs & Lows",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "fundamentals": {},
-    "buy_rating": "BUY",
-    "conviction": "MEDIUM",
-    "v2_patterns": [],
-    "top_pattern": "NONE",
-    "top_pattern_gates": 0,
-    "news_signals": [],
-    "market": "US"
-  },
-  {
-    "ticker": "TSLA",
-    "name": "Tesla Inc",
-    "score": 4,
-    "max": 12,
-    "signals": [
-      "\u26a0\ufe0f Below 200MA",
-      "\ud83d\ude80 Testing Resistance: $386.70",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "ma": {
-      "price": 379.47,
-      "ma50": 349.29,
-      "ma200": 396.72,
-      "ma_signal": "\u26a0\ufe0f Below 200MA"
-    },
-    "ad": {
-      "signal": "\u26a0\ufe0f A/D declining"
-    },
-    "patterns": [
-      "\ud83d\ude80 Testing Resistance: $386.70",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "fundamentals": {},
-    "buy_rating": "BUY",
-    "conviction": "MEDIUM",
-    "v2_patterns": [
-      {
-        "pattern": "FIBONACCI",
-        "direction": "LONG",
-        "swing_low": 360.75,
-        "swing_high": 386.7,
-        "move_pct": 7.19,
-        "golden_pocket_top": 370.66,
-        "golden_pocket_bot": 369.83,
-        "fib_786_stop": 366.3,
-        "ext_1272": 393.76,
-        "ext_1618": 402.74,
-        "ext_2618": 428.69,
-        "in_pocket": false,
-        "entry_price": 370.25,
-        "stop_price": 365.94,
-        "target_1": 386.7,
-        "target_2": 402.74,
-        "target_3": 428.69,
-        "risk_reward": 3.82,
-        "gates_cleared": 2,
-        "max_gates": 4,
-        "thesis": "Fibonacci golden pocket 61.8%\u201365%: swing 360.75\u2192386.70 (+7.2%). Golden pocket 369.83\u2013370.66. Approaching zone. Entry 370.25, stop below 78.6% at 365.94. TP1 prior high 386.70, TP2 161.8% 402.74, TP3 261.8% 428.69.",
-        "drawings": [
-          {
-            "type": "horizontal_line",
-            "price": 386.70001220703125,
-            "color": "white",
-            "label": "0% Swing High"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 376.7871075439453,
-            "color": "gray",
-            "label": "38.2%"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 373.7250061035156,
-            "color": "gray",
-            "label": "50.0%"
-          },
-          {
-            "type": "rectangle",
-            "top": 370.66290466308595,
-            "bottom": 369.83250427246094,
-            "color": "gold",
-            "label": "Golden Pocket 61.8\u201365%"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 370.66290466308595,
-            "color": "gold",
-            "label": "61.8% Entry Top"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 369.83250427246094,
-            "color": "gold",
-            "label": "65.0% Entry Bot"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 366.30330261230466,
-            "color": "red",
-            "label": "78.6% Invalidation"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 360.75,
-            "color": "white",
-            "label": "100% Swing Low"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 386.70001220703125,
-            "color": "green",
-            "label": "TP1: Prior High"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 402.73711975097655,
-            "color": "lime",
-            "label": "TP2: 161.8%"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 428.6871319580078,
-            "color": "white",
-            "label": "TP3: 261.8%"
-          }
-        ],
-        "symbol": "TSLA",
-        "position_size_pct": 7.0,
-        "position_size_usd": 12810
-      },
-      {
-        "pattern": "DIVERGENCE",
-        "direction": "LONG",
-        "divergence_type": "HIDDEN_BULLISH",
-        "low1_price": 342.53,
-        "low1_rsi": 53.88,
-        "low2_price": 354.05,
-        "low2_rsi": 51.12,
-        "entry_price": 379.53,
-        "stop_price": 352.28,
-        "target_1": 384.04,
-        "target_2": 395.56,
-        "target_3": 414.76,
-        "risk_reward": 0.17,
-        "gates_cleared": 1,
-        "max_gates": 4,
-        "thesis": "HIDDEN BULLISH: Price 342.53\u2192354.05 (HL), RSI 53.9\u219251.1 (LL). RSI=51.1 . Entry 379.53, stop 352.28, TP1 384.04, R:R 0.17.",
-        "drawings": [
-          {
-            "type": "horizontal_line",
-            "price": 354.04998779296875,
-            "color": "yellow",
-            "label": "HIDDEN_BULLISH \u2014 RSI 51"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 352.2797378540039,
-            "color": "red",
-            "label": "Divergence Stop"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 384.0400085449219,
-            "color": "green",
-            "label": "Div TP1"
-          }
-        ],
-        "symbol": "TSLA",
-        "position_size_pct": 7.0,
-        "position_size_usd": 12810
-      }
-    ],
-    "top_pattern": "FIBONACCI",
-    "top_pattern_gates": 2,
-    "news_signals": [
-      {
-        "title": "Tesla Q1 2026 Earnings Beat So Why Did the Stock Fall 3.56%? - TIKR.com",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Tesla secures a $5 billion contract! Partners with NatPower to develop battery energy storage projects in Europe - \u5bcc\u9014\u725b\u725b",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      }
-    ],
-    "market": "US"
-  },
-  {
-    "ticker": "NFLX",
-    "name": "Netflix",
-    "score": 4,
-    "max": 12,
-    "signals": [
-      "RSI oversold on DAILY, WEEKLY",
-      "\u26a0\ufe0f Below 200MA",
-      "A/D rising \u2014 institutions loading",
-      "\ud83d\udccd Near Support: $70.11",
-      "\ud83c\udf1f Fib 61.8%: $72.15"
-    ],
-    "ma": {
-      "price": 71.65,
-      "ma50": 75.67,
-      "ma200": 85.14,
-      "ma_signal": "\u26a0\ufe0f Below 200MA"
-    },
-    "ad": {
-      "signal": "\u2705 Institutions accumulating"
-    },
-    "patterns": [
-      "\ud83d\udccd Near Support: $70.11",
-      "\ud83c\udf1f Fib 61.8%: $72.15",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
-    ],
-    "fundamentals": {},
-    "buy_rating": "BUY",
-    "conviction": "MEDIUM",
-    "v2_patterns": [
-      {
-        "pattern": "ELLIOTT_WAVE",
-        "direction": "LONG",
-        "w1_origin": 75.47,
-        "w1_peak": 82.46,
-        "w1_length": 6.99,
-        "wave_a_low": 79.28,
-        "wave_b_high": 82.35,
-        "wave_c_target": 79.17,
-        "fib_618": 78.14,
-        "fib_500": 78.97,
-        "c_equals_a": true,
-        "entry_price": 78.14,
-        "stop_price": 75.43,
-        "target_1": 82.46,
-        "target_2": 86.78,
-        "target_3": 93.77,
-        "risk_reward": 1.6,
-        "gates_cleared": 4,
-        "max_gates": 5,
-        "thesis": "Prechter W2\u2192W3: Wave 1 origin 75.47\u2192peak 82.46 (+9.3%, 5-wave validated). Wave 2 ABC: A low=79.28, B high=82.35, C=A target=79.17. C=A + 61.8% confluence \u2713. Entry at 61.8% 78.14, hard stop at Wave 1 origin 75.43. TP1=82.46 (100%), TP2=86.78 (161.8%), TP3=93.77 (261.8%).",
-        "drawings": [
-          {
-            "type": "text",
-            "price": 75.47000122070312,
-            "label": "W1 Origin",
-            "color": "white"
-          },
-          {
-            "type": "text",
-            "price": 82.45999908447266,
-            "label": "\u2460 Peak",
-            "color": "white"
-          },
-          {
-            "type": "text",
-            "price": 79.27999877929688,
-            "label": "A",
-            "color": "orange"
-          },
-          {
-            "type": "text",
-            "price": 82.3499984741211,
-            "label": "B",
-            "color": "orange"
-          },
-          {
-            "type": "text",
-            "price": 79.16999816894531,
-            "label": "C (proj)",
-            "color": "orange"
-          },
-          {
-            "type": "rectangle",
-            "top": 78.14018040466308,
-            "bottom": 77.35877860061645,
-            "color": "cyan",
-            "label": "Entry Zone 61.8%"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 78.14018040466308,
-            "color": "cyan",
-            "label": "61.8% Entry"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 78.96500015258789,
-            "color": "blue",
-            "label": "50% Support"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 75.43226622009277,
-            "color": "red",
-            "label": "\u26d4 W1 Origin / Hard Stop"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 82.45999908447266,
-            "color": "green",
-            "label": "TP1: 100% W1 Peak"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 86.77981776428223,
-            "color": "lime",
-            "label": "TP2: 161.8% Extension"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 93.76981562805176,
-            "color": "white",
-            "label": "TP3: 261.8% Runner"
-          }
-        ],
-        "symbol": "NFLX",
-        "position_size_pct": 7.0,
-        "position_size_usd": 12810
-      },
-      {
-        "pattern": "FIBONACCI",
-        "direction": "LONG",
-        "swing_low": 70.11,
-        "swing_high": 73.87,
-        "move_pct": 5.36,
-        "golden_pocket_top": 71.55,
-        "golden_pocket_bot": 71.43,
-        "fib_786_stop": 70.91,
-        "ext_1272": 74.89,
-        "ext_1618": 76.19,
-        "ext_2618": 79.95,
-        "in_pocket": true,
-        "entry_price": 71.49,
-        "stop_price": 70.84,
-        "target_1": 73.87,
-        "target_2": 76.19,
-        "target_3": 79.95,
-        "risk_reward": 3.71,
-        "gates_cleared": 3,
-        "max_gates": 4,
-        "thesis": "Fibonacci golden pocket 61.8%\u201365%: swing 70.11\u219273.87 (+5.4%). Golden pocket 71.43\u201371.55. PRICE IN POCKET \u2014 active setup. Entry 71.49, stop below 78.6% at 70.84. TP1 prior high 73.87, TP2 161.8% 76.19, TP3 261.8% 79.95.",
-        "drawings": [
-          {
-            "type": "horizontal_line",
-            "price": 73.87000274658203,
-            "color": "white",
-            "label": "0% Swing High"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 72.433681930542,
-            "color": "gray",
-            "label": "38.2%"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 71.9900016784668,
-            "color": "gray",
-            "label": "50.0%"
-          },
-          {
-            "type": "rectangle",
-            "top": 71.5463214263916,
-            "bottom": 71.42600135803222,
-            "color": "gold",
-            "label": "Golden Pocket 61.8\u201365%"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 71.5463214263916,
-            "color": "gold",
-            "label": "61.8% Entry Top"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 71.42600135803222,
-            "color": "gold",
-            "label": "65.0% Entry Bot"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 70.91464106750489,
-            "color": "red",
-            "label": "78.6% Invalidation"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 70.11000061035156,
-            "color": "white",
-            "label": "100% Swing Low"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 73.87000274658203,
-            "color": "green",
-            "label": "TP1: Prior High"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 76.19368406677246,
-            "color": "lime",
-            "label": "TP2: 161.8%"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 79.95368620300293,
-            "color": "white",
-            "label": "TP3: 261.8%"
-          }
-        ],
-        "symbol": "NFLX",
-        "position_size_pct": 7.0,
-        "position_size_usd": 12810
-      }
-    ],
-    "top_pattern": "ELLIOTT_WAVE",
-    "top_pattern_gates": 4,
-    "news_signals": [],
-    "market": "US"
-  },
-  {
     "ticker": "SMH",
     "name": "VanEck Semiconductor ETF",
     "score": 4,
@@ -3325,8 +2675,8 @@
       "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
     "ma": {
-      "price": 599.78,
-      "ma50": 564.77,
+      "price": 599.58,
+      "ma50": 564.76,
       "ma200": 489.67,
       "ma_signal": "\u2705 Above 200MA",
       "cross": "\u2705 Golden Cross active"
@@ -3415,8 +2765,8 @@
       "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
     "ma": {
-      "price": 564.03,
-      "ma50": 525.44,
+      "price": 563.54,
+      "ma50": 525.43,
       "ma200": 444.62,
       "ma_signal": "\u2705 Above 200MA",
       "cross": "\u2705 Golden Cross active"
@@ -3585,7 +2935,7 @@
         "low1_rsi": 48.96,
         "low2_price": 495.15,
         "low2_rsi": 42.37,
-        "entry_price": 564.03,
+        "entry_price": 563.54,
         "stop_price": 492.67,
         "target_1": 535.48,
         "target_2": 551.54,
@@ -3593,7 +2943,7 @@
         "risk_reward": -0.4,
         "gates_cleared": 1,
         "max_gates": 4,
-        "thesis": "HIDDEN BULLISH: Price 489.21\u2192495.15 (HL), RSI 49.0\u219242.4 (LL). RSI=42.4 . Entry 564.03, stop 492.67, TP1 535.48, R:R -0.4.",
+        "thesis": "HIDDEN BULLISH: Price 489.21\u2192495.15 (HL), RSI 49.0\u219242.4 (LL). RSI=42.4 . Entry 563.54, stop 492.67, TP1 535.48, R:R -0.4.",
         "drawings": [
           {
             "type": "horizontal_line",
@@ -3637,8 +2987,8 @@
       "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
     "ma": {
-      "price": 195.22,
-      "ma50": 183.58,
+      "price": 195.03,
+      "ma50": 183.57,
       "ma200": 162.94,
       "ma_signal": "\u2705 Above 200MA",
       "cross": "\u2705 Golden Cross active"
@@ -3815,6 +3165,1155 @@
     "market": "US"
   },
   {
+    "ticker": "ARKG",
+    "name": "ARK Genomic Revolution ETF",
+    "score": 4,
+    "max": 12,
+    "signals": [
+      "\u2705 Golden Cross active",
+      "\u2705 Above 200MA",
+      "A/D rising \u2014 institutions loading",
+      "\ud83d\udcc8 Uptrend: Higher Highs & Lows",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "ma": {
+      "price": 50.98,
+      "ma50": 44.36,
+      "ma200": 34.45,
+      "ma_signal": "\u2705 Above 200MA",
+      "cross": "\u2705 Golden Cross active"
+    },
+    "ad": {
+      "signal": "\u2705 Institutions accumulating"
+    },
+    "patterns": [
+      "\ud83d\udcc8 Uptrend: Higher Highs & Lows",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "fundamentals": {},
+    "buy_rating": "BUY",
+    "conviction": "MEDIUM",
+    "v2_patterns": [
+      {
+        "pattern": "FVG",
+        "direction": "LONG",
+        "fvg_top": 31.850000381469727,
+        "fvg_bottom": 31.645000457763672,
+        "midpoint": 31.7475004196167,
+        "size_pct": 0.639,
+        "bars_ago": 81,
+        "entry_price": 31.75,
+        "stop_price": 31.61,
+        "target_1": 33.44,
+        "target_2": 35.04,
+        "target_3": 36.79,
+        "risk_reward": 12.64,
+        "gates_cleared": 3,
+        "max_gates": 9,
+        "thesis": "Bullish FVG 31.65\u201331.85 (0.639%). Fresh (81 bars ago), unfilled. Entry midpoint 31.75.",
+        "drawings": [
+          {
+            "type": "rectangle",
+            "top": 31.850000381469727,
+            "bottom": 31.645000457763672,
+            "color": "cyan",
+            "label": "FVG Zone"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 31.7475004196167,
+            "color": "cyan",
+            "label": "FVG Entry"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 31.613355457305907,
+            "color": "red",
+            "label": "FVG Stop"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 33.44250040054322,
+            "color": "green",
+            "label": "FVG TP1"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 35.0350004196167,
+            "color": "lime",
+            "label": "FVG TP2"
+          }
+        ],
+        "symbol": "ARKG",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      },
+      {
+        "pattern": "DIVERGENCE",
+        "direction": "LONG",
+        "divergence_type": "HIDDEN_BULLISH",
+        "low1_price": 42.91,
+        "low1_rsi": 59.27,
+        "low2_price": 44.76,
+        "low2_rsi": 49.99,
+        "entry_price": 50.96,
+        "stop_price": 44.53,
+        "target_1": 50.53,
+        "target_2": 52.05,
+        "target_3": 54.58,
+        "risk_reward": -0.07,
+        "gates_cleared": 1,
+        "max_gates": 4,
+        "thesis": "HIDDEN BULLISH: Price 42.91\u219244.76 (HL), RSI 59.3\u219250.0 (LL). RSI=50.0 . Entry 50.96, stop 44.53, TP1 50.53, R:R -0.07.",
+        "drawings": [
+          {
+            "type": "horizontal_line",
+            "price": 44.755001068115234,
+            "color": "yellow",
+            "label": "HIDDEN_BULLISH \u2014 RSI 50"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 44.53122606277466,
+            "color": "red",
+            "label": "Divergence Stop"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 50.53499984741211,
+            "color": "green",
+            "label": "Div TP1"
+          }
+        ],
+        "symbol": "ARKG",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      }
+    ],
+    "top_pattern": "FVG",
+    "top_pattern_gates": 3,
+    "news_signals": [],
+    "market": "US"
+  },
+  {
+    "ticker": "ARKF",
+    "name": "ARK Fintech Innovation ETF",
+    "score": 4,
+    "max": 12,
+    "signals": [
+      "\u2705 Golden Cross active",
+      "\u2705 Above 200MA",
+      "A/D rising \u2014 institutions loading",
+      "\ud83d\ude80 Testing Resistance: $47.81",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "ma": {
+      "price": 47.11,
+      "ma50": 43.64,
+      "ma200": 42.68,
+      "ma_signal": "\u2705 Above 200MA",
+      "cross": "\u2705 Golden Cross active"
+    },
+    "ad": {
+      "signal": "\u2705 Institutions accumulating"
+    },
+    "patterns": [
+      "\ud83d\ude80 Testing Resistance: $47.81",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "fundamentals": {},
+    "buy_rating": "BUY",
+    "conviction": "MEDIUM",
+    "v2_patterns": [],
+    "top_pattern": "NONE",
+    "top_pattern_gates": 0,
+    "news_signals": [],
+    "market": "US"
+  },
+  {
+    "ticker": "IGV",
+    "name": "iShares Software ETF",
+    "score": 4,
+    "max": 12,
+    "signals": [
+      "\u2705 Golden Cross active",
+      "\u2705 Above 200MA",
+      "A/D rising \u2014 institutions loading",
+      "\ud83d\udcc8 Uptrend: Higher Highs & Lows",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "ma": {
+      "price": 108.13,
+      "ma50": 100.61,
+      "ma200": 93.69,
+      "ma_signal": "\u2705 Above 200MA",
+      "cross": "\u2705 Golden Cross active"
+    },
+    "ad": {
+      "signal": "\u2705 Institutions accumulating"
+    },
+    "patterns": [
+      "\ud83d\udcc8 Uptrend: Higher Highs & Lows",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "fundamentals": {},
+    "buy_rating": "BUY",
+    "conviction": "MEDIUM",
+    "v2_patterns": [
+      {
+        "pattern": "FVG",
+        "direction": "LONG",
+        "fvg_top": 87.0199966430664,
+        "fvg_bottom": 84.11000061035156,
+        "midpoint": 85.56499862670898,
+        "size_pct": 3.359,
+        "bars_ago": 98,
+        "entry_price": 85.56,
+        "stop_price": 84.03,
+        "target_1": 91.37,
+        "target_2": 95.72,
+        "target_3": 100.51,
+        "risk_reward": 3.77,
+        "gates_cleared": 3,
+        "max_gates": 9,
+        "thesis": "Bullish FVG 84.11\u201387.02 (3.359%). Fresh (98 bars ago), unfilled. Entry midpoint 85.56.",
+        "drawings": [
+          {
+            "type": "rectangle",
+            "top": 87.0199966430664,
+            "bottom": 84.11000061035156,
+            "color": "cyan",
+            "label": "FVG Zone"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 85.56499862670898,
+            "color": "cyan",
+            "label": "FVG Entry"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 84.02589060974121,
+            "color": "red",
+            "label": "FVG Stop"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 91.37099647521973,
+            "color": "green",
+            "label": "FVG TP1"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 95.72199630737306,
+            "color": "lime",
+            "label": "FVG TP2"
+          }
+        ],
+        "symbol": "IGV",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      },
+      {
+        "pattern": "DIVERGENCE",
+        "direction": "LONG",
+        "divergence_type": "HIDDEN_BULLISH",
+        "low1_price": 99.72,
+        "low1_rsi": 70.44,
+        "low2_price": 100.59,
+        "low2_rsi": 47.97,
+        "entry_price": 108.13,
+        "stop_price": 100.09,
+        "target_1": 107.04,
+        "target_2": 110.25,
+        "target_3": 115.6,
+        "risk_reward": -0.14,
+        "gates_cleared": 1,
+        "max_gates": 4,
+        "thesis": "HIDDEN BULLISH: Price 99.72\u2192100.59 (HL), RSI 70.4\u219248.0 (LL). RSI=48.0 . Entry 108.13, stop 100.09, TP1 107.04, R:R -0.14.",
+        "drawings": [
+          {
+            "type": "horizontal_line",
+            "price": 100.58999633789062,
+            "color": "yellow",
+            "label": "HIDDEN_BULLISH \u2014 RSI 48"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 100.08704635620117,
+            "color": "red",
+            "label": "Divergence Stop"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 107.04000091552734,
+            "color": "green",
+            "label": "Div TP1"
+          }
+        ],
+        "symbol": "IGV",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      }
+    ],
+    "top_pattern": "FVG",
+    "top_pattern_gates": 3,
+    "news_signals": [],
+    "market": "US"
+  },
+  {
+    "ticker": "HACK",
+    "name": "ETFMG Prime Cyber Security",
+    "score": 4,
+    "max": 12,
+    "signals": [
+      "\u2705 Golden Cross active",
+      "\u2705 Above 200MA",
+      "A/D rising \u2014 institutions loading",
+      "\ud83d\ude80 Testing Resistance: $123.88",
+      "\ud83d\udcc8 Uptrend: Higher Highs & Lows"
+    ],
+    "ma": {
+      "price": 123.86,
+      "ma50": 112.88,
+      "ma200": 91.29,
+      "ma_signal": "\u2705 Above 200MA",
+      "cross": "\u2705 Golden Cross active"
+    },
+    "ad": {
+      "signal": "\u2705 Institutions accumulating"
+    },
+    "patterns": [
+      "\ud83d\ude80 Testing Resistance: $123.88",
+      "\ud83d\udcc8 Uptrend: Higher Highs & Lows",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "fundamentals": {},
+    "buy_rating": "BUY",
+    "conviction": "MEDIUM",
+    "v2_patterns": [
+      {
+        "pattern": "FVG",
+        "direction": "LONG",
+        "fvg_top": 90.7249984741211,
+        "fvg_bottom": 89.08999633789062,
+        "midpoint": 89.90749740600586,
+        "size_pct": 1.792,
+        "bars_ago": 87,
+        "entry_price": 89.91,
+        "stop_price": 89.0,
+        "target_1": 95.26,
+        "target_2": 99.8,
+        "target_3": 104.79,
+        "risk_reward": 5.91,
+        "gates_cleared": 3,
+        "max_gates": 9,
+        "thesis": "Bullish FVG 89.09\u201390.72 (1.792%). Fresh (87 bars ago), unfilled. Entry midpoint 89.91.",
+        "drawings": [
+          {
+            "type": "rectangle",
+            "top": 90.7249984741211,
+            "bottom": 89.08999633789062,
+            "color": "cyan",
+            "label": "FVG Zone"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 89.90749740600586,
+            "color": "cyan",
+            "label": "FVG Entry"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 89.00090634155274,
+            "color": "red",
+            "label": "FVG Stop"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 95.26124839782715,
+            "color": "green",
+            "label": "FVG TP1"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 99.79749832153321,
+            "color": "lime",
+            "label": "FVG TP2"
+          }
+        ],
+        "symbol": "HACK",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      },
+      {
+        "pattern": "DIVERGENCE",
+        "direction": "LONG",
+        "divergence_type": "HIDDEN_BULLISH",
+        "low1_price": 106.5,
+        "low1_rsi": 60.81,
+        "low2_price": 107.58,
+        "low2_rsi": 49.14,
+        "entry_price": 123.86,
+        "stop_price": 107.04,
+        "target_1": 119.16,
+        "target_2": 122.73,
+        "target_3": 128.69,
+        "risk_reward": -0.28,
+        "gates_cleared": 1,
+        "max_gates": 4,
+        "thesis": "HIDDEN BULLISH: Price 106.50\u2192107.58 (HL), RSI 60.8\u219249.1 (LL). RSI=49.1 . Entry 123.86, stop 107.04, TP1 119.16, R:R -0.28.",
+        "drawings": [
+          {
+            "type": "horizontal_line",
+            "price": 107.58200073242188,
+            "color": "yellow",
+            "label": "HIDDEN_BULLISH \u2014 RSI 49"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 107.04409072875977,
+            "color": "red",
+            "label": "Divergence Stop"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 119.16000366210938,
+            "color": "green",
+            "label": "Div TP1"
+          }
+        ],
+        "symbol": "HACK",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      }
+    ],
+    "top_pattern": "FVG",
+    "top_pattern_gates": 3,
+    "news_signals": [],
+    "market": "US"
+  },
+  {
+    "ticker": "ROBT",
+    "name": "First Trust Nasdaq AI & Robotics",
+    "score": 4,
+    "max": 12,
+    "signals": [
+      "\u2705 Golden Cross active",
+      "\u2705 Above 200MA",
+      "A/D rising \u2014 institutions loading",
+      "\ud83d\ude80 Testing Resistance: $60.79",
+      "\ud83d\udcc8 Uptrend: Higher Highs & Lows"
+    ],
+    "ma": {
+      "price": 59.67,
+      "ma50": 57.49,
+      "ma200": 53.71,
+      "ma_signal": "\u2705 Above 200MA",
+      "cross": "\u2705 Golden Cross active"
+    },
+    "ad": {
+      "signal": "\u2705 Institutions accumulating"
+    },
+    "patterns": [
+      "\ud83d\ude80 Testing Resistance: $60.79",
+      "\ud83d\udcc8 Uptrend: Higher Highs & Lows",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "fundamentals": {},
+    "buy_rating": "BUY",
+    "conviction": "MEDIUM",
+    "v2_patterns": [
+      {
+        "pattern": "FVG",
+        "direction": "LONG",
+        "fvg_top": 51.994998931884766,
+        "fvg_bottom": 51.595001220703125,
+        "midpoint": 51.795000076293945,
+        "size_pct": 0.764,
+        "bars_ago": 98,
+        "entry_price": 51.8,
+        "stop_price": 51.54,
+        "target_1": 54.59,
+        "target_2": 57.19,
+        "target_3": 60.05,
+        "risk_reward": 11.13,
+        "gates_cleared": 3,
+        "max_gates": 9,
+        "thesis": "Bullish FVG 51.60\u201351.99 (0.764%). Fresh (98 bars ago), unfilled. Entry midpoint 51.80.",
+        "drawings": [
+          {
+            "type": "rectangle",
+            "top": 51.994998931884766,
+            "bottom": 51.595001220703125,
+            "color": "cyan",
+            "label": "FVG Zone"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 51.795000076293945,
+            "color": "cyan",
+            "label": "FVG Entry"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 51.54340621948242,
+            "color": "red",
+            "label": "FVG Stop"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 54.59474887847901,
+            "color": "green",
+            "label": "FVG TP1"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 57.19449882507325,
+            "color": "lime",
+            "label": "FVG TP2"
+          }
+        ],
+        "symbol": "ROBT",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      }
+    ],
+    "top_pattern": "FVG",
+    "top_pattern_gates": 3,
+    "news_signals": [],
+    "market": "US"
+  },
+  {
+    "ticker": "BOTZ",
+    "name": "Global X Robotics & AI ETF",
+    "score": 4,
+    "max": 12,
+    "signals": [
+      "RSI oversold on DAILY, WEEKLY",
+      "\u26a0\ufe0f Below 200MA",
+      "A/D rising \u2014 institutions loading",
+      "\ud83d\udccd Near Support: $34.43",
+      "\ud83d\udcd0 Fib 50.0%: $35.82"
+    ],
+    "ma": {
+      "price": 35.31,
+      "ma50": 35.7,
+      "ma200": 36.93,
+      "ma_signal": "\u26a0\ufe0f Below 200MA"
+    },
+    "ad": {
+      "signal": "\u2705 Institutions accumulating"
+    },
+    "patterns": [
+      "\ud83d\udccd Near Support: $34.43",
+      "\ud83d\udcd0 Fib 50.0%: $35.82",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "fundamentals": {},
+    "buy_rating": "BUY",
+    "conviction": "MEDIUM",
+    "v2_patterns": [
+      {
+        "pattern": "FVG",
+        "direction": "LONG",
+        "fvg_top": 34.52000045776367,
+        "fvg_bottom": 33.42499923706055,
+        "midpoint": 33.97249984741211,
+        "size_pct": 3.118,
+        "bars_ago": 115,
+        "entry_price": 33.97,
+        "stop_price": 33.39,
+        "target_1": 36.25,
+        "target_2": 37.97,
+        "target_3": 39.87,
+        "risk_reward": 3.91,
+        "gates_cleared": 3,
+        "max_gates": 9,
+        "thesis": "Bullish FVG 33.42\u201334.52 (3.118%). Fresh (115 bars ago), unfilled. Entry midpoint 33.97.",
+        "drawings": [
+          {
+            "type": "rectangle",
+            "top": 34.52000045776367,
+            "bottom": 33.42499923706055,
+            "color": "cyan",
+            "label": "FVG Zone"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 33.97249984741211,
+            "color": "cyan",
+            "label": "FVG Entry"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 33.391574237823484,
+            "color": "red",
+            "label": "FVG Stop"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 36.24600048065186,
+            "color": "green",
+            "label": "FVG TP1"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 37.972000503540045,
+            "color": "lime",
+            "label": "FVG TP2"
+          }
+        ],
+        "symbol": "BOTZ",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      },
+      {
+        "pattern": "ELLIOTT_WAVE",
+        "direction": "LONG",
+        "w1_origin": 33.48,
+        "w1_peak": 38.15,
+        "w1_length": 4.67,
+        "wave_a_low": 35.24,
+        "wave_b_high": 36.31,
+        "wave_c_target": 33.4,
+        "fib_618": 35.27,
+        "fib_500": 35.82,
+        "c_equals_a": false,
+        "entry_price": 35.27,
+        "stop_price": 33.47,
+        "target_1": 38.15,
+        "target_2": 41.03,
+        "target_3": 45.7,
+        "risk_reward": 1.6,
+        "gates_cleared": 3,
+        "max_gates": 5,
+        "thesis": "Prechter W2\u2192W3: Wave 1 origin 33.48\u2192peak 38.15 (+13.9%, 5-wave validated). Wave 2 ABC: A low=35.24, B high=36.31, C=A target=33.40. Near 61.8% zone. Entry at 61.8% 35.27, hard stop at Wave 1 origin 33.47. TP1=38.15 (100%), TP2=41.03 (161.8%), TP3=45.70 (261.8%).",
+        "drawings": [
+          {
+            "type": "text",
+            "price": 33.48400115966797,
+            "label": "W1 Origin",
+            "color": "white"
+          },
+          {
+            "type": "text",
+            "price": 38.150001525878906,
+            "label": "\u2460 Peak",
+            "color": "white"
+          },
+          {
+            "type": "text",
+            "price": 35.2400016784668,
+            "label": "A",
+            "color": "orange"
+          },
+          {
+            "type": "text",
+            "price": 36.310001373291016,
+            "label": "B",
+            "color": "orange"
+          },
+          {
+            "type": "text",
+            "price": 33.400001525878906,
+            "label": "C (proj)",
+            "color": "orange"
+          },
+          {
+            "type": "rectangle",
+            "top": 35.26641329956055,
+            "bottom": 34.91374916656494,
+            "color": "cyan",
+            "label": "Entry Zone 61.8%"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 35.26641329956055,
+            "color": "cyan",
+            "label": "61.8% Entry"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 35.81700134277344,
+            "color": "blue",
+            "label": "50% Support"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 33.46725915908814,
+            "color": "red",
+            "label": "\u26d4 W1 Origin / Hard Stop"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 38.150001525878906,
+            "color": "green",
+            "label": "TP1: 100% W1 Peak"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 41.033589752197265,
+            "color": "lime",
+            "label": "TP2: 161.8% Extension"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 45.6995901184082,
+            "color": "white",
+            "label": "TP3: 261.8% Runner"
+          }
+        ],
+        "symbol": "BOTZ",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      }
+    ],
+    "top_pattern": "FVG",
+    "top_pattern_gates": 3,
+    "news_signals": [],
+    "market": "US"
+  },
+  {
+    "ticker": "QCOM",
+    "name": "Qualcomm",
+    "score": 4,
+    "max": 12,
+    "signals": [
+      "\ud83d\udd25 GOLDEN CROSS!",
+      "\u2705 Above 200MA",
+      "\ud83d\ude80 Testing Resistance: $199.61",
+      "\ud83d\udcc8 Uptrend: Higher Highs & Lows"
+    ],
+    "ma": {
+      "price": 197.41,
+      "ma50": 168.89,
+      "ma200": 168.78,
+      "ma_signal": "\u2705 Above 200MA",
+      "cross": "\ud83d\udd25 GOLDEN CROSS!"
+    },
+    "ad": {
+      "signal": "\u26a0\ufe0f A/D declining"
+    },
+    "patterns": [
+      "\ud83d\ude80 Testing Resistance: $199.61",
+      "\ud83d\udcc8 Uptrend: Higher Highs & Lows",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "fundamentals": {},
+    "buy_rating": "BUY",
+    "conviction": "MEDIUM",
+    "v2_patterns": [
+      {
+        "pattern": "CHOCH",
+        "direction": "LONG",
+        "sweep_low": 156.23,
+        "choch_level": 166.97,
+        "displacement_high": 171.38,
+        "fib_50": 163.81,
+        "fib_618": 165.59,
+        "entry_type": "OB_AGGRESSIVE",
+        "entry_price": 162.92,
+        "stop_price": 156.07,
+        "target_1": 171.38,
+        "target_2": 175.93,
+        "target_3": 180.47,
+        "risk_reward": 1.24,
+        "gates_cleared": 4,
+        "max_gates": 5,
+        "thesis": "Bullish CHoCH: liquidity swept at 156.23. Body close above internal high 166.97 \u2014 wick rejection not accepted. Displacement to 171.38. 50% discount line at 163.81. OB aggressive entry 162.92. Stop 1 tick below sweep low 156.07. TP1=171.38 (disp high), TP2=175.93 (ext liq), TP3=180.47 (HTF POI).",
+        "drawings": [
+          {
+            "type": "horizontal_line",
+            "price": 166.97000122070312,
+            "color": "yellow",
+            "label": "CHoCH Level"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 156.22999572753906,
+            "color": "red",
+            "label": "Sweep Low"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 163.80500030517578,
+            "color": "blue",
+            "label": "50% Discount Line"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 165.59270138549806,
+            "color": "cyan",
+            "label": "61.8% FVG Zone"
+          },
+          {
+            "type": "rectangle",
+            "top": 163.80500030517578,
+            "bottom": 156.22999572753906,
+            "color": "green",
+            "label": "Discount Zone"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 162.9199981689453,
+            "color": "lime",
+            "label": "CHoCH Entry"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 156.07376573181153,
+            "color": "red",
+            "label": "Hard Stop"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 171.3800048828125,
+            "color": "green",
+            "label": "TP1 Disp High"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 175.92500762939454,
+            "color": "green",
+            "label": "TP2 Ext Liq"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 180.47001037597656,
+            "color": "lime",
+            "label": "TP3 HTF POI"
+          }
+        ],
+        "symbol": "QCOM",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      },
+      {
+        "pattern": "FVG",
+        "direction": "LONG",
+        "fvg_top": 147.0500030517578,
+        "fvg_bottom": 136.99000549316406,
+        "midpoint": 142.02000427246094,
+        "size_pct": 6.758,
+        "bars_ago": 103,
+        "entry_price": 142.02,
+        "stop_price": 136.85,
+        "target_1": 154.4,
+        "target_2": 161.76,
+        "target_3": 169.84,
+        "risk_reward": 2.4,
+        "gates_cleared": 3,
+        "max_gates": 9,
+        "thesis": "Bullish FVG 136.99\u2013147.05 (6.758%). Fresh (103 bars ago), unfilled. Entry midpoint 142.02.",
+        "drawings": [
+          {
+            "type": "rectangle",
+            "top": 147.0500030517578,
+            "bottom": 136.99000549316406,
+            "color": "cyan",
+            "label": "FVG Zone"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 142.02000427246094,
+            "color": "cyan",
+            "label": "FVG Entry"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 136.8530154876709,
+            "color": "red",
+            "label": "FVG Stop"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 154.40250320434572,
+            "color": "green",
+            "label": "FVG TP1"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 161.7550033569336,
+            "color": "lime",
+            "label": "FVG TP2"
+          }
+        ],
+        "symbol": "QCOM",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      }
+    ],
+    "top_pattern": "CHOCH",
+    "top_pattern_gates": 4,
+    "news_signals": [],
+    "market": "US"
+  },
+  {
+    "ticker": "ARKK",
+    "name": "ARK Innovation ETF",
+    "score": 3,
+    "max": 12,
+    "signals": [
+      "\u2705 Golden Cross active",
+      "\u2705 Above 200MA",
+      "A/D rising \u2014 institutions loading",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "ma": {
+      "price": 90.04,
+      "ma50": 80.89,
+      "ma200": 77.43,
+      "ma_signal": "\u2705 Above 200MA",
+      "cross": "\u2705 Golden Cross active"
+    },
+    "ad": {
+      "signal": "\u2705 Institutions accumulating"
+    },
+    "patterns": [
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "fundamentals": {},
+    "buy_rating": "WATCH",
+    "conviction": "LOW",
+    "v2_patterns": [
+      {
+        "pattern": "FVG",
+        "direction": "LONG",
+        "fvg_top": 73.19999694824219,
+        "fvg_bottom": 69.81800079345703,
+        "midpoint": 71.50899887084961,
+        "size_pct": 4.7,
+        "bars_ago": 112,
+        "entry_price": 71.51,
+        "stop_price": 69.75,
+        "target_1": 76.86,
+        "target_2": 80.52,
+        "target_3": 84.55,
+        "risk_reward": 3.04,
+        "gates_cleared": 3,
+        "max_gates": 9,
+        "thesis": "Bullish FVG 69.82\u201373.20 (4.7%). Fresh (112 bars ago), unfilled. Entry midpoint 71.51.",
+        "drawings": [
+          {
+            "type": "rectangle",
+            "top": 73.19999694824219,
+            "bottom": 69.81800079345703,
+            "color": "cyan",
+            "label": "FVG Zone"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 71.50899887084961,
+            "color": "cyan",
+            "label": "FVG Entry"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 69.74818279266357,
+            "color": "red",
+            "label": "FVG Stop"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 76.8599967956543,
+            "color": "green",
+            "label": "FVG TP1"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 80.5199966430664,
+            "color": "lime",
+            "label": "FVG TP2"
+          }
+        ],
+        "symbol": "ARKK",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      }
+    ],
+    "top_pattern": "FVG",
+    "top_pattern_gates": 3,
+    "news_signals": [],
+    "market": "US"
+  },
+  {
+    "ticker": "WCLD",
+    "name": "WisdomTree Cloud Computing",
+    "score": 3,
+    "max": 12,
+    "signals": [
+      "\u2705 Golden Cross active",
+      "\u2705 Above 200MA",
+      "A/D rising \u2014 institutions loading",
+      "\ud83d\udcc8 Uptrend: Higher Highs & Lows"
+    ],
+    "ma": {
+      "price": 41.57,
+      "ma50": 38.6,
+      "ma200": 32.45,
+      "ma_signal": "\u2705 Above 200MA",
+      "cross": "\u2705 Golden Cross active"
+    },
+    "ad": {
+      "signal": "\u2705 Institutions accumulating"
+    },
+    "patterns": [
+      "\ud83d\udcc8 Uptrend: Higher Highs & Lows"
+    ],
+    "fundamentals": {},
+    "buy_rating": "WATCH",
+    "conviction": "LOW",
+    "v2_patterns": [
+      {
+        "pattern": "FVG",
+        "direction": "LONG",
+        "fvg_top": 28.40999984741211,
+        "fvg_bottom": 28.1299991607666,
+        "midpoint": 28.269999504089355,
+        "size_pct": 0.978,
+        "bars_ago": 88,
+        "entry_price": 28.27,
+        "stop_price": 28.1,
+        "target_1": 29.83,
+        "target_2": 31.25,
+        "target_3": 32.81,
+        "risk_reward": 9.28,
+        "gates_cleared": 3,
+        "max_gates": 9,
+        "thesis": "Bullish FVG 28.13\u201328.41 (0.978%). Fresh (88 bars ago), unfilled. Entry midpoint 28.27.",
+        "drawings": [
+          {
+            "type": "rectangle",
+            "top": 28.40999984741211,
+            "bottom": 28.1299991607666,
+            "color": "cyan",
+            "label": "FVG Zone"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 28.269999504089355,
+            "color": "cyan",
+            "label": "FVG Entry"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 28.101869161605833,
+            "color": "red",
+            "label": "FVG Stop"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 29.830499839782718,
+            "color": "green",
+            "label": "FVG TP1"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 31.250999832153322,
+            "color": "lime",
+            "label": "FVG TP2"
+          }
+        ],
+        "symbol": "WCLD",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      }
+    ],
+    "top_pattern": "FVG",
+    "top_pattern_gates": 3,
+    "news_signals": [],
+    "market": "US"
+  },
+  {
+    "ticker": "NVDA",
+    "name": "NVIDIA Corporation",
+    "score": 3,
+    "max": 12,
+    "signals": [
+      "\u2705 Golden Cross active",
+      "\u2705 Above 200MA",
+      "A/D rising \u2014 institutions loading",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "ma": {
+      "price": 225.44,
+      "ma50": 215.04,
+      "ma200": 198.84,
+      "ma_signal": "\u2705 Above 200MA",
+      "cross": "\u2705 Golden Cross active"
+    },
+    "ad": {
+      "signal": "\u2705 Institutions accumulating"
+    },
+    "patterns": [
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "fundamentals": {},
+    "buy_rating": "WATCH",
+    "conviction": "LOW",
+    "v2_patterns": [
+      {
+        "pattern": "FVG",
+        "direction": "LONG",
+        "fvg_top": 195.74000549316406,
+        "fvg_bottom": 189.66000366210938,
+        "midpoint": 192.70000457763672,
+        "size_pct": 3.094,
+        "bars_ago": 111,
+        "entry_price": 192.7,
+        "stop_price": 189.47,
+        "target_1": 205.53,
+        "target_2": 215.31,
+        "target_3": 226.08,
+        "risk_reward": 3.97,
+        "gates_cleared": 3,
+        "max_gates": 9,
+        "thesis": "Bullish FVG 189.66\u2013195.74 (3.094%). Fresh (111 bars ago), unfilled. Entry midpoint 192.70.",
+        "drawings": [
+          {
+            "type": "rectangle",
+            "top": 195.74000549316406,
+            "bottom": 189.66000366210938,
+            "color": "cyan",
+            "label": "FVG Zone"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 192.70000457763672,
+            "color": "cyan",
+            "label": "FVG Entry"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 189.47034365844726,
+            "color": "red",
+            "label": "FVG Stop"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 205.5270057678223,
+            "color": "green",
+            "label": "FVG TP1"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 215.3140060424805,
+            "color": "lime",
+            "label": "FVG TP2"
+          }
+        ],
+        "symbol": "NVDA",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      }
+    ],
+    "top_pattern": "FVG",
+    "top_pattern_gates": 3,
+    "news_signals": [],
+    "market": "US"
+  },
+  {
     "ticker": "MU",
     "name": "Micron Technology",
     "score": 3,
@@ -3826,9 +4325,9 @@
       "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
     "ma": {
-      "price": 1074.45,
-      "ma50": 931.3,
-      "ma200": 648.37,
+      "price": 1073.3,
+      "ma50": 931.28,
+      "ma200": 648.36,
       "ma_signal": "\u2705 Above 200MA",
       "cross": "\u2705 Golden Cross active"
     },
@@ -3914,8 +4413,8 @@
       "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
     "ma": {
-      "price": 473.26,
-      "ma50": 496.31,
+      "price": 473.97,
+      "ma50": 496.32,
       "ma200": 418.28,
       "ma_signal": "\u2705 Above 200MA",
       "cross": "\u2705 Golden Cross active"
@@ -3987,451 +4486,6 @@
     ],
     "top_pattern": "FVG",
     "top_pattern_gates": 3,
-    "news_signals": [],
-    "market": "US"
-  },
-  {
-    "ticker": "META",
-    "name": "Meta Platforms",
-    "score": 3,
-    "max": 12,
-    "signals": [
-      "\u2705 Above 200MA",
-      "A/D rising \u2014 institutions loading",
-      "\ud83d\ude80 Testing Resistance: $763.90",
-      "\ud83d\udcc8 Uptrend: Higher Highs & Lows"
-    ],
-    "ma": {
-      "price": 751.95,
-      "ma50": 610.72,
-      "ma200": 625.19,
-      "ma_signal": "\u2705 Above 200MA"
-    },
-    "ad": {
-      "signal": "\u2705 Institutions accumulating"
-    },
-    "patterns": [
-      "\ud83d\ude80 Testing Resistance: $763.90",
-      "\ud83d\udcc8 Uptrend: Higher Highs & Lows",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "fundamentals": {},
-    "buy_rating": "WATCH",
-    "conviction": "LOW",
-    "v2_patterns": [
-      {
-        "pattern": "ELLIOTT_WAVE",
-        "direction": "LONG",
-        "w1_origin": 578.25,
-        "w1_peak": 612.43,
-        "w1_length": 34.18,
-        "wave_a_low": 578.21,
-        "wave_b_high": 601.86,
-        "wave_c_target": 567.64,
-        "fib_618": 591.31,
-        "fib_500": 595.34,
-        "c_equals_a": false,
-        "entry_price": 591.31,
-        "stop_price": 577.96,
-        "target_1": 612.43,
-        "target_2": 633.55,
-        "target_3": 667.73,
-        "risk_reward": 1.58,
-        "gates_cleared": 3,
-        "max_gates": 5,
-        "thesis": "Prechter W2\u2192W3: Wave 1 origin 578.25\u2192peak 612.43 (+5.9%, 5-wave validated). Wave 2 ABC: A low=578.21, B high=601.86, C=A target=567.64. Near 61.8% zone. Entry at 61.8% 591.31, hard stop at Wave 1 origin 577.96. TP1=612.43 (100%), TP2=633.55 (161.8%), TP3=667.73 (261.8%).",
-        "drawings": [
-          {
-            "type": "text",
-            "price": 578.25,
-            "label": "W1 Origin",
-            "color": "white"
-          },
-          {
-            "type": "text",
-            "price": 612.4299926757812,
-            "label": "\u2460 Peak",
-            "color": "white"
-          },
-          {
-            "type": "text",
-            "price": 578.2100219726562,
-            "label": "A",
-            "color": "orange"
-          },
-          {
-            "type": "text",
-            "price": 601.8599853515625,
-            "label": "B",
-            "color": "orange"
-          },
-          {
-            "type": "text",
-            "price": 567.6400146484375,
-            "label": "C (proj)",
-            "color": "orange"
-          },
-          {
-            "type": "rectangle",
-            "top": 591.3067572021484,
-            "bottom": 585.3936896301269,
-            "color": "cyan",
-            "label": "Entry Zone 61.8%"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 591.3067572021484,
-            "color": "cyan",
-            "label": "61.8% Entry"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 595.3399963378906,
-            "color": "blue",
-            "label": "50% Support"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 577.960875,
-            "color": "red",
-            "label": "\u26d4 W1 Origin / Hard Stop"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 612.4299926757812,
-            "color": "green",
-            "label": "TP1: 100% W1 Peak"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 633.553228149414,
-            "color": "lime",
-            "label": "TP2: 161.8% Extension"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 667.7332208251953,
-            "color": "white",
-            "label": "TP3: 261.8% Runner"
-          }
-        ],
-        "symbol": "META",
-        "position_size_pct": 7.0,
-        "position_size_usd": 12810
-      }
-    ],
-    "top_pattern": "ELLIOTT_WAVE",
-    "top_pattern_gates": 3,
-    "news_signals": [],
-    "market": "US"
-  },
-  {
-    "ticker": "ARKK",
-    "name": "ARK Innovation ETF",
-    "score": 3,
-    "max": 12,
-    "signals": [
-      "\u2705 Golden Cross active",
-      "\u2705 Above 200MA",
-      "A/D rising \u2014 institutions loading",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "ma": {
-      "price": 90.15,
-      "ma50": 80.89,
-      "ma200": 77.43,
-      "ma_signal": "\u2705 Above 200MA",
-      "cross": "\u2705 Golden Cross active"
-    },
-    "ad": {
-      "signal": "\u2705 Institutions accumulating"
-    },
-    "patterns": [
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "fundamentals": {},
-    "buy_rating": "WATCH",
-    "conviction": "LOW",
-    "v2_patterns": [
-      {
-        "pattern": "FVG",
-        "direction": "LONG",
-        "fvg_top": 73.19999694824219,
-        "fvg_bottom": 69.81800079345703,
-        "midpoint": 71.50899887084961,
-        "size_pct": 4.7,
-        "bars_ago": 112,
-        "entry_price": 71.51,
-        "stop_price": 69.75,
-        "target_1": 76.86,
-        "target_2": 80.52,
-        "target_3": 84.55,
-        "risk_reward": 3.04,
-        "gates_cleared": 3,
-        "max_gates": 9,
-        "thesis": "Bullish FVG 69.82\u201373.20 (4.7%). Fresh (112 bars ago), unfilled. Entry midpoint 71.51.",
-        "drawings": [
-          {
-            "type": "rectangle",
-            "top": 73.19999694824219,
-            "bottom": 69.81800079345703,
-            "color": "cyan",
-            "label": "FVG Zone"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 71.50899887084961,
-            "color": "cyan",
-            "label": "FVG Entry"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 69.74818279266357,
-            "color": "red",
-            "label": "FVG Stop"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 76.8599967956543,
-            "color": "green",
-            "label": "FVG TP1"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 80.5199966430664,
-            "color": "lime",
-            "label": "FVG TP2"
-          }
-        ],
-        "symbol": "ARKK",
-        "position_size_pct": 7.0,
-        "position_size_usd": 12810
-      }
-    ],
-    "top_pattern": "FVG",
-    "top_pattern_gates": 3,
-    "news_signals": [],
-    "market": "US"
-  },
-  {
-    "ticker": "MSFT",
-    "name": "Microsoft Corporation",
-    "score": 2,
-    "max": 12,
-    "signals": [
-      "\u2705 Golden Cross active",
-      "\u2705 Above 200MA",
-      "A/D rising \u2014 institutions loading"
-    ],
-    "ma": {
-      "price": 499.71,
-      "ma50": 469.19,
-      "ma200": 431.77,
-      "ma_signal": "\u2705 Above 200MA",
-      "cross": "\u2705 Golden Cross active"
-    },
-    "ad": {
-      "signal": "\u2705 Institutions accumulating"
-    },
-    "patterns": [],
-    "fundamentals": {},
-    "buy_rating": "WATCH",
-    "conviction": "LOW",
-    "v2_patterns": [
-      {
-        "pattern": "ELLIOTT_WAVE",
-        "direction": "LONG",
-        "w1_origin": 477.15,
-        "w1_peak": 517.78,
-        "w1_length": 40.63,
-        "wave_a_low": 493.81,
-        "wave_b_high": 515.65,
-        "wave_c_target": 491.68,
-        "fib_618": 492.67,
-        "fib_500": 497.47,
-        "c_equals_a": true,
-        "entry_price": 492.67,
-        "stop_price": 476.91,
-        "target_1": 517.78,
-        "target_2": 542.89,
-        "target_3": 583.52,
-        "risk_reward": 1.59,
-        "gates_cleared": 4,
-        "max_gates": 5,
-        "thesis": "Prechter W2\u2192W3: Wave 1 origin 477.15\u2192peak 517.78 (+8.5%, 5-wave validated). Wave 2 ABC: A low=493.81, B high=515.65, C=A target=491.68. C=A + 61.8% confluence \u2713. Entry at 61.8% 492.67, hard stop at Wave 1 origin 476.91. TP1=517.78 (100%), TP2=542.89 (161.8%), TP3=583.52 (261.8%).",
-        "drawings": [
-          {
-            "type": "text",
-            "price": 477.1499938964844,
-            "label": "W1 Origin",
-            "color": "white"
-          },
-          {
-            "type": "text",
-            "price": 517.780029296875,
-            "label": "\u2460 Peak",
-            "color": "white"
-          },
-          {
-            "type": "text",
-            "price": 493.80999755859375,
-            "label": "A",
-            "color": "orange"
-          },
-          {
-            "type": "text",
-            "price": 515.6500244140625,
-            "label": "B",
-            "color": "orange"
-          },
-          {
-            "type": "text",
-            "price": 491.67999267578125,
-            "label": "C (proj)",
-            "color": "orange"
-          },
-          {
-            "type": "rectangle",
-            "top": 492.6706674194336,
-            "bottom": 487.74396074523924,
-            "color": "cyan",
-            "label": "Entry Zone 61.8%"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 492.6706674194336,
-            "color": "cyan",
-            "label": "61.8% Entry"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 497.4650115966797,
-            "color": "blue",
-            "label": "50% Support"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 476.91141889953616,
-            "color": "red",
-            "label": "\u26d4 W1 Origin / Hard Stop"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 517.780029296875,
-            "color": "green",
-            "label": "TP1: 100% W1 Peak"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 542.8893911743164,
-            "color": "lime",
-            "label": "TP2: 161.8% Extension"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 583.519426574707,
-            "color": "white",
-            "label": "TP3: 261.8% Runner"
-          }
-        ],
-        "symbol": "MSFT",
-        "position_size_pct": 7.0,
-        "position_size_usd": 12810
-      },
-      {
-        "pattern": "HARMONIC_GARTLEY",
-        "direction": "LONG",
-        "harmonic_type": "GARTLEY",
-        "X": 478.53,
-        "A": 517.78,
-        "B": 493.81,
-        "C": 515.65,
-        "D": 486.0,
-        "ratios": {
-          "AB_XA": 0.611,
-          "BC_AB": 0.911,
-          "CD_BC": 1.358,
-          "D_XA": 0.81
-        },
-        "entry_price": 486.0,
-        "stop_price": 475.31,
-        "target_1": 493.81,
-        "target_2": 517.78,
-        "target_3": 542.04,
-        "risk_reward": 0.73,
-        "gates_cleared": 3,
-        "max_gates": 5,
-        "thesis": "Bullish GARTLEY harmonic: X=478.53 A=517.78 B=493.81 C=515.65 D=486.00. AB/XA=0.611, BC/AB=0.911, CD/BC=1.358, D/XA=0.810. PRZ buy zone D=486.00. TP1 at B=493.81, TP2 at A=517.78, TP3=542.04.",
-        "drawings": [
-          {
-            "type": "text",
-            "price": 478.5299987792969,
-            "label": "X",
-            "color": "white"
-          },
-          {
-            "type": "text",
-            "price": 517.780029296875,
-            "label": "A",
-            "color": "white"
-          },
-          {
-            "type": "text",
-            "price": 493.80999755859375,
-            "label": "B",
-            "color": "white"
-          },
-          {
-            "type": "text",
-            "price": 515.6500244140625,
-            "label": "C",
-            "color": "white"
-          },
-          {
-            "type": "text",
-            "price": 486.0,
-            "label": "D \u2014 GARTLEY PRZ",
-            "color": "cyan"
-          },
-          {
-            "type": "rectangle",
-            "top": 488.42999999999995,
-            "bottom": 475.308,
-            "color": "cyan",
-            "label": "Harmonic PRZ"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 486.0,
-            "color": "cyan",
-            "label": "GARTLEY Entry"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 475.308,
-            "color": "red",
-            "label": "Harmonic Stop"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 493.80999755859375,
-            "color": "green",
-            "label": "TP1 (B)"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 517.780029296875,
-            "color": "lime",
-            "label": "TP2 (A)"
-          }
-        ],
-        "symbol": "MSFT",
-        "position_size_pct": 7.0,
-        "position_size_usd": 12810
-      }
-    ],
-    "top_pattern": "ELLIOTT_WAVE",
-    "top_pattern_gates": 4,
     "news_signals": [],
     "market": "US"
   }
