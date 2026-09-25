@@ -1,18 +1,52 @@
 [
   {
-    "ticker": "INTC",
-    "name": "Intel Corporation",
-    "score": 7,
+    "ticker": "GOOGL",
+    "name": "Alphabet (Google)",
+    "score": 9,
     "signal": "STRONG BUY",
     "conviction": "HIGH",
-    "rsi": "68.9",
+    "rsi": "49.7",
+    "sector": "",
+    "patterns": [
+      "\ud83c\udf1f Fib 61.8%: $341.48",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+    ],
+    "news_headline": "Google falls more than 6% on capex growth expectations despite earning",
+    "market": "US",
+    "top_pattern": "CHOCH",
+    "top_pattern_gates": 5
+  },
+  {
+    "ticker": "INTC",
+    "name": "Intel Corporation",
+    "score": 8,
+    "signal": "STRONG BUY",
+    "conviction": "HIGH",
+    "rsi": "67.1",
     "sector": "",
     "patterns": [
       "\u26a0\ufe0f Bearish RSI Divergence",
       "\ud83d\udcc8 Uptrend: Higher Highs & Lows",
       "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
-    "news_headline": "Intel Earnings: Q1 Data Center Revenue Guidance Was a Letdown; Shares ",
+    "news_headline": "Intel stock soars on Q1 earnings beat, strong outlook - Yahoo Finance",
+    "market": "US",
+    "top_pattern": "FVG",
+    "top_pattern_gates": 3
+  },
+  {
+    "ticker": "MU",
+    "name": "Micron Technology",
+    "score": 8,
+    "signal": "STRONG BUY",
+    "conviction": "HIGH",
+    "rsi": "63.1",
+    "sector": "",
+    "patterns": [
+      "\ud83d\udcc8 Uptrend: Higher Highs & Lows",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "news_headline": "Micron Price Target Raised to $1,300 by Citi on Stronger DRAM Pricing,",
     "market": "US",
     "top_pattern": "FVG",
     "top_pattern_gates": 3
@@ -20,10 +54,10 @@
   {
     "ticker": "LRCX",
     "name": "Lam Research",
-    "score": 7,
+    "score": 8,
     "signal": "STRONG BUY",
     "conviction": "HIGH",
-    "rsi": "55.7",
+    "rsi": "56.3",
     "sector": "",
     "patterns": [
       "\ud83d\udcc8 Uptrend: Higher Highs & Lows",
@@ -37,10 +71,10 @@
   {
     "ticker": "KLAC",
     "name": "KLA Corporation",
-    "score": 7,
+    "score": 8,
     "signal": "STRONG BUY",
     "conviction": "HIGH",
-    "rsi": "54.1",
+    "rsi": "54.3",
     "sector": "",
     "patterns": [
       "\ud83d\ude80 Testing Resistance: $190.87",
@@ -56,10 +90,10 @@
   {
     "ticker": "MRVL",
     "name": "Marvell Technology",
-    "score": 7,
+    "score": 8,
     "signal": "STRONG BUY",
     "conviction": "HIGH",
-    "rsi": "64.2",
+    "rsi": "63.3",
     "sector": "",
     "patterns": [
       "\ud83d\ude80 Testing Resistance: $267.48",
@@ -74,10 +108,10 @@
   {
     "ticker": "SMCI",
     "name": "Super Micro Computer",
-    "score": 7,
+    "score": 8,
     "signal": "STRONG BUY",
     "conviction": "HIGH",
-    "rsi": "64.4",
+    "rsi": "63.9",
     "sector": "",
     "patterns": [
       "\ud83d\ude80 Testing Resistance: $43.76",
@@ -90,66 +124,12 @@
     "top_pattern_gates": 3
   },
   {
-    "ticker": "ARKQ",
-    "name": "ARK Autonomous Tech ETF",
-    "score": 6,
-    "signal": "STRONG BUY",
-    "conviction": "HIGH",
-    "rsi": "53.9",
-    "sector": "",
-    "patterns": [
-      "\ud83d\ude80 Testing Resistance: $126.68",
-      "\ud83d\udcd0 Fib 38.2%: $123.39",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "news_headline": "RKLB Stock Eyes Worst Month Ever, But Cathie Wood Keeps Buying \u2014 ARK A",
-    "market": "US",
-    "top_pattern": "ELLIOTT_WAVE",
-    "top_pattern_gates": 3
-  },
-  {
-    "ticker": "ARKX",
-    "name": "ARK Space Exploration ETF",
-    "score": 6,
-    "signal": "STRONG BUY",
-    "conviction": "HIGH",
-    "rsi": "53.4",
-    "sector": "",
-    "patterns": [
-      "\ud83d\ude80 Testing Resistance: $33.14",
-      "\ud83d\udcd0 Fib 38.2%: $33.19",
-      "\ud83d\udcc8 Uptrend: Higher Highs & Lows",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "news_headline": "RKLB Stock Eyes Worst Month Ever, But Cathie Wood Keeps Buying \u2014 ARK A",
-    "market": "US",
-    "top_pattern": "ELLIOTT_WAVE",
-    "top_pattern_gates": 3
-  },
-  {
-    "ticker": "CLOU",
-    "name": "Global X Cloud Computing ETF",
-    "score": 6,
-    "signal": "STRONG BUY",
-    "conviction": "HIGH",
-    "rsi": "56.5",
-    "sector": "",
-    "patterns": [
-      "\ud83d\udcc8 Uptrend: Higher Highs & Lows",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "news_headline": "Kingsoft Cloud: Upgrade To BUY Ahead Of Q2 2026 Print - AI Engine Shif",
-    "market": "US",
-    "top_pattern": "FVG",
-    "top_pattern_gates": 3
-  },
-  {
     "ticker": "NVDA",
     "name": "NVIDIA Corporation",
-    "score": 6,
+    "score": 7,
     "signal": "STRONG BUY",
     "conviction": "HIGH",
-    "rsi": "55.1",
+    "rsi": "55.4",
     "sector": "",
     "patterns": [
       "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
@@ -162,10 +142,10 @@
   {
     "ticker": "SNDK",
     "name": "SanDisk Corp",
-    "score": 6,
+    "score": 7,
     "signal": "STRONG BUY",
     "conviction": "HIGH",
-    "rsi": "57.5",
+    "rsi": "57.3",
     "sector": "",
     "patterns": [
       "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
@@ -178,13 +158,13 @@
   {
     "ticker": "AMAT",
     "name": "Applied Materials",
-    "score": 6,
+    "score": 7,
     "signal": "STRONG BUY",
     "conviction": "HIGH",
-    "rsi": "55.4",
+    "rsi": "55.8",
     "sector": "",
     "patterns": [
-      "\ud83d\ude80 Testing Resistance: $486.99",
+      "\ud83d\ude80 Testing Resistance: $487.68",
       "\ud83d\udcc8 Uptrend: Higher Highs & Lows",
       "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
@@ -196,10 +176,10 @@
   {
     "ticker": "ASML",
     "name": "ASML Holding",
-    "score": 6,
+    "score": 7,
     "signal": "STRONG BUY",
     "conviction": "HIGH",
-    "rsi": "54.5",
+    "rsi": "54.7",
     "sector": "",
     "patterns": [
       "\ud83d\udcd0 Fib 38.2%: $1756.65",
@@ -214,10 +194,10 @@
   {
     "ticker": "ARM",
     "name": "ARM Holdings",
-    "score": 6,
+    "score": 7,
     "signal": "STRONG BUY",
     "conviction": "HIGH",
-    "rsi": "62.4",
+    "rsi": "61.3",
     "sector": "",
     "patterns": [
       "\ud83d\udcc8 Uptrend: Higher Highs & Lows",
@@ -229,28 +209,83 @@
     "top_pattern_gates": 5
   },
   {
-    "ticker": "CIBR",
-    "name": "First Trust Cybersecurity ETF",
-    "score": 5,
-    "signal": "BUY",
-    "conviction": "MEDIUM",
-    "rsi": "57.5",
+    "ticker": "AAPL",
+    "name": "Apple Inc",
+    "score": 7,
+    "signal": "STRONG BUY",
+    "conviction": "HIGH",
+    "rsi": "65.5",
     "sector": "",
     "patterns": [
-      "\ud83d\udcc8 Uptrend: Higher Highs & Lows"
+      "\ud83d\ude80 Testing Resistance: $345.34",
+      "\u26a0\ufe0f Bearish RSI Divergence",
+      "\ud83d\udcc8 Uptrend: Higher Highs & Lows",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
-    "news_headline": "CIBR: Why AI Proves To Be A Tailwind, Not Cybersecurity's Demise (Rati",
+    "news_headline": "Apple Stock Rises After Earnings Beat, Strong Guidance, Buyback, Divid",
     "market": "US",
     "top_pattern": "FVG",
+    "top_pattern_gates": 3
+  },
+  {
+    "ticker": "MSFT",
+    "name": "Microsoft Corporation",
+    "score": 7,
+    "signal": "STRONG BUY",
+    "conviction": "HIGH",
+    "rsi": "63.3",
+    "sector": "",
+    "patterns": [
+      "\ud83d\ude80 Testing Resistance: $519.40"
+    ],
+    "news_headline": "MSFT Q2 2026 Earnings: EPS Beats Estimates, Stock Rises 1.84% - One-Ti",
+    "market": "US",
+    "top_pattern": "ELLIOTT_WAVE",
+    "top_pattern_gates": 4
+  },
+  {
+    "ticker": "AMZN",
+    "name": "Amazon.com",
+    "score": 7,
+    "signal": "STRONG BUY",
+    "conviction": "HIGH",
+    "rsi": "44.5",
+    "sector": "",
+    "patterns": [
+      "\ud83d\udccd Near Support: $244.30",
+      "\ud83c\udf1f Fib 61.8%: $249.48",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "news_headline": "Amazon.com Inc (AMZN) (Q2 2026) Earnings Call Highlights: Record Reven",
+    "market": "US",
+    "top_pattern": "FVG",
+    "top_pattern_gates": 3
+  },
+  {
+    "ticker": "CRM",
+    "name": "Salesforce",
+    "score": 7,
+    "signal": "STRONG BUY",
+    "conviction": "HIGH",
+    "rsi": "50.3",
+    "sector": "",
+    "patterns": [
+      "\ud83d\udccd Near Support: $229.81",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+    ],
+    "news_headline": "Salesforce climbs on earnings beat as company commits $50 billion for ",
+    "market": "US",
+    "top_pattern": "FIBONACCI",
     "top_pattern_gates": 3
   },
   {
     "ticker": "AVGO",
     "name": "Broadcom",
-    "score": 5,
+    "score": 6,
     "signal": "BUY",
     "conviction": "MEDIUM",
-    "rsi": "44.1",
+    "rsi": "43.8",
     "sector": "",
     "patterns": [
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows",
@@ -262,153 +297,61 @@
     "top_pattern_gates": 3
   },
   {
-    "ticker": "SMH",
-    "name": "VanEck Semiconductor ETF",
-    "score": 4,
+    "ticker": "NFLX",
+    "name": "Netflix",
+    "score": 6,
     "signal": "BUY",
     "conviction": "MEDIUM",
-    "rsi": "63.0",
+    "rsi": "37.0",
     "sector": "",
     "patterns": [
-      "\ud83d\ude80 Testing Resistance: $609.66",
-      "\ud83d\udcc8 Uptrend: Higher Highs & Lows",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+      "\ud83d\udccd Near Support: $70.11",
+      "\ud83c\udf1f Fib 61.8%: $72.15",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
-    "news_headline": "",
+    "news_headline": "Netflix and MAPPA Strengthens Strategic Partnership, Aiming to Co-Crea",
+    "market": "US",
+    "top_pattern": "ELLIOTT_WAVE",
+    "top_pattern_gates": 4
+  },
+  {
+    "ticker": "NOW",
+    "name": "ServiceNow",
+    "score": 6,
+    "signal": "BUY",
+    "conviction": "MEDIUM",
+    "rsi": "51.7",
+    "sector": "",
+    "patterns": [
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+    ],
+    "news_headline": "ServiceNow (NYSE:NOW) Rallies After Q2 Earnings Beat and Raised Guidan",
     "market": "US",
     "top_pattern": "FVG",
     "top_pattern_gates": 3
   },
   {
-    "ticker": "SOXX",
-    "name": "iShares Semiconductor ETF",
-    "score": 4,
+    "ticker": "ARKQ",
+    "name": "ARK Autonomous Tech ETF",
+    "score": 6,
     "signal": "BUY",
     "conviction": "MEDIUM",
-    "rsi": "64.1",
+    "rsi": "53.4",
     "sector": "",
     "patterns": [
-      "\ud83d\ude80 Testing Resistance: $575.69",
-      "\ud83d\udcc8 Uptrend: Higher Highs & Lows",
+      "\ud83d\ude80 Testing Resistance: $126.68",
+      "\ud83d\udcd0 Fib 38.2%: $123.39",
       "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
-    "news_headline": "",
+    "news_headline": "RKLB Stock Eyes Worst Month Ever, But Cathie Wood Keeps Buying \u2014 ARK A",
     "market": "US",
-    "top_pattern": "FVG",
-    "top_pattern_gates": 3
-  },
-  {
-    "ticker": "XLK",
-    "name": "Technology Select Sector SPDR",
-    "score": 4,
-    "signal": "BUY",
-    "conviction": "MEDIUM",
-    "rsi": "65.9",
-    "sector": "",
-    "patterns": [
-      "\ud83d\ude80 Testing Resistance: $196.94",
-      "\ud83d\udcc8 Uptrend: Higher Highs & Lows",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "news_headline": "",
-    "market": "US",
-    "top_pattern": "FVG",
-    "top_pattern_gates": 3
-  },
-  {
-    "ticker": "ARKK",
-    "name": "ARK Innovation ETF",
-    "score": 4,
-    "signal": "BUY",
-    "conviction": "MEDIUM",
-    "rsi": "62.4",
-    "sector": "",
-    "patterns": [
-      "\ud83d\ude80 Testing Resistance: $92.19",
-      "\u26a0\ufe0f Bearish RSI Divergence",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "news_headline": "",
-    "market": "US",
-    "top_pattern": "FVG",
-    "top_pattern_gates": 3
-  },
-  {
-    "ticker": "ARKG",
-    "name": "ARK Genomic Revolution ETF",
-    "score": 4,
-    "signal": "BUY",
-    "conviction": "MEDIUM",
-    "rsi": "69.3",
-    "sector": "",
-    "patterns": [
-      "\ud83d\ude80 Testing Resistance: $53.98",
-      "\u26a0\ufe0f Bearish RSI Divergence",
-      "\ud83d\udcc8 Uptrend: Higher Highs & Lows"
-    ],
-    "news_headline": "",
-    "market": "US",
-    "top_pattern": "FVG",
-    "top_pattern_gates": 3
-  },
-  {
-    "ticker": "ARKF",
-    "name": "ARK Fintech Innovation ETF",
-    "score": 4,
-    "signal": "BUY",
-    "conviction": "MEDIUM",
-    "rsi": "55.9",
-    "sector": "",
-    "patterns": [
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "news_headline": "",
-    "market": "US",
-    "top_pattern": "NONE",
-    "top_pattern_gates": 0
-  },
-  {
-    "ticker": "ROBT",
-    "name": "First Trust Nasdaq AI & Robotics",
-    "score": 4,
-    "signal": "BUY",
-    "conviction": "MEDIUM",
-    "rsi": "57.9",
-    "sector": "",
-    "patterns": [
-      "\ud83d\ude80 Testing Resistance: $60.79",
-      "\ud83d\udcc8 Uptrend: Higher Highs & Lows",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "news_headline": "",
-    "market": "US",
-    "top_pattern": "FVG",
-    "top_pattern_gates": 3
-  },
-  {
-    "ticker": "BOTZ",
-    "name": "Global X Robotics & AI ETF",
-    "score": 4,
-    "signal": "BUY",
-    "conviction": "MEDIUM",
-    "rsi": "48.3",
-    "sector": "",
-    "patterns": [
-      "\ud83d\udccd Near Support: $34.43",
-      "\ud83d\udcd0 Fib 50.0%: $35.82",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "news_headline": "",
-    "market": "US",
-    "top_pattern": "FVG",
+    "top_pattern": "ELLIOTT_WAVE",
     "top_pattern_gates": 3
   },
   {
     "ticker": "AMD",
     "name": "Advanced Micro Devices",
-    "score": 4,
+    "score": 5,
     "signal": "BUY",
     "conviction": "MEDIUM",
     "rsi": "73.0",
@@ -426,10 +369,10 @@
   {
     "ticker": "TSM",
     "name": "Taiwan Semiconductor",
-    "score": 4,
+    "score": 5,
     "signal": "BUY",
     "conviction": "MEDIUM",
-    "rsi": "62.7",
+    "rsi": "62.6",
     "sector": "",
     "patterns": [
       "\ud83d\ude80 Testing Resistance: $455.02",
@@ -442,14 +385,48 @@
     "top_pattern_gates": 3
   },
   {
-    "ticker": "MU",
-    "name": "Micron Technology",
-    "score": 4,
+    "ticker": "PLTR",
+    "name": "Palantir Technologies",
+    "score": 5,
     "signal": "BUY",
     "conviction": "MEDIUM",
-    "rsi": "63.4",
+    "rsi": "63.7",
     "sector": "",
     "patterns": [
+      "\ud83d\udcc8 Uptrend: Higher Highs & Lows",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "news_headline": "",
+    "market": "US",
+    "top_pattern": "NONE",
+    "top_pattern_gates": 0
+  },
+  {
+    "ticker": "TSLA",
+    "name": "Tesla Inc",
+    "score": 5,
+    "signal": "BUY",
+    "conviction": "MEDIUM",
+    "rsi": "55.2",
+    "sector": "",
+    "patterns": [
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "news_headline": "Tesla Q1 2026 Earnings Beat So Why Did the Stock Fall 3.56%? - TIKR.co",
+    "market": "US",
+    "top_pattern": "FIBONACCI",
+    "top_pattern_gates": 3
+  },
+  {
+    "ticker": "SMH",
+    "name": "VanEck Semiconductor ETF",
+    "score": 5,
+    "signal": "BUY",
+    "conviction": "MEDIUM",
+    "rsi": "62.7",
+    "sector": "",
+    "patterns": [
+      "\ud83d\ude80 Testing Resistance: $609.66",
       "\ud83d\udcc8 Uptrend: Higher Highs & Lows",
       "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
@@ -459,28 +436,66 @@
     "top_pattern_gates": 3
   },
   {
-    "ticker": "IGV",
-    "name": "iShares Software ETF",
-    "score": 3,
-    "signal": "WATCH",
-    "conviction": "LOW",
-    "rsi": "55.6",
+    "ticker": "SOXX",
+    "name": "iShares Semiconductor ETF",
+    "score": 5,
+    "signal": "BUY",
+    "conviction": "MEDIUM",
+    "rsi": "63.8",
     "sector": "",
     "patterns": [
-      "\ud83d\udcc8 Uptrend: Higher Highs & Lows"
+      "\ud83d\ude80 Testing Resistance: $575.69",
+      "\ud83d\udcc8 Uptrend: Higher Highs & Lows",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
     ],
     "news_headline": "",
     "market": "US",
-    "top_pattern": "CHOCH",
-    "top_pattern_gates": 5
+    "top_pattern": "FVG",
+    "top_pattern_gates": 3
+  },
+  {
+    "ticker": "XLK",
+    "name": "Technology Select Sector SPDR",
+    "score": 5,
+    "signal": "BUY",
+    "conviction": "MEDIUM",
+    "rsi": "65.3",
+    "sector": "",
+    "patterns": [
+      "\ud83d\ude80 Testing Resistance: $196.94",
+      "\ud83d\udcc8 Uptrend: Higher Highs & Lows",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "news_headline": "",
+    "market": "US",
+    "top_pattern": "FVG",
+    "top_pattern_gates": 3
+  },
+  {
+    "ticker": "ARKK",
+    "name": "ARK Innovation ETF",
+    "score": 5,
+    "signal": "BUY",
+    "conviction": "MEDIUM",
+    "rsi": "62.0",
+    "sector": "",
+    "patterns": [
+      "\ud83d\ude80 Testing Resistance: $92.19",
+      "\u26a0\ufe0f Bearish RSI Divergence",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
+    "news_headline": "",
+    "market": "US",
+    "top_pattern": "FVG",
+    "top_pattern_gates": 3
   },
   {
     "ticker": "QCOM",
     "name": "Qualcomm",
-    "score": 2,
+    "score": 3,
     "signal": "WATCH",
     "conviction": "LOW",
-    "rsi": "68.8",
+    "rsi": "68.0",
     "sector": "",
     "patterns": [
       "\ud83d\ude80 Testing Resistance: $205.85",
@@ -492,31 +507,21 @@
     "top_pattern_gates": 3
   },
   {
-    "ticker": "WCLD",
-    "name": "WisdomTree Cloud Computing",
-    "score": 1,
-    "signal": "SKIP",
-    "conviction": "SKIP",
-    "rsi": "52.0",
+    "ticker": "META",
+    "name": "Meta Platforms",
+    "score": 3,
+    "signal": "WATCH",
+    "conviction": "LOW",
+    "rsi": "71.3",
     "sector": "",
-    "patterns": [],
+    "patterns": [
+      "\u26a0\ufe0f Bearish RSI Divergence",
+      "\ud83d\udcc8 Uptrend: Higher Highs & Lows",
+      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+    ],
     "news_headline": "",
     "market": "US",
-    "top_pattern": "FVG",
-    "top_pattern_gates": 3
-  },
-  {
-    "ticker": "HACK",
-    "name": "ETFMG Prime Cyber Security",
-    "score": 1,
-    "signal": "SKIP",
-    "conviction": "SKIP",
-    "rsi": "55.3",
-    "sector": "",
-    "patterns": [],
-    "news_headline": "",
-    "market": "US",
-    "top_pattern": "FVG",
+    "top_pattern": "ELLIOTT_WAVE",
     "top_pattern_gates": 3
   }
 ]
