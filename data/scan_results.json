@@ -1,5 +1,114 @@
 [
   {
+    "ticker": "CLOU",
+    "name": "Global X Cloud Computing ETF",
+    "score": 8,
+    "max": 12,
+    "signals": [
+      "RSI oversold on DAILY, WEEKLY",
+      "\u2705 Golden Cross active",
+      "\u2705 Above 200MA",
+      "\ud83d\udccd Near Support: $25.63",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+    ],
+    "ma": {
+      "price": 25.97,
+      "ma50": 28.57,
+      "ma200": 23.72,
+      "ma_signal": "\u2705 Above 200MA",
+      "cross": "\u2705 Golden Cross active"
+    },
+    "ad": {
+      "signal": "\u26a0\ufe0f A/D declining"
+    },
+    "patterns": [
+      "\ud83d\udccd Near Support: $25.63",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+    ],
+    "fundamentals": {},
+    "buy_rating": "STRONG BUY",
+    "conviction": "HIGH",
+    "v2_patterns": [
+      {
+        "pattern": "FVG",
+        "direction": "LONG",
+        "fvg_top": 22.280000686645508,
+        "fvg_bottom": 22.174999237060547,
+        "midpoint": 22.227499961853027,
+        "size_pct": 0.467,
+        "bars_ago": 92,
+        "entry_price": 22.23,
+        "stop_price": 22.15,
+        "target_1": 23.39,
+        "target_2": 24.51,
+        "target_3": 25.73,
+        "risk_reward": 15.62,
+        "gates_cleared": 3,
+        "max_gates": 9,
+        "thesis": "Bullish FVG 22.17\u201322.28 (0.467%). Fresh (92 bars ago), unfilled. Entry midpoint 22.23.",
+        "drawings": [
+          {
+            "type": "rectangle",
+            "top": 22.280000686645508,
+            "bottom": 22.174999237060547,
+            "color": "cyan",
+            "label": "FVG Zone"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 22.227499961853027,
+            "color": "cyan",
+            "label": "FVG Entry"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 22.152824237823488,
+            "color": "red",
+            "label": "FVG Stop"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 23.394000720977782,
+            "color": "green",
+            "label": "FVG TP1"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 24.50800075531006,
+            "color": "lime",
+            "label": "FVG TP2"
+          }
+        ],
+        "symbol": "CLOU",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      }
+    ],
+    "top_pattern": "FVG",
+    "top_pattern_gates": 3,
+    "news_signals": [
+      {
+        "title": "Oracle Q4 earnings beat on revenue but miss on cloud sales - Yahoo Finance",
+        "source": "News",
+        "score": 2,
+        "bull": true
+      },
+      {
+        "title": "Google Cloud secures sovereign cloud contract with NATO - Data Center Dynamics",
+        "source": "News",
+        "score": 2,
+        "bull": true
+      },
+      {
+        "title": "The Coca\u2011Cola Company and Microsoft announce five-year strategic partnership to accelerate cloud and generative AI initiatives - www.coca-colacompany.",
+        "source": "News",
+        "score": 2,
+        "bull": true
+      }
+    ],
+    "market": "US"
+  },
+  {
     "ticker": "QCOM",
     "name": "Qualcomm",
     "score": 8,
@@ -12,9 +121,9 @@
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "ma": {
-      "price": 167.36,
-      "ma50": 178.14,
-      "ma200": 169.7,
+      "price": 166.52,
+      "ma50": 178.13,
+      "ma200": 169.69,
       "ma_signal": "\u26a0\ufe0f Below 200MA",
       "cross": "\u2705 Golden Cross active",
       "near_200ma": "\ud83d\udccd At 200MA"
@@ -54,28 +163,29 @@
     "market": "US"
   },
   {
-    "ticker": "PLTR",
-    "name": "Palantir Technologies",
-    "score": 8,
+    "ticker": "HACK",
+    "name": "ETFMG Prime Cyber Security",
+    "score": 7,
     "max": 12,
     "signals": [
-      "RSI oversold on DAILY, WEEKLY",
+      "RSI oversold on DAILY",
       "\u2705 Golden Cross active",
       "\u2705 Above 200MA",
-      "A/D rising \u2014 institutions loading",
+      "\ud83d\udccd Near Support: $110.94",
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "ma": {
-      "price": 161.71,
-      "ma50": 185.91,
-      "ma200": 153.54,
+      "price": 111.35,
+      "ma50": 120.42,
+      "ma200": 98.14,
       "ma_signal": "\u2705 Above 200MA",
       "cross": "\u2705 Golden Cross active"
     },
     "ad": {
-      "signal": "\u2705 Institutions accumulating"
+      "signal": "\u26a0\ufe0f A/D declining"
     },
     "patterns": [
+      "\ud83d\udccd Near Support: $110.94",
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "fundamentals": {},
@@ -85,54 +195,54 @@
       {
         "pattern": "FVG",
         "direction": "LONG",
-        "fvg_top": 114.56999969482422,
-        "fvg_bottom": 114.08000183105469,
-        "midpoint": 114.32500076293945,
-        "size_pct": 0.424,
+        "fvg_top": 101.73999786376953,
+        "fvg_bottom": 98.86000061035156,
+        "midpoint": 100.29999923706055,
+        "size_pct": 2.809,
         "bars_ago": 92,
-        "entry_price": 114.33,
-        "stop_price": 113.97,
-        "target_1": 120.3,
-        "target_2": 126.03,
-        "target_3": 132.33,
-        "risk_reward": 16.64,
+        "entry_price": 100.3,
+        "stop_price": 98.76,
+        "target_1": 106.83,
+        "target_2": 111.91,
+        "target_3": 117.51,
+        "risk_reward": 4.24,
         "gates_cleared": 3,
         "max_gates": 9,
-        "thesis": "Bullish FVG 114.08\u2013114.57 (0.424%). Fresh (92 bars ago), unfilled. Entry midpoint 114.33.",
+        "thesis": "Bullish FVG 98.86\u2013101.74 (2.809%). Fresh (92 bars ago), unfilled. Entry midpoint 100.30.",
         "drawings": [
           {
             "type": "rectangle",
-            "top": 114.56999969482422,
-            "bottom": 114.08000183105469,
+            "top": 101.73999786376953,
+            "bottom": 98.86000061035156,
             "color": "cyan",
             "label": "FVG Zone"
           },
           {
             "type": "horizontal_line",
-            "price": 114.32500076293945,
+            "price": 100.29999923706055,
             "color": "cyan",
             "label": "FVG Entry"
           },
           {
             "type": "horizontal_line",
-            "price": 113.96592182922363,
+            "price": 98.7611406097412,
             "color": "red",
             "label": "FVG Stop"
           },
           {
             "type": "horizontal_line",
-            "price": 120.29849967956544,
+            "price": 106.82699775695801,
             "color": "green",
             "label": "FVG TP1"
           },
           {
             "type": "horizontal_line",
-            "price": 126.02699966430666,
+            "price": 111.9139976501465,
             "color": "lime",
             "label": "FVG TP2"
           }
         ],
-        "symbol": "PLTR",
+        "symbol": "HACK",
         "position_size_pct": 7.0,
         "position_size_usd": 12810
       }
@@ -141,231 +251,13 @@
     "top_pattern_gates": 3,
     "news_signals": [
       {
-        "title": "What Palantir Technologies (PLTR)'s Upgraded 2026 Outlook and Rising ESG Scrutiny Means For Shareholders - Yahoo Finance",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "PLTR Beats on Q3 Earnings and Raises Guidance: Is the Stock a Buy? - Zacks Investment Research",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Palantir Stock Price Forecast: Drops 3% Despite Earnings Beat, $160 Support at Risk - TradingKey",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Palantir Q2 2026 earnings: Revenue up 93%, guidance raised - Quartz",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      }
-    ],
-    "market": "US"
-  },
-  {
-    "ticker": "CRM",
-    "name": "Salesforce",
-    "score": 8,
-    "max": 12,
-    "signals": [
-      "RSI oversold on DAILY, WEEKLY",
-      "\u2705 Golden Cross active",
-      "\u2705 Above 200MA",
-      "\ud83d\udccd Near Support: $211.00",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
-    ],
-    "ma": {
-      "price": 213.68,
-      "ma50": 239.5,
-      "ma200": 198.22,
-      "ma_signal": "\u2705 Above 200MA",
-      "cross": "\u2705 Golden Cross active"
-    },
-    "ad": {
-      "signal": "\u26a0\ufe0f A/D declining"
-    },
-    "patterns": [
-      "\ud83d\udccd Near Support: $211.00",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
-    ],
-    "fundamentals": {},
-    "buy_rating": "STRONG BUY",
-    "conviction": "HIGH",
-    "v2_patterns": [
-      {
-        "pattern": "HARMONIC_CRAB",
-        "direction": "LONG",
-        "harmonic_type": "CRAB",
-        "X": 235.6,
-        "A": 252.42,
-        "B": 242.3,
-        "C": 250.99,
-        "D": 225.04,
-        "ratios": {
-          "AB_XA": 0.602,
-          "BC_AB": 0.859,
-          "CD_BC": 2.986,
-          "D_XA": 1.628
-        },
-        "entry_price": 225.04,
-        "stop_price": 220.09,
-        "target_1": 242.3,
-        "target_2": 252.42,
-        "target_3": 262.81,
-        "risk_reward": 3.49,
-        "gates_cleared": 5,
-        "max_gates": 5,
-        "thesis": "Bullish CRAB harmonic: X=235.60 A=252.42 B=242.30 C=250.99 D=225.04. AB/XA=0.602, BC/AB=0.859, CD/BC=2.986, D/XA=1.628. PRZ buy zone D=225.04. TP1 at B=242.30, TP2 at A=252.42, TP3=262.81.",
-        "drawings": [
-          {
-            "type": "text",
-            "price": 235.60000610351562,
-            "label": "X",
-            "color": "white"
-          },
-          {
-            "type": "text",
-            "price": 252.4199981689453,
-            "label": "A",
-            "color": "white"
-          },
-          {
-            "type": "text",
-            "price": 242.3000030517578,
-            "label": "B",
-            "color": "white"
-          },
-          {
-            "type": "text",
-            "price": 250.99000549316406,
-            "label": "C",
-            "color": "white"
-          },
-          {
-            "type": "text",
-            "price": 225.0399932861328,
-            "label": "D \u2014 CRAB PRZ",
-            "color": "cyan"
-          },
-          {
-            "type": "rectangle",
-            "top": 226.16519325256345,
-            "bottom": 220.0891134338379,
-            "color": "cyan",
-            "label": "Harmonic PRZ"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 225.0399932861328,
-            "color": "cyan",
-            "label": "CRAB Entry"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 220.0891134338379,
-            "color": "red",
-            "label": "Harmonic Stop"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 242.3000030517578,
-            "color": "green",
-            "label": "TP1 (B)"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 252.4199981689453,
-            "color": "lime",
-            "label": "TP2 (A)"
-          }
-        ],
-        "symbol": "CRM",
-        "position_size_pct": 7.0,
-        "position_size_usd": 12810
-      },
-      {
-        "pattern": "FVG",
-        "direction": "LONG",
-        "fvg_top": 157.6999969482422,
-        "fvg_bottom": 154.0,
-        "midpoint": 155.8499984741211,
-        "size_pct": 2.336,
-        "bars_ago": 93,
-        "entry_price": 155.85,
-        "stop_price": 153.85,
-        "target_1": 165.58,
-        "target_2": 173.47,
-        "target_3": 182.14,
-        "risk_reward": 4.86,
-        "gates_cleared": 3,
-        "max_gates": 9,
-        "thesis": "Bullish FVG 154.00\u2013157.70 (2.336%). Fresh (93 bars ago), unfilled. Entry midpoint 155.85.",
-        "drawings": [
-          {
-            "type": "rectangle",
-            "top": 157.6999969482422,
-            "bottom": 154.0,
-            "color": "cyan",
-            "label": "FVG Zone"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 155.8499984741211,
-            "color": "cyan",
-            "label": "FVG Entry"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 153.846,
-            "color": "red",
-            "label": "FVG Stop"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 165.5849967956543,
-            "color": "green",
-            "label": "FVG TP1"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 173.46999664306642,
-            "color": "lime",
-            "label": "FVG TP2"
-          }
-        ],
-        "symbol": "CRM",
-        "position_size_pct": 7.0,
-        "position_size_usd": 12810
-      }
-    ],
-    "top_pattern": "HARMONIC_CRAB",
-    "top_pattern_gates": 5,
-    "news_signals": [
-      {
-        "title": "Salesforce climbs on earnings beat as company commits $50 billion for buybacks - CNBC",
+        "title": "AgriFood Signals: Trump tariffs on Canada, McCormick + Unilever merger, Coca-Cola's Fairlife hacked - AgFunderNews",
         "source": "News",
         "score": 4,
         "bull": true
       },
       {
-        "title": "Salesforce posts Q2 FY2027 earnings beat, raises full-year revenue guidance - Quartz",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "CRM Stock Soars 13% After-Hours \u2014 Salesforce Crushes Earnings, Raises Guidance And Expands Partnership With Anthropic\u2019s Claude - Yahoo Finance",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Salesforce Inc (CRM) (Q2 2027) Earnings Call Highlights: Record Revenue and AI Momentum Propel ... - Yahoo Finance",
+        "title": "DOD partners with HackerOne and Synack on \u201cHack the Pentagon\u201d Follow-up Security Initiativ - U.S. Department of War (.gov)",
         "source": "News",
         "score": 2,
         "bull": true
@@ -386,9 +278,9 @@
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "ma": {
-      "price": 447.98,
-      "ma50": 546.79,
-      "ma200": 415.97,
+      "price": 448.83,
+      "ma50": 546.81,
+      "ma200": 415.98,
       "ma_signal": "\u2705 Above 200MA",
       "cross": "\u2705 Golden Cross active"
     },
@@ -428,7 +320,7 @@
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "ma": {
-      "price": 375.92,
+      "price": 375.83,
       "ma50": 431.65,
       "ma200": 401.48,
       "ma_signal": "\u26a0\ufe0f Below 200MA",
@@ -542,268 +434,6 @@
     "market": "US"
   },
   {
-    "ticker": "SNDK",
-    "name": "SanDisk Corp",
-    "score": 7,
-    "max": 12,
-    "signals": [
-      "RSI oversold on DAILY, WEEKLY",
-      "\u2705 Golden Cross active",
-      "\u26a0\ufe0f Below 200MA",
-      "\ud83d\udccd Near Support: $803.97",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
-    ],
-    "ma": {
-      "price": 828.11,
-      "ma50": 1504.3,
-      "ma200": 1272.13,
-      "ma_signal": "\u26a0\ufe0f Below 200MA",
-      "cross": "\u2705 Golden Cross active"
-    },
-    "ad": {
-      "signal": "\u26a0\ufe0f A/D declining"
-    },
-    "patterns": [
-      "\ud83d\udccd Near Support: $803.97",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
-    ],
-    "fundamentals": {},
-    "buy_rating": "STRONG BUY",
-    "conviction": "HIGH",
-    "v2_patterns": [
-      {
-        "pattern": "FIBONACCI",
-        "direction": "LONG",
-        "swing_low": 803.97,
-        "swing_high": 912.09,
-        "move_pct": 13.45,
-        "golden_pocket_top": 845.27,
-        "golden_pocket_bot": 841.81,
-        "fib_786_stop": 827.11,
-        "ext_1272": 941.5,
-        "ext_1618": 978.91,
-        "ext_2618": 1087.03,
-        "in_pocket": false,
-        "entry_price": 843.54,
-        "stop_price": 826.28,
-        "target_1": 912.09,
-        "target_2": 978.91,
-        "target_3": 1087.03,
-        "risk_reward": 3.97,
-        "gates_cleared": 3,
-        "max_gates": 4,
-        "thesis": "Fibonacci golden pocket 61.8%\u201365%: swing 803.97\u2192912.09 (+13.4%). Golden pocket 841.81\u2013845.27. Approaching zone. Entry 843.54, stop below 78.6% at 826.28. TP1 prior high 912.09, TP2 161.8% 978.91, TP3 261.8% 1087.03.",
-        "drawings": [
-          {
-            "type": "horizontal_line",
-            "price": 912.0900268554688,
-            "color": "white",
-            "label": "0% Swing High"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 870.7881654052734,
-            "color": "gray",
-            "label": "38.2%"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 858.0299987792969,
-            "color": "gray",
-            "label": "50.0%"
-          },
-          {
-            "type": "rectangle",
-            "top": 845.2718321533204,
-            "bottom": 841.8119903564453,
-            "color": "gold",
-            "label": "Golden Pocket 61.8\u201365%"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 845.2718321533204,
-            "color": "gold",
-            "label": "61.8% Entry Top"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 841.8119903564453,
-            "color": "gold",
-            "label": "65.0% Entry Bot"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 827.1076627197266,
-            "color": "red",
-            "label": "78.6% Invalidation"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 803.969970703125,
-            "color": "white",
-            "label": "100% Swing Low"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 912.0900268554688,
-            "color": "green",
-            "label": "TP1: Prior High"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 978.9082215576171,
-            "color": "lime",
-            "label": "TP2: 161.8%"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 1087.028277709961,
-            "color": "white",
-            "label": "TP3: 261.8%"
-          }
-        ],
-        "symbol": "SNDK",
-        "position_size_pct": 7.0,
-        "position_size_usd": 12810
-      },
-      {
-        "pattern": "DIVERGENCE",
-        "direction": "LONG",
-        "divergence_type": "REGULAR_BULLISH",
-        "low1_price": 1276.0,
-        "low1_rsi": 29.68,
-        "low2_price": 1228.89,
-        "low2_rsi": 32.11,
-        "entry_price": 829.55,
-        "stop_price": 1222.75,
-        "target_1": 1408.45,
-        "target_2": 1450.7,
-        "target_3": 1521.12,
-        "risk_reward": 0.0,
-        "gates_cleared": 3,
-        "max_gates": 4,
-        "thesis": "REGULAR BULLISH: Price 1276.00\u21921228.89 (LL), RSI 29.7\u219232.1 (HL). RSI=32.1 . Entry 829.55, stop 1222.75, TP1 1408.45, R:R 0.0.",
-        "drawings": [
-          {
-            "type": "horizontal_line",
-            "price": 1228.8900146484375,
-            "color": "yellow",
-            "label": "REGULAR_BULLISH \u2014 RSI 32"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 1222.7455645751952,
-            "color": "red",
-            "label": "Divergence Stop"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 1408.446044921875,
-            "color": "green",
-            "label": "Div TP1"
-          }
-        ],
-        "symbol": "SNDK",
-        "position_size_pct": 7.0,
-        "position_size_usd": 12810
-      },
-      {
-        "pattern": "GANN",
-        "direction": "LONG",
-        "anchor_low": 803.97,
-        "anchor_low_bar": 124,
-        "anchor_high": 2354.39,
-        "anchor_high_bar": 28,
-        "atr": 83.52,
-        "bull_angle_now": 887.49,
-        "bear_angle_now": -5746.95,
-        "intersection_price": -4768.26,
-        "bars_to_intersection": -67.7,
-        "liquidity_sweep": true,
-        "confluence": "4/5",
-        "entry_price": 887.49,
-        "stop_price": 801.56,
-        "target_1": 971.01,
-        "target_2": 958.49,
-        "target_3": 2354.39,
-        "risk_reward": 0.97,
-        "gates_cleared": 3,
-        "max_gates": 5,
-        "thesis": "Gann 1\u00d71 dual-anchor: bullish from structural low 803.97 + bearish from high 2354.39. Price-Time square at -4768.26 (in -68 bars). ATR=83.52. Liquidity swept \u2014 hidden demand. Confluence 4/5. Entry at bull angle 887.49, stop 801.56 (below sweep). TP1 at 2\u00d71 angle 971.01, TP2 958.49, TP3 structural high 2354.39.",
-        "drawings": [
-          {
-            "type": "horizontal_line",
-            "price": 887.4889221191406,
-            "color": "cyan",
-            "label": "Gann 1\u00d71 Bull Angle"
-          },
-          {
-            "type": "horizontal_line",
-            "price": -5746.948394775391,
-            "color": "orange",
-            "label": "Gann 1\u00d71 Bear Angle"
-          },
-          {
-            "type": "horizontal_line",
-            "price": -4768.260375976563,
-            "color": "yellow",
-            "label": "Gann Square Point (-68 bars)"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 803.969970703125,
-            "color": "white",
-            "label": "Gann Anchor Low"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 2354.389892578125,
-            "color": "white",
-            "label": "Gann Anchor High"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 801.5580607910156,
-            "color": "red",
-            "label": "Stop (below sweep)"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 971.0078735351562,
-            "color": "green",
-            "label": "TP1: 2\u00d71 Angle"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 2354.389892578125,
-            "color": "lime",
-            "label": "TP3: Structural High"
-          }
-        ],
-        "symbol": "SNDK",
-        "position_size_pct": 7.0,
-        "position_size_usd": 12810
-      }
-    ],
-    "top_pattern": "FIBONACCI",
-    "top_pattern_gates": 3,
-    "news_signals": [
-      {
-        "title": "SNDK Stock Plummets Premarket: Analysts Cite 'Muted Pricing' Guidance Despite Record Revenue, $14B Buyback Plan - Yahoo Finance",
-        "source": "News",
-        "score": 4,
-        "bull": true
-      },
-      {
-        "title": "SanDisk (SNDK): Donald Trump\u2019s Top Stock Pick in 2026 - Yahoo Finance",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      }
-    ],
-    "market": "US"
-  },
-  {
     "ticker": "LRCX",
     "name": "Lam Research",
     "score": 7,
@@ -816,9 +446,9 @@
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "ma": {
-      "price": 201.35,
+      "price": 201.59,
       "ma50": 284.39,
-      "ma200": 284.01,
+      "ma200": 284.02,
       "ma_signal": "\u26a0\ufe0f Below 200MA",
       "cross": "\u2705 Golden Cross active"
     },
@@ -954,7 +584,7 @@
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "ma": {
-      "price": 28.67,
+      "price": 28.74,
       "ma50": 37.44,
       "ma200": 32.61,
       "ma_signal": "\u26a0\ufe0f Below 200MA",
@@ -1051,296 +681,223 @@
     "market": "US"
   },
   {
-    "ticker": "AAPL",
-    "name": "Apple Inc",
-    "score": 7,
+    "ticker": "SMH",
+    "name": "VanEck Semiconductor ETF",
+    "score": 6,
     "max": 12,
     "signals": [
+      "RSI oversold on DAILY, WEEKLY",
       "\u2705 Golden Cross active",
-      "\u2705 Above 200MA",
-      "A/D rising \u2014 institutions loading",
-      "\ud83d\udcd0 Fib 38.2%: $338.01",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+      "\u26a0\ufe0f Below 200MA",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "ma": {
-      "price": 342.89,
-      "ma50": 336.02,
-      "ma200": 298.81,
-      "ma_signal": "\u2705 Above 200MA",
+      "price": 466.08,
+      "ma50": 565.68,
+      "ma200": 521.77,
+      "ma_signal": "\u26a0\ufe0f Below 200MA",
       "cross": "\u2705 Golden Cross active"
     },
     "ad": {
-      "signal": "\u2705 Institutions accumulating"
+      "signal": "\u26a0\ufe0f A/D declining"
     },
     "patterns": [
-      "\ud83d\udcd0 Fib 38.2%: $338.01",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "fundamentals": {},
     "buy_rating": "STRONG BUY",
     "conviction": "HIGH",
     "v2_patterns": [
       {
-        "pattern": "ELLIOTT_WAVE",
+        "pattern": "GANN",
         "direction": "LONG",
-        "w1_origin": 330.7,
-        "w1_peak": 351.73,
-        "w1_length": 21.03,
-        "wave_a_low": 341.03,
-        "wave_b_high": 351.43,
-        "wave_c_target": 340.73,
-        "fib_618": 338.73,
-        "fib_500": 341.22,
-        "c_equals_a": true,
-        "entry_price": 338.73,
-        "stop_price": 330.53,
-        "target_1": 351.73,
-        "target_2": 364.73,
-        "target_3": 385.76,
-        "risk_reward": 1.59,
-        "gates_cleared": 4,
-        "max_gates": 5,
-        "thesis": "Prechter W2\u2192W3: Wave 1 origin 330.70\u2192peak 351.73 (+6.4%, 5-wave validated). Wave 2 ABC: A low=341.03, B high=351.43, C=A target=340.73. C=A + 61.8% confluence \u2713. Entry at 61.8% 338.73, hard stop at Wave 1 origin 330.53. TP1=351.73 (100%), TP2=364.73 (161.8%), TP3=385.76 (261.8%).",
-        "drawings": [
-          {
-            "type": "text",
-            "price": 330.70001220703125,
-            "label": "W1 Origin",
-            "color": "white"
-          },
-          {
-            "type": "text",
-            "price": 351.7300109863281,
-            "label": "\u2460 Peak",
-            "color": "white"
-          },
-          {
-            "type": "text",
-            "price": 341.0299987792969,
-            "label": "A",
-            "color": "orange"
-          },
-          {
-            "type": "text",
-            "price": 351.42999267578125,
-            "label": "B",
-            "color": "orange"
-          },
-          {
-            "type": "text",
-            "price": 340.72998046875,
-            "label": "C (proj)",
-            "color": "orange"
-          },
-          {
-            "type": "rectangle",
-            "top": 338.7334717407227,
-            "bottom": 335.34613702331546,
-            "color": "cyan",
-            "label": "Entry Zone 61.8%"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 338.7334717407227,
-            "color": "cyan",
-            "label": "61.8% Entry"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 341.2150115966797,
-            "color": "blue",
-            "label": "50% Support"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 330.53466220092776,
-            "color": "red",
-            "label": "\u26d4 W1 Origin / Hard Stop"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 351.7300109863281,
-            "color": "green",
-            "label": "TP1: 100% W1 Peak"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 364.7265502319336,
-            "color": "lime",
-            "label": "TP2: 161.8% Extension"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 385.75654901123045,
-            "color": "white",
-            "label": "TP3: 261.8% Runner"
-          }
-        ],
-        "symbol": "AAPL",
-        "position_size_pct": 7.0,
-        "position_size_usd": 12810
-      },
-      {
-        "pattern": "FVG",
-        "direction": "LONG",
-        "fvg_top": 307.0,
-        "fvg_bottom": 296.5899963378906,
-        "midpoint": 301.7949981689453,
-        "size_pct": 3.373,
-        "bars_ago": 89,
-        "entry_price": 301.79,
-        "stop_price": 296.29,
-        "target_1": 322.35,
-        "target_2": 337.7,
-        "target_3": 354.59,
-        "risk_reward": 3.74,
+        "anchor_low": 445.59,
+        "anchor_low_bar": 124,
+        "anchor_high": 671.83,
+        "anchor_high_bar": 28,
+        "atr": 16.89,
+        "bull_angle_now": 462.48,
+        "bear_angle_now": -966.86,
+        "intersection_price": -725.21,
+        "bars_to_intersection": -70.3,
+        "liquidity_sweep": true,
+        "confluence": "4/5",
+        "entry_price": 462.48,
+        "stop_price": 444.25,
+        "target_1": 479.38,
+        "target_2": 499.48,
+        "target_3": 671.83,
+        "risk_reward": 0.93,
         "gates_cleared": 3,
-        "max_gates": 9,
-        "thesis": "Bullish FVG 296.59\u2013307.00 (3.373%). Fresh (89 bars ago), unfilled. Entry midpoint 301.79.",
+        "max_gates": 5,
+        "thesis": "Gann 1\u00d71 dual-anchor: bullish from structural low 445.59 + bearish from high 671.83. Price-Time square at -725.21 (in -70 bars). ATR=16.89. Liquidity swept \u2014 hidden demand. Confluence 4/5. Entry at bull angle 462.48, stop 444.25 (below sweep). TP1 at 2\u00d71 angle 479.38, TP2 499.48, TP3 structural high 671.83.",
         "drawings": [
           {
-            "type": "rectangle",
-            "top": 307.0,
-            "bottom": 296.5899963378906,
+            "type": "horizontal_line",
+            "price": 462.4837448120117,
             "color": "cyan",
-            "label": "FVG Zone"
+            "label": "Gann 1\u00d71 Bull Angle"
           },
           {
             "type": "horizontal_line",
-            "price": 301.7949981689453,
-            "color": "cyan",
-            "label": "FVG Entry"
+            "price": -966.8635848999022,
+            "color": "orange",
+            "label": "Gann 1\u00d71 Bear Angle"
           },
           {
             "type": "horizontal_line",
-            "price": 296.2934063415527,
+            "price": -725.214877319336,
+            "color": "yellow",
+            "label": "Gann Square Point (-70 bars)"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 445.5899963378906,
+            "color": "white",
+            "label": "Gann Anchor Low"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 671.8300170898438,
+            "color": "white",
+            "label": "Gann Anchor High"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 444.253226348877,
             "color": "red",
-            "label": "FVG Stop"
+            "label": "Stop (below sweep)"
           },
           {
             "type": "horizontal_line",
-            "price": 322.35,
+            "price": 479.3774932861328,
             "color": "green",
-            "label": "FVG TP1"
+            "label": "TP1: 2\u00d71 Angle"
           },
           {
             "type": "horizontal_line",
-            "price": 337.70000000000005,
+            "price": 671.8300170898438,
             "color": "lime",
-            "label": "FVG TP2"
+            "label": "TP3: Structural High"
           }
         ],
-        "symbol": "AAPL",
+        "symbol": "SMH",
         "position_size_pct": 7.0,
         "position_size_usd": 12810
       },
       {
         "pattern": "FIBONACCI",
         "direction": "LONG",
-        "swing_low": 325.33,
-        "swing_high": 355.38,
-        "move_pct": 9.24,
-        "golden_pocket_top": 336.81,
-        "golden_pocket_bot": 335.85,
-        "fib_786_stop": 331.76,
-        "ext_1272": 363.55,
-        "ext_1618": 373.95,
-        "ext_2618": 404.0,
+        "swing_low": 445.59,
+        "swing_high": 476.25,
+        "move_pct": 6.88,
+        "golden_pocket_top": 457.3,
+        "golden_pocket_bot": 456.32,
+        "fib_786_stop": 452.15,
+        "ext_1272": 484.59,
+        "ext_1618": 495.2,
+        "ext_2618": 525.86,
         "in_pocket": false,
-        "entry_price": 336.33,
-        "stop_price": 331.43,
-        "target_1": 355.38,
-        "target_2": 373.95,
-        "target_3": 404.0,
-        "risk_reward": 3.89,
-        "gates_cleared": 3,
+        "entry_price": 456.81,
+        "stop_price": 451.7,
+        "target_1": 476.25,
+        "target_2": 495.2,
+        "target_3": 525.86,
+        "risk_reward": 3.8,
+        "gates_cleared": 2,
         "max_gates": 4,
-        "thesis": "Fibonacci golden pocket 61.8%\u201365%: swing 325.33\u2192355.38 (+9.2%). Golden pocket 335.85\u2013336.81. Approaching zone. Entry 336.33, stop below 78.6% at 331.43. TP1 prior high 355.38, TP2 161.8% 373.95, TP3 261.8% 404.00.",
+        "thesis": "Fibonacci golden pocket 61.8%\u201365%: swing 445.59\u2192476.25 (+6.9%). Golden pocket 456.32\u2013457.30. Approaching zone. Entry 456.81, stop below 78.6% at 451.70. TP1 prior high 476.25, TP2 161.8% 495.20, TP3 261.8% 525.86.",
         "drawings": [
           {
             "type": "horizontal_line",
-            "price": 355.3800048828125,
+            "price": 476.2499084472656,
             "color": "white",
             "label": "0% Swing High"
           },
           {
             "type": "horizontal_line",
-            "price": 343.9008978881836,
+            "price": 464.5378220214844,
             "color": "gray",
             "label": "38.2%"
           },
           {
             "type": "horizontal_line",
-            "price": 340.35499572753906,
+            "price": 460.9199523925781,
             "color": "gray",
             "label": "50.0%"
           },
           {
             "type": "rectangle",
-            "top": 336.80909356689455,
-            "bottom": 335.84749298095704,
+            "top": 457.3020827636719,
+            "bottom": 456.3209655761719,
             "color": "gold",
             "label": "Golden Pocket 61.8\u201365%"
           },
           {
             "type": "horizontal_line",
-            "price": 336.80909356689455,
+            "price": 457.3020827636719,
             "color": "gold",
             "label": "61.8% Entry Top"
           },
           {
             "type": "horizontal_line",
-            "price": 335.84749298095704,
+            "price": 456.3209655761719,
             "color": "gold",
             "label": "65.0% Entry Bot"
           },
           {
             "type": "horizontal_line",
-            "price": 331.76069049072265,
+            "price": 452.1512175292969,
             "color": "red",
             "label": "78.6% Invalidation"
           },
           {
             "type": "horizontal_line",
-            "price": 325.3299865722656,
+            "price": 445.5899963378906,
             "color": "white",
             "label": "100% Swing Low"
           },
           {
             "type": "horizontal_line",
-            "price": 355.3800048828125,
+            "price": 476.2499084472656,
             "color": "green",
             "label": "TP1: Prior High"
           },
           {
             "type": "horizontal_line",
-            "price": 373.95091619873045,
+            "price": 495.1977341308594,
             "color": "lime",
             "label": "TP2: 161.8%"
           },
           {
             "type": "horizontal_line",
-            "price": 404.00093450927733,
+            "price": 525.8576462402344,
             "color": "white",
             "label": "TP3: 261.8%"
           }
         ],
-        "symbol": "AAPL",
+        "symbol": "SMH",
         "position_size_pct": 7.0,
         "position_size_usd": 12810
       }
     ],
-    "top_pattern": "ELLIOTT_WAVE",
-    "top_pattern_gates": 4,
+    "top_pattern": "GANN",
+    "top_pattern_gates": 3,
     "news_signals": [
       {
-        "title": "Hyperscalers and Apple surge after election results remove investor uncertainty - CNBC",
+        "title": "Prediction: SOXX Will Continue to Outperform SMH. Here's Why. - The Motley Fool",
         "source": "News",
         "score": 2,
         "bull": true
       },
       {
-        "title": "Forget Tariffs: An Apple-Intel Deal Could Be the Biggest Manufacturing Story of the Trump Era - 24/7 Wall St.",
+        "title": "SMH ETF Investors: Watch Hyperscaler Capex Guidance at July Earnings Calls - Yahoo Finance",
+        "source": "News",
+        "score": 2,
+        "bull": true
+      },
+      {
+        "title": "\u2018Economic neanderthal\u2019: Experts warn Trump\u2019s tariff crusade risks global recession - SMH.com.au",
         "source": "News",
         "score": 2,
         "bull": true
@@ -1349,148 +906,533 @@
     "market": "US"
   },
   {
-    "ticker": "MSFT",
-    "name": "Microsoft Corporation",
-    "score": 7,
+    "ticker": "SOXX",
+    "name": "iShares Semiconductor ETF",
+    "score": 6,
     "max": 12,
     "signals": [
+      "RSI oversold on DAILY, WEEKLY",
       "\u2705 Golden Cross active",
-      "\u2705 Above 200MA",
-      "A/D rising \u2014 institutions loading",
-      "\ud83d\udcd0 Fib 38.2%: $531.21",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+      "\u26a0\ufe0f Below 200MA",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "ma": {
-      "price": 531.95,
-      "ma50": 516.67,
-      "ma200": 439.85,
-      "ma_signal": "\u2705 Above 200MA",
+      "price": 136.99,
+      "ma50": 173.67,
+      "ma200": 159.56,
+      "ma_signal": "\u26a0\ufe0f Below 200MA",
       "cross": "\u2705 Golden Cross active"
     },
     "ad": {
-      "signal": "\u2705 Institutions accumulating"
+      "signal": "\u26a0\ufe0f A/D declining"
     },
     "patterns": [
-      "\ud83d\udcd0 Fib 38.2%: $531.21",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "fundamentals": {},
     "buy_rating": "STRONG BUY",
     "conviction": "HIGH",
     "v2_patterns": [
       {
-        "pattern": "FIBONACCI",
+        "pattern": "GANN",
         "direction": "LONG",
-        "swing_low": 504.96,
-        "swing_high": 559.15,
-        "move_pct": 10.73,
-        "golden_pocket_top": 525.66,
-        "golden_pocket_bot": 523.93,
-        "fib_786_stop": 516.56,
-        "ext_1272": 573.89,
-        "ext_1618": 592.64,
-        "ext_2618": 646.83,
-        "in_pocket": false,
-        "entry_price": 524.79,
-        "stop_price": 516.04,
-        "target_1": 559.15,
-        "target_2": 592.64,
-        "target_3": 646.83,
-        "risk_reward": 3.92,
+        "anchor_low": 130.75,
+        "anchor_low_bar": 124,
+        "anchor_high": 218.65,
+        "anchor_high_bar": 28,
+        "atr": 6.01,
+        "bull_angle_now": 136.76,
+        "bear_angle_now": -364.69,
+        "intersection_price": -282.35,
+        "bars_to_intersection": -69.7,
+        "liquidity_sweep": true,
+        "confluence": "4/5",
+        "entry_price": 136.76,
+        "stop_price": 130.36,
+        "target_1": 142.78,
+        "target_2": 147.7,
+        "target_3": 218.65,
+        "risk_reward": 0.94,
         "gates_cleared": 3,
-        "max_gates": 4,
-        "thesis": "Fibonacci golden pocket 61.8%\u201365%: swing 504.96\u2192559.15 (+10.7%). Golden pocket 523.93\u2013525.66. Approaching zone. Entry 524.79, stop below 78.6% at 516.04. TP1 prior high 559.15, TP2 161.8% 592.64, TP3 261.8% 646.83.",
+        "max_gates": 5,
+        "thesis": "Gann 1\u00d71 dual-anchor: bullish from structural low 130.75 + bearish from high 218.65. Price-Time square at -282.35 (in -70 bars). ATR=6.01. Liquidity swept \u2014 hidden demand. Confluence 4/5. Entry at bull angle 136.76, stop 130.36 (below sweep). TP1 at 2\u00d71 angle 142.78, TP2 147.70, TP3 structural high 218.65.",
         "drawings": [
           {
             "type": "horizontal_line",
-            "price": 559.1500244140625,
+            "price": 136.76383285522462,
+            "color": "cyan",
+            "label": "Gann 1\u00d71 Bull Angle"
+          },
+          {
+            "type": "horizontal_line",
+            "price": -364.69179306030276,
+            "color": "orange",
+            "label": "Gann 1\u00d71 Bear Angle"
+          },
+          {
+            "type": "horizontal_line",
+            "price": -282.3513000488281,
+            "color": "yellow",
+            "label": "Gann Square Point (-70 bars)"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 130.75,
+            "color": "white",
+            "label": "Gann Anchor Low"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 218.64999389648438,
+            "color": "white",
+            "label": "Gann Anchor High"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 130.35775,
+            "color": "red",
+            "label": "Stop (below sweep)"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 142.7776657104492,
+            "color": "green",
+            "label": "TP1: 2\u00d71 Angle"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 218.64999389648438,
+            "color": "lime",
+            "label": "TP3: Structural High"
+          }
+        ],
+        "symbol": "SOXX",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      },
+      {
+        "pattern": "FIBONACCI",
+        "direction": "LONG",
+        "swing_low": 130.75,
+        "swing_high": 140.21,
+        "move_pct": 7.24,
+        "golden_pocket_top": 134.36,
+        "golden_pocket_bot": 134.06,
+        "fib_786_stop": 132.77,
+        "ext_1272": 142.78,
+        "ext_1618": 146.06,
+        "ext_2618": 155.52,
+        "in_pocket": false,
+        "entry_price": 134.21,
+        "stop_price": 132.64,
+        "target_1": 140.21,
+        "target_2": 146.06,
+        "target_3": 155.52,
+        "risk_reward": 3.82,
+        "gates_cleared": 2,
+        "max_gates": 4,
+        "thesis": "Fibonacci golden pocket 61.8%\u201365%: swing 130.75\u2192140.21 (+7.2%). Golden pocket 134.06\u2013134.36. Approaching zone. Entry 134.21, stop below 78.6% at 132.64. TP1 prior high 140.21, TP2 161.8% 146.06, TP3 261.8% 155.52.",
+        "drawings": [
+          {
+            "type": "horizontal_line",
+            "price": 140.2100067138672,
             "color": "white",
             "label": "0% Swing High"
           },
           {
             "type": "horizontal_line",
-            "price": 538.4494318237305,
+            "price": 136.59628414916992,
             "color": "gray",
             "label": "38.2%"
           },
           {
             "type": "horizontal_line",
-            "price": 532.0550079345703,
+            "price": 135.4800033569336,
             "color": "gray",
             "label": "50.0%"
           },
           {
             "type": "rectangle",
-            "top": 525.6605840454101,
-            "bottom": 523.9265029907226,
+            "top": 134.36372256469727,
+            "bottom": 134.0610023498535,
             "color": "gold",
             "label": "Golden Pocket 61.8\u201365%"
           },
           {
             "type": "horizontal_line",
-            "price": 525.6605840454101,
+            "price": 134.36372256469727,
             "color": "gold",
             "label": "61.8% Entry Top"
           },
           {
             "type": "horizontal_line",
-            "price": 523.9265029907226,
+            "price": 134.0610023498535,
             "color": "gold",
             "label": "65.0% Entry Bot"
           },
           {
             "type": "horizontal_line",
-            "price": 516.5566585083008,
+            "price": 132.77444143676757,
             "color": "red",
             "label": "78.6% Invalidation"
           },
           {
             "type": "horizontal_line",
-            "price": 504.9599914550781,
+            "price": 130.75,
             "color": "white",
             "label": "100% Swing Low"
           },
           {
             "type": "horizontal_line",
-            "price": 559.1500244140625,
+            "price": 140.2100067138672,
             "color": "green",
             "label": "TP1: Prior High"
           },
           {
             "type": "horizontal_line",
-            "price": 592.6394647827149,
+            "price": 146.0562908630371,
             "color": "lime",
             "label": "TP2: 161.8%"
           },
           {
             "type": "horizontal_line",
-            "price": 646.8294977416992,
+            "price": 155.5162975769043,
             "color": "white",
             "label": "TP3: 261.8%"
           }
         ],
-        "symbol": "MSFT",
+        "symbol": "SOXX",
         "position_size_pct": 7.0,
         "position_size_usd": 12810
       }
     ],
-    "top_pattern": "FIBONACCI",
+    "top_pattern": "GANN",
     "top_pattern_gates": 3,
     "news_signals": [
       {
-        "title": "Microsoft Corporation (MSFT) Outperforms with Record Quarter Driven by Azure Demand Surge - Yahoo Finance",
+        "title": "Prediction: SOXX Will Continue to Outperform SMH. Here's Why. - The Motley Fool",
         "source": "News",
         "score": 2,
         "bull": true
       },
       {
-        "title": "Microsoft stock rises on earnings beat and better-than-expected guidance - CNBC",
+        "title": "Prediction: SOXX Will Outperform S&P 500 and Nasdaq 100 in 2026 - The Motley Fool",
         "source": "News",
         "score": 2,
         "bull": true
       },
       {
-        "title": "The next phase of the Microsoft OpenAI partnership - OpenAI",
+        "title": "Prediction: SOXX Will Outperform S&P 500 and Nasdaq 100 in 2026 - Yahoo Finance",
+        "source": "News",
+        "score": 2,
+        "bull": true
+      }
+    ],
+    "market": "US"
+  },
+  {
+    "ticker": "ARKF",
+    "name": "ARK Fintech Innovation ETF",
+    "score": 6,
+    "max": 12,
+    "signals": [
+      "RSI oversold on DAILY, WEEKLY",
+      "\u2705 Golden Cross active",
+      "\u26a0\ufe0f Below 200MA",
+      "A/D rising \u2014 institutions loading",
+      "\u26a1 Bullish RSI Divergence",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+    ],
+    "ma": {
+      "price": 41.73,
+      "ma50": 45.52,
+      "ma200": 42.1,
+      "ma_signal": "\u26a0\ufe0f Below 200MA",
+      "cross": "\u2705 Golden Cross active",
+      "near_200ma": "\ud83d\udccd At 200MA"
+    },
+    "ad": {
+      "signal": "\u2705 Institutions accumulating"
+    },
+    "patterns": [
+      "\u26a1 Bullish RSI Divergence",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+    ],
+    "fundamentals": {},
+    "buy_rating": "STRONG BUY",
+    "conviction": "HIGH",
+    "v2_patterns": [
+      {
+        "pattern": "FVG",
+        "direction": "LONG",
+        "fvg_top": 39.52000045776367,
+        "fvg_bottom": 39.029998779296875,
+        "midpoint": 39.27499961853027,
+        "size_pct": 1.25,
+        "bars_ago": 93,
+        "entry_price": 39.27,
+        "stop_price": 38.99,
+        "target_1": 41.5,
+        "target_2": 43.47,
+        "target_3": 45.65,
+        "risk_reward": 7.82,
+        "gates_cleared": 3,
+        "max_gates": 9,
+        "thesis": "Bullish FVG 39.03\u201339.52 (1.25%). Fresh (93 bars ago), unfilled. Entry midpoint 39.27.",
+        "drawings": [
+          {
+            "type": "rectangle",
+            "top": 39.52000045776367,
+            "bottom": 39.029998779296875,
+            "color": "cyan",
+            "label": "FVG Zone"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 39.27499961853027,
+            "color": "cyan",
+            "label": "FVG Entry"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 38.990968780517576,
+            "color": "red",
+            "label": "FVG Stop"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 41.49600048065186,
+            "color": "green",
+            "label": "FVG TP1"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 43.472000503540045,
+            "color": "lime",
+            "label": "FVG TP2"
+          }
+        ],
+        "symbol": "ARKF",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      }
+    ],
+    "top_pattern": "FVG",
+    "top_pattern_gates": 3,
+    "news_signals": [],
+    "market": "US"
+  },
+  {
+    "ticker": "BOTZ",
+    "name": "Global X Robotics & AI ETF",
+    "score": 6,
+    "max": 12,
+    "signals": [
+      "RSI oversold on DAILY, WEEKLY",
+      "\u26a0\ufe0f Below 200MA",
+      "\ud83d\udccd Near Support: $30.53",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+    ],
+    "ma": {
+      "price": 31.03,
+      "ma50": 34.49,
+      "ma200": 36.44,
+      "ma_signal": "\u26a0\ufe0f Below 200MA"
+    },
+    "ad": {
+      "signal": "\u26a0\ufe0f A/D declining"
+    },
+    "patterns": [
+      "\ud83d\udccd Near Support: $30.53",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+    ],
+    "fundamentals": {},
+    "buy_rating": "STRONG BUY",
+    "conviction": "HIGH",
+    "v2_patterns": [
+      {
+        "pattern": "ELLIOTT_WAVE",
+        "direction": "LONG",
+        "w1_origin": 34.94,
+        "w1_peak": 36.35,
+        "w1_length": 1.41,
+        "wave_a_low": 32.52,
+        "wave_b_high": 34.09,
+        "wave_c_target": 30.26,
+        "fib_618": 35.48,
+        "fib_500": 35.64,
+        "c_equals_a": false,
+        "entry_price": 35.48,
+        "stop_price": 34.92,
+        "target_1": 36.35,
+        "target_2": 37.22,
+        "target_3": 38.63,
+        "risk_reward": 1.57,
+        "gates_cleared": 3,
+        "max_gates": 5,
+        "thesis": "Prechter W2\u2192W3: Wave 1 origin 34.94\u2192peak 36.35 (+4.0%, 5-wave validated). Wave 2 ABC: A low=32.52, B high=34.09, C=A target=30.26. Near 61.8% zone. Entry at 61.8% 35.48, hard stop at Wave 1 origin 34.92. TP1=36.35 (100%), TP2=37.22 (161.8%), TP3=38.63 (261.8%).",
+        "drawings": [
+          {
+            "type": "text",
+            "price": 34.939998626708984,
+            "label": "W1 Origin",
+            "color": "white"
+          },
+          {
+            "type": "text",
+            "price": 36.349998474121094,
+            "label": "\u2460 Peak",
+            "color": "white"
+          },
+          {
+            "type": "text",
+            "price": 32.52000045776367,
+            "label": "A",
+            "color": "orange"
+          },
+          {
+            "type": "text",
+            "price": 34.09000015258789,
+            "label": "B",
+            "color": "orange"
+          },
+          {
+            "type": "text",
+            "price": 30.26000213623047,
+            "label": "C (proj)",
+            "color": "orange"
+          },
+          {
+            "type": "rectangle",
+            "top": 35.47861856842041,
+            "bottom": 35.123832382736204,
+            "color": "cyan",
+            "label": "Entry Zone 61.8%"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 35.47861856842041,
+            "color": "cyan",
+            "label": "61.8% Entry"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 35.64499855041504,
+            "color": "blue",
+            "label": "50% Support"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 34.92252862739563,
+            "color": "red",
+            "label": "\u26d4 W1 Origin / Hard Stop"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 36.349998474121094,
+            "color": "green",
+            "label": "TP1: 100% W1 Peak"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 37.22137837982178,
+            "color": "lime",
+            "label": "TP2: 161.8% Extension"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 38.63137822723389,
+            "color": "white",
+            "label": "TP3: 261.8% Runner"
+          }
+        ],
+        "symbol": "BOTZ",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      },
+      {
+        "pattern": "GANN",
+        "direction": "LONG",
+        "anchor_low": 30.53,
+        "anchor_low_bar": 124,
+        "anchor_high": 41.04,
+        "anchor_high_bar": 10,
+        "atr": 0.52,
+        "bull_angle_now": 31.05,
+        "bear_angle_now": -18.27,
+        "intersection_price": 1.23,
+        "bars_to_intersection": -57.8,
+        "liquidity_sweep": true,
+        "confluence": "4/5",
+        "entry_price": 31.05,
+        "stop_price": 30.44,
+        "target_1": 31.98,
+        "target_2": 33.53,
+        "target_3": 41.04,
+        "risk_reward": 1.53,
+        "gates_cleared": 3,
+        "max_gates": 5,
+        "thesis": "Gann 1\u00d71 dual-anchor: bullish from structural low 30.53 + bearish from high 41.04. Price-Time square at 1.23 (in -58 bars). ATR=0.52. Liquidity swept \u2014 hidden demand. Confluence 4/5. Entry at bull angle 31.05, stop 30.44 (below sweep). TP1 at 2\u00d71 angle 31.98, TP2 33.53, TP3 structural high 41.04.",
+        "drawings": [
+          {
+            "type": "horizontal_line",
+            "price": 31.050749206542967,
+            "color": "cyan",
+            "label": "Gann 1\u00d71 Bull Angle"
+          },
+          {
+            "type": "horizontal_line",
+            "price": -18.271175384521484,
+            "color": "orange",
+            "label": "Gann 1\u00d71 Bear Angle"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 1.2322933197021477,
+            "color": "yellow",
+            "label": "Gann Square Point (-58 bars)"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 30.53499984741211,
+            "color": "white",
+            "label": "Gann Anchor Low"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 41.040000915527344,
+            "color": "white",
+            "label": "Gann Anchor High"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 30.44339484786987,
+            "color": "red",
+            "label": "Stop (below sweep)"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 31.982271682739256,
+            "color": "green",
+            "label": "TP1: 2\u00d71 Angle"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 41.040000915527344,
+            "color": "lime",
+            "label": "TP3: Structural High"
+          }
+        ],
+        "symbol": "BOTZ",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      }
+    ],
+    "top_pattern": "ELLIOTT_WAVE",
+    "top_pattern_gates": 3,
+    "news_signals": [
+      {
+        "title": "ROBO ETF outperforms BOTZ with broader robotics exposure and lower volatility in 2026 - Pluang",
         "source": "News",
         "score": 2,
         "bull": true
@@ -1511,7 +1453,7 @@
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "ma": {
-      "price": 56.92,
+      "price": 56.81,
       "ma50": 97.96,
       "ma200": 87.04,
       "ma_signal": "\u26a0\ufe0f Below 200MA",
@@ -1619,6 +1561,266 @@
     "market": "US"
   },
   {
+    "ticker": "SNDK",
+    "name": "SanDisk Corp",
+    "score": 6,
+    "max": 12,
+    "signals": [
+      "RSI oversold on DAILY, WEEKLY",
+      "\u2705 Golden Cross active",
+      "\u26a0\ufe0f Below 200MA",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+    ],
+    "ma": {
+      "price": 832.92,
+      "ma50": 1504.39,
+      "ma200": 1272.15,
+      "ma_signal": "\u26a0\ufe0f Below 200MA",
+      "cross": "\u2705 Golden Cross active"
+    },
+    "ad": {
+      "signal": "\u26a0\ufe0f A/D declining"
+    },
+    "patterns": [
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+    ],
+    "fundamentals": {},
+    "buy_rating": "STRONG BUY",
+    "conviction": "HIGH",
+    "v2_patterns": [
+      {
+        "pattern": "FIBONACCI",
+        "direction": "LONG",
+        "swing_low": 803.97,
+        "swing_high": 912.09,
+        "move_pct": 13.45,
+        "golden_pocket_top": 845.27,
+        "golden_pocket_bot": 841.81,
+        "fib_786_stop": 827.11,
+        "ext_1272": 941.5,
+        "ext_1618": 978.91,
+        "ext_2618": 1087.03,
+        "in_pocket": false,
+        "entry_price": 843.54,
+        "stop_price": 826.28,
+        "target_1": 912.09,
+        "target_2": 978.91,
+        "target_3": 1087.03,
+        "risk_reward": 3.97,
+        "gates_cleared": 3,
+        "max_gates": 4,
+        "thesis": "Fibonacci golden pocket 61.8%\u201365%: swing 803.97\u2192912.09 (+13.4%). Golden pocket 841.81\u2013845.27. Approaching zone. Entry 843.54, stop below 78.6% at 826.28. TP1 prior high 912.09, TP2 161.8% 978.91, TP3 261.8% 1087.03.",
+        "drawings": [
+          {
+            "type": "horizontal_line",
+            "price": 912.0900268554688,
+            "color": "white",
+            "label": "0% Swing High"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 870.7881654052734,
+            "color": "gray",
+            "label": "38.2%"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 858.0299987792969,
+            "color": "gray",
+            "label": "50.0%"
+          },
+          {
+            "type": "rectangle",
+            "top": 845.2718321533204,
+            "bottom": 841.8119903564453,
+            "color": "gold",
+            "label": "Golden Pocket 61.8\u201365%"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 845.2718321533204,
+            "color": "gold",
+            "label": "61.8% Entry Top"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 841.8119903564453,
+            "color": "gold",
+            "label": "65.0% Entry Bot"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 827.1076627197266,
+            "color": "red",
+            "label": "78.6% Invalidation"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 803.969970703125,
+            "color": "white",
+            "label": "100% Swing Low"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 912.0900268554688,
+            "color": "green",
+            "label": "TP1: Prior High"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 978.9082215576171,
+            "color": "lime",
+            "label": "TP2: 161.8%"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 1087.028277709961,
+            "color": "white",
+            "label": "TP3: 261.8%"
+          }
+        ],
+        "symbol": "SNDK",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      },
+      {
+        "pattern": "DIVERGENCE",
+        "direction": "LONG",
+        "divergence_type": "REGULAR_BULLISH",
+        "low1_price": 1276.0,
+        "low1_rsi": 29.68,
+        "low2_price": 1228.89,
+        "low2_rsi": 32.11,
+        "entry_price": 833.19,
+        "stop_price": 1222.75,
+        "target_1": 1408.45,
+        "target_2": 1450.7,
+        "target_3": 1521.12,
+        "risk_reward": 0.0,
+        "gates_cleared": 3,
+        "max_gates": 4,
+        "thesis": "REGULAR BULLISH: Price 1276.00\u21921228.89 (LL), RSI 29.7\u219232.1 (HL). RSI=32.1 . Entry 833.19, stop 1222.75, TP1 1408.45, R:R 0.0.",
+        "drawings": [
+          {
+            "type": "horizontal_line",
+            "price": 1228.8900146484375,
+            "color": "yellow",
+            "label": "REGULAR_BULLISH \u2014 RSI 32"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 1222.7455645751952,
+            "color": "red",
+            "label": "Divergence Stop"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 1408.446044921875,
+            "color": "green",
+            "label": "Div TP1"
+          }
+        ],
+        "symbol": "SNDK",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      },
+      {
+        "pattern": "GANN",
+        "direction": "LONG",
+        "anchor_low": 803.97,
+        "anchor_low_bar": 124,
+        "anchor_high": 2354.39,
+        "anchor_high_bar": 28,
+        "atr": 83.52,
+        "bull_angle_now": 887.49,
+        "bear_angle_now": -5746.95,
+        "intersection_price": -4768.26,
+        "bars_to_intersection": -67.7,
+        "liquidity_sweep": true,
+        "confluence": "4/5",
+        "entry_price": 887.49,
+        "stop_price": 801.56,
+        "target_1": 971.01,
+        "target_2": 958.49,
+        "target_3": 2354.39,
+        "risk_reward": 0.97,
+        "gates_cleared": 3,
+        "max_gates": 5,
+        "thesis": "Gann 1\u00d71 dual-anchor: bullish from structural low 803.97 + bearish from high 2354.39. Price-Time square at -4768.26 (in -68 bars). ATR=83.52. Liquidity swept \u2014 hidden demand. Confluence 4/5. Entry at bull angle 887.49, stop 801.56 (below sweep). TP1 at 2\u00d71 angle 971.01, TP2 958.49, TP3 structural high 2354.39.",
+        "drawings": [
+          {
+            "type": "horizontal_line",
+            "price": 887.4889221191406,
+            "color": "cyan",
+            "label": "Gann 1\u00d71 Bull Angle"
+          },
+          {
+            "type": "horizontal_line",
+            "price": -5746.948394775391,
+            "color": "orange",
+            "label": "Gann 1\u00d71 Bear Angle"
+          },
+          {
+            "type": "horizontal_line",
+            "price": -4768.260375976563,
+            "color": "yellow",
+            "label": "Gann Square Point (-68 bars)"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 803.969970703125,
+            "color": "white",
+            "label": "Gann Anchor Low"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 2354.389892578125,
+            "color": "white",
+            "label": "Gann Anchor High"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 801.5580607910156,
+            "color": "red",
+            "label": "Stop (below sweep)"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 971.0078735351562,
+            "color": "green",
+            "label": "TP1: 2\u00d71 Angle"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 2354.389892578125,
+            "color": "lime",
+            "label": "TP3: Structural High"
+          }
+        ],
+        "symbol": "SNDK",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      }
+    ],
+    "top_pattern": "FIBONACCI",
+    "top_pattern_gates": 3,
+    "news_signals": [
+      {
+        "title": "SNDK Stock Plummets Premarket: Analysts Cite 'Muted Pricing' Guidance Despite Record Revenue, $14B Buyback Plan - Yahoo Finance",
+        "source": "News",
+        "score": 4,
+        "bull": true
+      },
+      {
+        "title": "SanDisk (SNDK): Donald Trump\u2019s Top Stock Pick in 2026 - Yahoo Finance",
+        "source": "News",
+        "score": 2,
+        "bull": true
+      }
+    ],
+    "market": "US"
+  },
+  {
     "ticker": "ASML",
     "name": "ASML Holding",
     "score": 6,
@@ -1630,8 +1832,8 @@
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "ma": {
-      "price": 1421.05,
-      "ma50": 1677.18,
+      "price": 1421.35,
+      "ma50": 1677.19,
       "ma200": 1600.13,
       "ma_signal": "\u26a0\ufe0f Below 200MA",
       "cross": "\u2705 Golden Cross active"
@@ -1826,7 +2028,7 @@
         "low1_rsi": 37.66,
         "low2_price": 1550.0,
         "low2_rsi": 37.98,
-        "entry_price": 1421.05,
+        "entry_price": 1422.08,
         "stop_price": 1542.25,
         "target_1": 1690.1,
         "target_2": 1740.8,
@@ -1834,7 +2036,7 @@
         "risk_reward": 0.0,
         "gates_cleared": 2,
         "max_gates": 4,
-        "thesis": "REGULAR BULLISH: Price 1594.03\u21921550.00 (LL), RSI 37.7\u219238.0 (HL). RSI=38.0 . Entry 1421.05, stop 1542.25, TP1 1690.10, R:R 0.0.",
+        "thesis": "REGULAR BULLISH: Price 1594.03\u21921550.00 (LL), RSI 37.7\u219238.0 (HL). RSI=38.0 . Entry 1422.08, stop 1542.25, TP1 1690.10, R:R 0.0.",
         "drawings": [
           {
             "type": "horizontal_line",
@@ -1902,9 +2104,9 @@
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "ma": {
-      "price": 173.97,
-      "ma50": 252.77,
-      "ma200": 230.83,
+      "price": 173.07,
+      "ma50": 252.75,
+      "ma200": 230.82,
       "ma_signal": "\u26a0\ufe0f Below 200MA",
       "cross": "\u2705 Golden Cross active"
     },
@@ -2026,9 +2228,9 @@
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "ma": {
-      "price": 139.55,
-      "ma50": 234.27,
-      "ma200": 185.04,
+      "price": 139.91,
+      "ma50": 234.28,
+      "ma200": 185.05,
       "ma_signal": "\u26a0\ufe0f Below 200MA",
       "cross": "\u2705 Golden Cross active"
     },
@@ -2240,191 +2442,157 @@
     "market": "US"
   },
   {
-    "ticker": "META",
-    "name": "Meta Platforms",
-    "score": 6,
-    "max": 12,
-    "signals": [
-      "RSI oversold on DAILY, WEEKLY",
-      "\u2705 Golden Cross active",
-      "\u26a0\ufe0f Below 200MA",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "ma": {
-      "price": 615.83,
-      "ma50": 675.03,
-      "ma200": 631.97,
-      "ma_signal": "\u26a0\ufe0f Below 200MA",
-      "cross": "\u2705 Golden Cross active"
-    },
-    "ad": {
-      "signal": "\u26a0\ufe0f A/D declining"
-    },
-    "patterns": [
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "fundamentals": {},
-    "buy_rating": "STRONG BUY",
-    "conviction": "HIGH",
-    "v2_patterns": [],
-    "top_pattern": "NONE",
-    "top_pattern_gates": 0,
-    "news_signals": [
-      {
-        "title": "AMD\u2019s AI Deals with OpenAI and Meta: Stock Options Cause Billions in Charges Despite Record Revenue - igor\u00b4sLAB",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Meta stock climbs on Q4 earnings beat, plans to spend as much as $135 billion on AI build-out in 2026 - Yahoo Finance",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Corning and Meta Announce Multiyear, up to $6 Billion Agreement to Accelerate US Data Center Buildout - Corning Incorporated - Investor Relations",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      }
-    ],
-    "market": "US"
-  },
-  {
-    "ticker": "NFLX",
-    "name": "Netflix",
-    "score": 6,
+    "ticker": "ARKQ",
+    "name": "ARK Autonomous Tech ETF",
+    "score": 5,
     "max": 12,
     "signals": [
       "RSI oversold on DAILY, WEEKLY",
       "\u26a0\ufe0f Below 200MA",
-      "A/D rising \u2014 institutions loading",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+      "\u26a1 Bullish RSI Divergence",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "ma": {
-      "price": 63.65,
-      "ma50": 71.04,
-      "ma200": 81.04,
+      "price": 105.14,
+      "ma50": 118.8,
+      "ma200": 123.62,
       "ma_signal": "\u26a0\ufe0f Below 200MA"
     },
     "ad": {
-      "signal": "\u2705 Institutions accumulating"
+      "signal": "\u26a0\ufe0f A/D declining"
     },
     "patterns": [
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+      "\u26a1 Bullish RSI Divergence",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "fundamentals": {},
-    "buy_rating": "STRONG BUY",
-    "conviction": "HIGH",
+    "buy_rating": "BUY",
+    "conviction": "MEDIUM",
     "v2_patterns": [
       {
-        "pattern": "FIBONACCI",
+        "pattern": "GANN",
         "direction": "LONG",
-        "swing_low": 61.39,
-        "swing_high": 67.49,
-        "move_pct": 9.94,
-        "golden_pocket_top": 63.72,
-        "golden_pocket_bot": 63.52,
-        "fib_786_stop": 62.7,
-        "ext_1272": 69.15,
-        "ext_1618": 71.26,
-        "ext_2618": 77.36,
-        "in_pocket": true,
-        "entry_price": 63.62,
-        "stop_price": 62.63,
-        "target_1": 67.49,
-        "target_2": 71.26,
-        "target_3": 77.36,
-        "risk_reward": 3.91,
-        "gates_cleared": 4,
-        "max_gates": 4,
-        "thesis": "Fibonacci golden pocket 61.8%\u201365%: swing 61.39\u219267.49 (+9.9%). Golden pocket 63.52\u201363.72. PRICE IN POCKET \u2014 active setup. Entry 63.62, stop below 78.6% at 62.63. TP1 prior high 67.49, TP2 161.8% 71.26, TP3 261.8% 77.36.",
+        "anchor_low": 98.24,
+        "anchor_low_bar": 124,
+        "anchor_high": 144.42,
+        "anchor_high_bar": 12,
+        "atr": 3.08,
+        "bull_angle_now": 101.32,
+        "bear_angle_now": -203.38,
+        "intersection_price": -87.96,
+        "bars_to_intersection": -61.5,
+        "liquidity_sweep": true,
+        "confluence": "4/5",
+        "entry_price": 101.32,
+        "stop_price": 97.95,
+        "target_1": 104.4,
+        "target_2": 109.42,
+        "target_3": 144.42,
+        "risk_reward": 0.91,
+        "gates_cleared": 3,
+        "max_gates": 5,
+        "thesis": "Gann 1\u00d71 dual-anchor: bullish from structural low 98.24 + bearish from high 144.42. Price-Time square at -87.96 (in -61 bars). ATR=3.08. Liquidity swept \u2014 hidden demand. Confluence 4/5. Entry at bull angle 101.32, stop 97.95 (below sweep). TP1 at 2\u00d71 angle 104.40, TP2 109.42, TP3 structural high 144.42.",
         "drawings": [
           {
             "type": "horizontal_line",
-            "price": 67.48999786376953,
+            "price": 101.31779708862305,
+            "color": "cyan",
+            "label": "Gann 1\u00d71 Bull Angle"
+          },
+          {
+            "type": "horizontal_line",
+            "price": -203.37531204223632,
+            "color": "orange",
+            "label": "Gann 1\u00d71 Bear Angle"
+          },
+          {
+            "type": "horizontal_line",
+            "price": -87.96234817504882,
+            "color": "yellow",
+            "label": "Gann Square Point (-61 bars)"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 98.23999786376953,
             "color": "white",
-            "label": "0% Swing High"
+            "label": "Gann Anchor Low"
           },
           {
             "type": "horizontal_line",
-            "price": 65.15979844665527,
-            "color": "gray",
-            "label": "38.2%"
+            "price": 144.41600036621094,
+            "color": "white",
+            "label": "Gann Anchor High"
           },
           {
             "type": "horizontal_line",
-            "price": 64.43999862670898,
-            "color": "gray",
-            "label": "50.0%"
-          },
-          {
-            "type": "rectangle",
-            "top": 63.720198806762696,
-            "bottom": 63.52499885559082,
-            "color": "gold",
-            "label": "Golden Pocket 61.8\u201365%"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 63.720198806762696,
-            "color": "gold",
-            "label": "61.8% Entry Top"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 63.52499885559082,
-            "color": "gold",
-            "label": "65.0% Entry Bot"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 62.69539906311035,
+            "price": 97.94527787017822,
             "color": "red",
-            "label": "78.6% Invalidation"
+            "label": "Stop (below sweep)"
           },
           {
             "type": "horizontal_line",
-            "price": 61.38999938964844,
-            "color": "white",
-            "label": "100% Swing Low"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 67.48999786376953,
+            "price": 104.39559631347656,
             "color": "green",
-            "label": "TP1: Prior High"
+            "label": "TP1: 2\u00d71 Angle"
           },
           {
             "type": "horizontal_line",
-            "price": 71.25979692077637,
+            "price": 144.41600036621094,
             "color": "lime",
-            "label": "TP2: 161.8%"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 77.35979539489746,
-            "color": "white",
-            "label": "TP3: 261.8%"
+            "label": "TP3: Structural High"
           }
         ],
-        "symbol": "NFLX",
+        "symbol": "ARKQ",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      },
+      {
+        "pattern": "DIVERGENCE",
+        "direction": "LONG",
+        "divergence_type": "REGULAR_BULLISH",
+        "low1_price": 111.4,
+        "low1_rsi": 33.54,
+        "low2_price": 110.26,
+        "low2_rsi": 39.04,
+        "entry_price": 105.14,
+        "stop_price": 109.71,
+        "target_1": 117.22,
+        "target_2": 120.74,
+        "target_3": 126.6,
+        "risk_reward": 0.0,
+        "gates_cleared": 2,
+        "max_gates": 4,
+        "thesis": "REGULAR BULLISH: Price 111.40\u2192110.26 (LL), RSI 33.5\u219239.0 (HL). RSI=39.0 . Entry 105.14, stop 109.71, TP1 117.22, R:R 0.0.",
+        "drawings": [
+          {
+            "type": "horizontal_line",
+            "price": 110.26000213623047,
+            "color": "yellow",
+            "label": "REGULAR_BULLISH \u2014 RSI 39"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 109.70870212554932,
+            "color": "red",
+            "label": "Divergence Stop"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 117.22000122070312,
+            "color": "green",
+            "label": "Div TP1"
+          }
+        ],
+        "symbol": "ARKQ",
         "position_size_pct": 7.0,
         "position_size_usd": 12810
       }
     ],
-    "top_pattern": "FIBONACCI",
-    "top_pattern_gates": 4,
+    "top_pattern": "GANN",
+    "top_pattern_gates": 3,
     "news_signals": [
       {
-        "title": "Netflix posts third-quarter earnings beat, but shares fall on advertising and revenue guidance - CNBC",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Netflix and MAPPA Strengthens Strategic Partnership, Aiming to Co-Create a World-Class Animation Studio Model - About Netflix",
+        "title": "RKLB Stock Eyes Worst Month Ever, But Cathie Wood Keeps Buying \u2014 ARK Adds Rocket Lab, Cuts Exposure To $8B Takeover Target - TradingView",
         "source": "News",
         "score": 2,
         "bull": true
@@ -2433,202 +2601,148 @@
     "market": "US"
   },
   {
-    "ticker": "SMH",
-    "name": "VanEck Semiconductor ETF",
-    "score": 6,
+    "ticker": "ARKX",
+    "name": "ARK Space Exploration ETF",
+    "score": 5,
     "max": 12,
     "signals": [
       "RSI oversold on DAILY, WEEKLY",
-      "\u2705 Golden Cross active",
       "\u26a0\ufe0f Below 200MA",
+      "\u26a1 Bullish RSI Divergence",
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "ma": {
-      "price": 464.53,
-      "ma50": 565.65,
-      "ma200": 521.76,
-      "ma_signal": "\u26a0\ufe0f Below 200MA",
-      "cross": "\u2705 Golden Cross active"
+      "price": 28.5,
+      "ma50": 31.37,
+      "ma200": 32.35,
+      "ma_signal": "\u26a0\ufe0f Below 200MA"
     },
     "ad": {
       "signal": "\u26a0\ufe0f A/D declining"
     },
     "patterns": [
+      "\u26a1 Bullish RSI Divergence",
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "fundamentals": {},
-    "buy_rating": "STRONG BUY",
-    "conviction": "HIGH",
+    "buy_rating": "BUY",
+    "conviction": "MEDIUM",
     "v2_patterns": [
       {
         "pattern": "GANN",
         "direction": "LONG",
-        "anchor_low": 445.59,
+        "anchor_low": 26.79,
         "anchor_low_bar": 124,
-        "anchor_high": 671.83,
-        "anchor_high_bar": 28,
-        "atr": 16.89,
-        "bull_angle_now": 462.48,
-        "bear_angle_now": -966.86,
-        "intersection_price": -725.21,
-        "bars_to_intersection": -70.3,
+        "anchor_high": 37.89,
+        "anchor_high_bar": 12,
+        "atr": 0.81,
+        "bull_angle_now": 27.6,
+        "bear_angle_now": -53.31,
+        "intersection_price": -22.54,
+        "bars_to_intersection": -62.1,
         "liquidity_sweep": true,
         "confluence": "4/5",
-        "entry_price": 462.48,
-        "stop_price": 444.25,
-        "target_1": 479.38,
-        "target_2": 499.48,
-        "target_3": 671.83,
+        "entry_price": 27.6,
+        "stop_price": 26.71,
+        "target_1": 28.43,
+        "target_2": 29.8,
+        "target_3": 37.89,
         "risk_reward": 0.93,
         "gates_cleared": 3,
         "max_gates": 5,
-        "thesis": "Gann 1\u00d71 dual-anchor: bullish from structural low 445.59 + bearish from high 671.83. Price-Time square at -725.21 (in -70 bars). ATR=16.89. Liquidity swept \u2014 hidden demand. Confluence 4/5. Entry at bull angle 462.48, stop 444.25 (below sweep). TP1 at 2\u00d71 angle 479.38, TP2 499.48, TP3 structural high 671.83.",
+        "thesis": "Gann 1\u00d71 dual-anchor: bullish from structural low 26.79 + bearish from high 37.89. Price-Time square at -22.54 (in -62 bars). ATR=0.81. Liquidity swept \u2014 hidden demand. Confluence 4/5. Entry at bull angle 27.60, stop 26.71 (below sweep). TP1 at 2\u00d71 angle 28.43, TP2 29.80, TP3 structural high 37.89.",
         "drawings": [
           {
             "type": "horizontal_line",
-            "price": 462.4837448120117,
+            "price": 27.597100925445556,
             "color": "cyan",
             "label": "Gann 1\u00d71 Bull Angle"
           },
           {
             "type": "horizontal_line",
-            "price": -966.8635848999022,
+            "price": -53.31230173110961,
             "color": "orange",
             "label": "Gann 1\u00d71 Bear Angle"
           },
           {
             "type": "horizontal_line",
-            "price": -725.214877319336,
+            "price": -22.54280052185058,
             "color": "yellow",
-            "label": "Gann Square Point (-70 bars)"
+            "label": "Gann Square Point (-62 bars)"
           },
           {
             "type": "horizontal_line",
-            "price": 445.5899963378906,
+            "price": 26.790000915527344,
             "color": "white",
             "label": "Gann Anchor Low"
           },
           {
             "type": "horizontal_line",
-            "price": 671.8300170898438,
+            "price": 37.88999938964844,
             "color": "white",
             "label": "Gann Anchor High"
           },
           {
             "type": "horizontal_line",
-            "price": 444.253226348877,
+            "price": 26.70963091278076,
             "color": "red",
             "label": "Stop (below sweep)"
           },
           {
             "type": "horizontal_line",
-            "price": 479.3774932861328,
+            "price": 28.425013953208925,
             "color": "green",
             "label": "TP1: 2\u00d71 Angle"
           },
           {
             "type": "horizontal_line",
-            "price": 671.8300170898438,
+            "price": 37.88999938964844,
             "color": "lime",
             "label": "TP3: Structural High"
           }
         ],
-        "symbol": "SMH",
+        "symbol": "ARKX",
         "position_size_pct": 7.0,
         "position_size_usd": 12810
       },
       {
-        "pattern": "FIBONACCI",
+        "pattern": "DIVERGENCE",
         "direction": "LONG",
-        "swing_low": 445.59,
-        "swing_high": 476.25,
-        "move_pct": 6.88,
-        "golden_pocket_top": 457.3,
-        "golden_pocket_bot": 456.32,
-        "fib_786_stop": 452.15,
-        "ext_1272": 484.59,
-        "ext_1618": 495.2,
-        "ext_2618": 525.86,
-        "in_pocket": false,
-        "entry_price": 456.81,
-        "stop_price": 451.7,
-        "target_1": 476.25,
-        "target_2": 495.2,
-        "target_3": 525.86,
-        "risk_reward": 3.8,
+        "divergence_type": "REGULAR_BULLISH",
+        "low1_price": 29.46,
+        "low1_rsi": 29.14,
+        "low2_price": 29.15,
+        "low2_rsi": 38.95,
+        "entry_price": 28.5,
+        "stop_price": 29.0,
+        "target_1": 31.23,
+        "target_2": 32.16,
+        "target_3": 33.72,
+        "risk_reward": 0.0,
         "gates_cleared": 2,
         "max_gates": 4,
-        "thesis": "Fibonacci golden pocket 61.8%\u201365%: swing 445.59\u2192476.25 (+6.9%). Golden pocket 456.32\u2013457.30. Approaching zone. Entry 456.81, stop below 78.6% at 451.70. TP1 prior high 476.25, TP2 161.8% 495.20, TP3 261.8% 525.86.",
+        "thesis": "REGULAR BULLISH: Price 29.46\u219229.15 (LL), RSI 29.1\u219239.0 (HL). RSI=39.0 . Entry 28.50, stop 29.00, TP1 31.23, R:R 0.0.",
         "drawings": [
           {
             "type": "horizontal_line",
-            "price": 476.2499084472656,
-            "color": "white",
-            "label": "0% Swing High"
+            "price": 29.149999618530273,
+            "color": "yellow",
+            "label": "REGULAR_BULLISH \u2014 RSI 39"
           },
           {
             "type": "horizontal_line",
-            "price": 464.5378220214844,
-            "color": "gray",
-            "label": "38.2%"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 460.9199523925781,
-            "color": "gray",
-            "label": "50.0%"
-          },
-          {
-            "type": "rectangle",
-            "top": 457.3020827636719,
-            "bottom": 456.3209655761719,
-            "color": "gold",
-            "label": "Golden Pocket 61.8\u201365%"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 457.3020827636719,
-            "color": "gold",
-            "label": "61.8% Entry Top"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 456.3209655761719,
-            "color": "gold",
-            "label": "65.0% Entry Bot"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 452.1512175292969,
+            "price": 29.004249620437623,
             "color": "red",
-            "label": "78.6% Invalidation"
+            "label": "Divergence Stop"
           },
           {
             "type": "horizontal_line",
-            "price": 445.5899963378906,
-            "color": "white",
-            "label": "100% Swing Low"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 476.2499084472656,
+            "price": 31.225000381469727,
             "color": "green",
-            "label": "TP1: Prior High"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 495.1977341308594,
-            "color": "lime",
-            "label": "TP2: 161.8%"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 525.8576462402344,
-            "color": "white",
-            "label": "TP3: 261.8%"
+            "label": "Div TP1"
           }
         ],
-        "symbol": "SMH",
+        "symbol": "ARKX",
         "position_size_pct": 7.0,
         "position_size_usd": 12810
       }
@@ -2637,25 +2751,7 @@
     "top_pattern_gates": 3,
     "news_signals": [
       {
-        "title": "Prediction: SOXX Will Continue to Outperform SMH. Here's Why. - The Motley Fool",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Prediction: SOXX Will Continue to Outperform SMH. Here's Why. - Yahoo Finance",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "SMH ETF Investors: Watch Hyperscaler Capex Guidance at July Earnings Calls - Yahoo Finance",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "\u2018Economic neanderthal\u2019: Experts warn Trump\u2019s tariff crusade risks global recession - SMH.com.au",
+        "title": "RKLB Stock Eyes Worst Month Ever, But Cathie Wood Keeps Buying \u2014 ARK Adds Rocket Lab, Cuts Exposure To $8B Takeover Target - TradingView",
         "source": "News",
         "score": 2,
         "bull": true
@@ -2664,228 +2760,324 @@
     "market": "US"
   },
   {
-    "ticker": "SOXX",
-    "name": "iShares Semiconductor ETF",
-    "score": 6,
+    "ticker": "IGV",
+    "name": "iShares Software ETF",
+    "score": 5,
     "max": 12,
     "signals": [
       "RSI oversold on DAILY, WEEKLY",
       "\u2705 Golden Cross active",
-      "\u26a0\ufe0f Below 200MA",
+      "\u2705 Above 200MA",
+      "\ud83d\udccd Near Support: $98.17",
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "ma": {
-      "price": 136.55,
-      "ma50": 173.66,
-      "ma200": 159.56,
-      "ma_signal": "\u26a0\ufe0f Below 200MA",
+      "price": 99.23,
+      "ma50": 106.71,
+      "ma200": 94.06,
+      "ma_signal": "\u2705 Above 200MA",
       "cross": "\u2705 Golden Cross active"
     },
     "ad": {
       "signal": "\u26a0\ufe0f A/D declining"
     },
     "patterns": [
+      "\ud83d\udccd Near Support: $98.17",
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "fundamentals": {},
-    "buy_rating": "STRONG BUY",
-    "conviction": "HIGH",
+    "buy_rating": "BUY",
+    "conviction": "MEDIUM",
     "v2_patterns": [
       {
-        "pattern": "GANN",
+        "pattern": "FVG",
         "direction": "LONG",
-        "anchor_low": 130.75,
-        "anchor_low_bar": 124,
-        "anchor_high": 218.65,
-        "anchor_high_bar": 28,
-        "atr": 6.01,
-        "bull_angle_now": 136.76,
-        "bear_angle_now": -364.74,
-        "intersection_price": -282.39,
-        "bars_to_intersection": -69.7,
-        "liquidity_sweep": true,
-        "confluence": "4/5",
-        "entry_price": 136.76,
-        "stop_price": 130.36,
-        "target_1": 142.78,
-        "target_2": 147.71,
-        "target_3": 218.65,
-        "risk_reward": 0.94,
+        "fvg_top": 89.38999938964844,
+        "fvg_bottom": 86.06999969482422,
+        "midpoint": 87.72999954223633,
+        "size_pct": 3.764,
+        "bars_ago": 93,
+        "entry_price": 87.73,
+        "stop_price": 85.98,
+        "target_1": 93.86,
+        "target_2": 98.33,
+        "target_3": 103.25,
+        "risk_reward": 3.51,
         "gates_cleared": 3,
-        "max_gates": 5,
-        "thesis": "Gann 1\u00d71 dual-anchor: bullish from structural low 130.75 + bearish from high 218.65. Price-Time square at -282.39 (in -70 bars). ATR=6.01. Liquidity swept \u2014 hidden demand. Confluence 4/5. Entry at bull angle 136.76, stop 130.36 (below sweep). TP1 at 2\u00d71 angle 142.78, TP2 147.71, TP3 structural high 218.65.",
+        "max_gates": 9,
+        "thesis": "Bullish FVG 86.07\u201389.39 (3.764%). Fresh (93 bars ago), unfilled. Entry midpoint 87.73.",
         "drawings": [
           {
-            "type": "horizontal_line",
-            "price": 136.76433258056642,
+            "type": "rectangle",
+            "top": 89.38999938964844,
+            "bottom": 86.06999969482422,
             "color": "cyan",
-            "label": "Gann 1\u00d71 Bull Angle"
+            "label": "FVG Zone"
           },
           {
             "type": "horizontal_line",
-            "price": -364.74026641845705,
-            "color": "orange",
-            "label": "Gann 1\u00d71 Bear Angle"
+            "price": 87.72999954223633,
+            "color": "cyan",
+            "label": "FVG Entry"
           },
           {
             "type": "horizontal_line",
-            "price": -282.3892791748047,
-            "color": "yellow",
-            "label": "Gann Square Point (-70 bars)"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 130.75,
-            "color": "white",
-            "label": "Gann Anchor Low"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 218.64999389648438,
-            "color": "white",
-            "label": "Gann Anchor High"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 130.35775,
+            "price": 85.98392969512939,
             "color": "red",
-            "label": "Stop (below sweep)"
+            "label": "FVG Stop"
           },
           {
             "type": "horizontal_line",
-            "price": 142.7786651611328,
+            "price": 93.85949935913087,
             "color": "green",
-            "label": "TP1: 2\u00d71 Angle"
+            "label": "FVG TP1"
           },
           {
             "type": "horizontal_line",
-            "price": 218.64999389648438,
+            "price": 98.32899932861329,
             "color": "lime",
-            "label": "TP3: Structural High"
+            "label": "FVG TP2"
           }
         ],
-        "symbol": "SOXX",
+        "symbol": "IGV",
         "position_size_pct": 7.0,
         "position_size_usd": 12810
       },
       {
-        "pattern": "FIBONACCI",
+        "pattern": "DIVERGENCE",
         "direction": "LONG",
-        "swing_low": 130.75,
-        "swing_high": 140.21,
-        "move_pct": 7.24,
-        "golden_pocket_top": 134.36,
-        "golden_pocket_bot": 134.06,
-        "fib_786_stop": 132.77,
-        "ext_1272": 142.78,
-        "ext_1618": 146.06,
-        "ext_2618": 155.52,
-        "in_pocket": false,
-        "entry_price": 134.21,
-        "stop_price": 132.64,
-        "target_1": 140.21,
-        "target_2": 146.06,
-        "target_3": 155.52,
-        "risk_reward": 3.82,
-        "gates_cleared": 2,
+        "divergence_type": "HIDDEN_BULLISH",
+        "low1_price": 103.57,
+        "low1_rsi": 51.68,
+        "low2_price": 103.73,
+        "low2_rsi": 47.1,
+        "entry_price": 99.22,
+        "stop_price": 103.21,
+        "target_1": 112.38,
+        "target_2": 115.75,
+        "target_3": 121.37,
+        "risk_reward": 0.0,
+        "gates_cleared": 1,
         "max_gates": 4,
-        "thesis": "Fibonacci golden pocket 61.8%\u201365%: swing 130.75\u2192140.21 (+7.2%). Golden pocket 134.06\u2013134.36. Approaching zone. Entry 134.21, stop below 78.6% at 132.64. TP1 prior high 140.21, TP2 161.8% 146.06, TP3 261.8% 155.52.",
+        "thesis": "HIDDEN BULLISH: Price 103.57\u2192103.73 (HL), RSI 51.7\u219247.1 (LL). RSI=47.1 . Entry 99.22, stop 103.21, TP1 112.38, R:R 0.0.",
         "drawings": [
           {
             "type": "horizontal_line",
-            "price": 140.2100067138672,
-            "color": "white",
-            "label": "0% Swing High"
+            "price": 103.7300033569336,
+            "color": "yellow",
+            "label": "HIDDEN_BULLISH \u2014 RSI 47"
           },
           {
             "type": "horizontal_line",
-            "price": 136.59628414916992,
-            "color": "gray",
-            "label": "38.2%"
+            "price": 103.21135334014893,
+            "color": "red",
+            "label": "Divergence Stop"
           },
           {
             "type": "horizontal_line",
-            "price": 135.4800033569336,
-            "color": "gray",
-            "label": "50.0%"
+            "price": 112.37999725341797,
+            "color": "green",
+            "label": "Div TP1"
+          }
+        ],
+        "symbol": "IGV",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      }
+    ],
+    "top_pattern": "FVG",
+    "top_pattern_gates": 3,
+    "news_signals": [],
+    "market": "US"
+  },
+  {
+    "ticker": "CIBR",
+    "name": "First Trust Cybersecurity ETF",
+    "score": 5,
+    "max": 12,
+    "signals": [
+      "RSI oversold on DAILY, WEEKLY",
+      "\u2705 Golden Cross active",
+      "\u2705 Above 200MA",
+      "\ud83d\udccd Near Support: $90.64",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+    ],
+    "ma": {
+      "price": 91.53,
+      "ma50": 101.28,
+      "ma200": 83.79,
+      "ma_signal": "\u2705 Above 200MA",
+      "cross": "\u2705 Golden Cross active"
+    },
+    "ad": {
+      "signal": "\u26a0\ufe0f A/D declining"
+    },
+    "patterns": [
+      "\ud83d\udccd Near Support: $90.64",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+    ],
+    "fundamentals": {},
+    "buy_rating": "BUY",
+    "conviction": "MEDIUM",
+    "v2_patterns": [
+      {
+        "pattern": "FVG",
+        "direction": "LONG",
+        "fvg_top": 87.56999969482422,
+        "fvg_bottom": 85.63999938964844,
+        "midpoint": 86.60499954223633,
+        "size_pct": 2.181,
+        "bars_ago": 92,
+        "entry_price": 86.6,
+        "stop_price": 85.55,
+        "target_1": 91.95,
+        "target_2": 96.33,
+        "target_3": 101.14,
+        "risk_reward": 5.09,
+        "gates_cleared": 3,
+        "max_gates": 9,
+        "thesis": "Bullish FVG 85.64\u201387.57 (2.181%). Fresh (92 bars ago), unfilled. Entry midpoint 86.60.",
+        "drawings": [
+          {
+            "type": "rectangle",
+            "top": 87.56999969482422,
+            "bottom": 85.63999938964844,
+            "color": "cyan",
+            "label": "FVG Zone"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 86.60499954223633,
+            "color": "cyan",
+            "label": "FVG Entry"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 85.5543593902588,
+            "color": "red",
+            "label": "FVG Stop"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 91.94849967956543,
+            "color": "green",
+            "label": "FVG TP1"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 96.32699966430665,
+            "color": "lime",
+            "label": "FVG TP2"
+          }
+        ],
+        "symbol": "CIBR",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      },
+      {
+        "pattern": "ELLIOTT_WAVE",
+        "direction": "LONG",
+        "w1_origin": 98.08,
+        "w1_peak": 110.15,
+        "w1_length": 12.07,
+        "wave_a_low": 95.77,
+        "wave_b_high": 99.17,
+        "wave_c_target": 84.79,
+        "fib_618": 102.69,
+        "fib_500": 104.12,
+        "c_equals_a": false,
+        "entry_price": 102.69,
+        "stop_price": 98.03,
+        "target_1": 110.15,
+        "target_2": 117.61,
+        "target_3": 129.68,
+        "risk_reward": 1.6,
+        "gates_cleared": 3,
+        "max_gates": 5,
+        "thesis": "Prechter W2\u2192W3: Wave 1 origin 98.08\u2192peak 110.15 (+12.3%, 5-wave validated). Wave 2 ABC: A low=95.77, B high=99.17, C=A target=84.79. Near 61.8% zone. Entry at 61.8% 102.69, hard stop at Wave 1 origin 98.03. TP1=110.15 (100%), TP2=117.61 (161.8%), TP3=129.68 (261.8%).",
+        "drawings": [
+          {
+            "type": "text",
+            "price": 98.08000183105469,
+            "label": "W1 Origin",
+            "color": "white"
+          },
+          {
+            "type": "text",
+            "price": 110.1500015258789,
+            "label": "\u2460 Peak",
+            "color": "white"
+          },
+          {
+            "type": "text",
+            "price": 95.7699966430664,
+            "label": "A",
+            "color": "orange"
+          },
+          {
+            "type": "text",
+            "price": 99.16999816894531,
+            "label": "B",
+            "color": "orange"
+          },
+          {
+            "type": "text",
+            "price": 84.78999328613281,
+            "label": "C (proj)",
+            "color": "orange"
           },
           {
             "type": "rectangle",
-            "top": 134.36372256469727,
-            "bottom": 134.0610023498535,
-            "color": "gold",
-            "label": "Golden Pocket 61.8\u201365%"
+            "top": 102.69074171447754,
+            "bottom": 101.66383429733277,
+            "color": "cyan",
+            "label": "Entry Zone 61.8%"
           },
           {
             "type": "horizontal_line",
-            "price": 134.36372256469727,
-            "color": "gold",
-            "label": "61.8% Entry Top"
+            "price": 102.69074171447754,
+            "color": "cyan",
+            "label": "61.8% Entry"
           },
           {
             "type": "horizontal_line",
-            "price": 134.0610023498535,
-            "color": "gold",
-            "label": "65.0% Entry Bot"
+            "price": 104.1150016784668,
+            "color": "blue",
+            "label": "50% Support"
           },
           {
             "type": "horizontal_line",
-            "price": 132.77444143676757,
+            "price": 98.03096183013916,
             "color": "red",
-            "label": "78.6% Invalidation"
+            "label": "\u26d4 W1 Origin / Hard Stop"
           },
           {
             "type": "horizontal_line",
-            "price": 130.75,
-            "color": "white",
-            "label": "100% Swing Low"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 140.2100067138672,
+            "price": 110.1500015258789,
             "color": "green",
-            "label": "TP1: Prior High"
+            "label": "TP1: 100% W1 Peak"
           },
           {
             "type": "horizontal_line",
-            "price": 146.0562908630371,
+            "price": 117.60926133728027,
             "color": "lime",
-            "label": "TP2: 161.8%"
+            "label": "TP2: 161.8% Extension"
           },
           {
             "type": "horizontal_line",
-            "price": 155.5162975769043,
+            "price": 129.67926103210448,
             "color": "white",
-            "label": "TP3: 261.8%"
+            "label": "TP3: 261.8% Runner"
           }
         ],
-        "symbol": "SOXX",
+        "symbol": "CIBR",
         "position_size_pct": 7.0,
         "position_size_usd": 12810
       }
     ],
-    "top_pattern": "GANN",
+    "top_pattern": "FVG",
     "top_pattern_gates": 3,
-    "news_signals": [
-      {
-        "title": "Prediction: SOXX Will Continue to Outperform SMH. Here's Why. - The Motley Fool",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Prediction: SOXX Will Outperform S&P 500 and Nasdaq 100 in 2026 - The Motley Fool",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Prediction: SOXX Will Continue to Outperform SMH. Here's Why. - Yahoo Finance",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      }
-    ],
+    "news_signals": [],
     "market": "US"
   },
   {
@@ -2900,8 +3092,8 @@
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "ma": {
-      "price": 293.53,
-      "ma50": 347.88,
+      "price": 293.09,
+      "ma50": 347.87,
       "ma200": 367.09,
       "ma_signal": "\u26a0\ufe0f Below 200MA"
     },
@@ -3017,9 +3209,9 @@
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "ma": {
-      "price": 137.63,
+      "price": 137.84,
       "ma50": 174.82,
-      "ma200": 181.88,
+      "ma200": 181.89,
       "ma_signal": "\u26a0\ufe0f Below 200MA"
     },
     "ad": {
@@ -3041,36 +3233,36 @@
         "anchor_high_bar": 34,
         "atr": 6.98,
         "bull_angle_now": 135.15,
-        "bear_angle_now": -327.51,
-        "intersection_price": -333.39,
+        "bear_angle_now": -327.61,
+        "intersection_price": -333.47,
         "bars_to_intersection": -67.2,
         "liquidity_sweep": true,
         "confluence": "4/5",
         "entry_price": 135.15,
         "stop_price": 127.79,
-        "target_1": 142.12,
+        "target_1": 142.13,
         "target_2": 145.96,
         "target_3": 307.37,
         "risk_reward": 0.95,
         "gates_cleared": 3,
         "max_gates": 5,
-        "thesis": "Gann 1\u00d71 dual-anchor: bullish from structural low 128.17 + bearish from high 307.37. Price-Time square at -333.39 (in -67 bars). ATR=6.98. Liquidity swept \u2014 hidden demand. Confluence 4/5. Entry at bull angle 135.15, stop 127.79 (below sweep). TP1 at 2\u00d71 angle 142.12, TP2 145.96, TP3 structural high 307.37.",
+        "thesis": "Gann 1\u00d71 dual-anchor: bullish from structural low 128.17 + bearish from high 307.37. Price-Time square at -333.47 (in -67 bars). ATR=6.98. Liquidity swept \u2014 hidden demand. Confluence 4/5. Entry at bull angle 135.15, stop 127.79 (below sweep). TP1 at 2\u00d71 angle 142.13, TP2 145.96, TP3 structural high 307.37.",
         "drawings": [
           {
             "type": "horizontal_line",
-            "price": 135.14674911499023,
+            "price": 135.14774856567382,
             "color": "cyan",
             "label": "Gann 1\u00d71 Bull Angle"
           },
           {
             "type": "horizontal_line",
-            "price": -327.5143409729004,
+            "price": -327.60529098510744,
             "color": "orange",
             "label": "Gann 1\u00d71 Bear Angle"
           },
           {
             "type": "horizontal_line",
-            "price": -333.39332809448246,
+            "price": -333.47228469848636,
             "color": "yellow",
             "label": "Gann Square Point (-67 bars)"
           },
@@ -3094,7 +3286,7 @@
           },
           {
             "type": "horizontal_line",
-            "price": 142.12350006103514,
+            "price": 142.12549896240233,
             "color": "green",
             "label": "TP1: 2\u00d71 Angle"
           },
@@ -3135,208 +3327,29 @@
     "market": "US"
   },
   {
-    "ticker": "AMZN",
-    "name": "Amazon.com",
-    "score": 5,
+    "ticker": "XLK",
+    "name": "Technology Select Sector SPDR",
+    "score": 4,
     "max": 12,
     "signals": [
+      "RSI oversold on DAILY, WEEKLY",
       "\u2705 Golden Cross active",
-      "\u2705 Above 200MA",
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
+      "\u26a0\ufe0f Below 200MA",
+      "\ud83d\udccd Near Support: $162.14",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "ma": {
-      "price": 261.51,
-      "ma50": 253.99,
-      "ma200": 243.95,
-      "ma_signal": "\u2705 Above 200MA",
+      "price": 165.65,
+      "ma50": 188.46,
+      "ma200": 170.21,
+      "ma_signal": "\u26a0\ufe0f Below 200MA",
       "cross": "\u2705 Golden Cross active"
     },
     "ad": {
       "signal": "\u26a0\ufe0f A/D declining"
     },
     "patterns": [
-      "\ud83d\udcca Bullish FVG \u2014 buy on pullback"
-    ],
-    "fundamentals": {},
-    "buy_rating": "BUY",
-    "conviction": "MEDIUM",
-    "v2_patterns": [
-      {
-        "pattern": "FIBONACCI",
-        "direction": "LONG",
-        "swing_low": 245.88,
-        "swing_high": 273.23,
-        "move_pct": 11.12,
-        "golden_pocket_top": 256.33,
-        "golden_pocket_bot": 255.45,
-        "fib_786_stop": 251.73,
-        "ext_1272": 280.67,
-        "ext_1618": 290.13,
-        "ext_2618": 317.48,
-        "in_pocket": false,
-        "entry_price": 255.89,
-        "stop_price": 251.48,
-        "target_1": 273.23,
-        "target_2": 290.13,
-        "target_3": 317.48,
-        "risk_reward": 3.93,
-        "gates_cleared": 3,
-        "max_gates": 4,
-        "thesis": "Fibonacci golden pocket 61.8%\u201365%: swing 245.88\u2192273.23 (+11.1%). Golden pocket 255.45\u2013256.33. Approaching zone. Entry 255.89, stop below 78.6% at 251.48. TP1 prior high 273.23, TP2 161.8% 290.13, TP3 261.8% 317.48.",
-        "drawings": [
-          {
-            "type": "horizontal_line",
-            "price": 273.2300109863281,
-            "color": "white",
-            "label": "0% Swing High"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 262.78230865478514,
-            "color": "gray",
-            "label": "38.2%"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 259.5550079345703,
-            "color": "gray",
-            "label": "50.0%"
-          },
-          {
-            "type": "rectangle",
-            "top": 256.3277072143555,
-            "bottom": 255.45250701904297,
-            "color": "gold",
-            "label": "Golden Pocket 61.8\u201365%"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 256.3277072143555,
-            "color": "gold",
-            "label": "61.8% Entry Top"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 255.45250701904297,
-            "color": "gold",
-            "label": "65.0% Entry Bot"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 251.73290618896485,
-            "color": "red",
-            "label": "78.6% Invalidation"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 245.8800048828125,
-            "color": "white",
-            "label": "100% Swing Low"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 273.2300109863281,
-            "color": "green",
-            "label": "TP1: Prior High"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 290.13231475830077,
-            "color": "lime",
-            "label": "TP2: 161.8%"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 317.4823208618164,
-            "color": "white",
-            "label": "TP3: 261.8%"
-          }
-        ],
-        "symbol": "AMZN",
-        "position_size_pct": 7.0,
-        "position_size_usd": 12810
-      }
-    ],
-    "top_pattern": "FIBONACCI",
-    "top_pattern_gates": 3,
-    "news_signals": [
-      {
-        "title": "Amazon.com Inc (AMZN) (Q2 2026) Earnings Call Highlights: Record Revenue and AWS Acceleration ... - Yahoo Finance",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Amazon.com Inc (AMZN) Q1 2026 Earnings Call Highlights: Record Revenue and AWS Growth Propel ... - Yahoo Finance",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      }
-    ],
-    "market": "US"
-  },
-  {
-    "ticker": "TSLA",
-    "name": "Tesla Inc",
-    "score": 5,
-    "max": 12,
-    "signals": [
-      "RSI oversold on DAILY, WEEKLY",
-      "\u26a0\ufe0f Below 200MA",
-      "\ud83c\udf1f Fib 61.8%: $367.21",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
-    ],
-    "ma": {
-      "price": 362.19,
-      "ma50": 372.22,
-      "ma200": 383.88,
-      "ma_signal": "\u26a0\ufe0f Below 200MA"
-    },
-    "ad": {
-      "signal": "\u26a0\ufe0f A/D declining"
-    },
-    "patterns": [
-      "\ud83c\udf1f Fib 61.8%: $367.21",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
-    ],
-    "fundamentals": {},
-    "buy_rating": "BUY",
-    "conviction": "MEDIUM",
-    "v2_patterns": [],
-    "top_pattern": "NONE",
-    "top_pattern_gates": 0,
-    "news_signals": [
-      {
-        "title": "Tesla reports record revenue and beats on earnings - CNBC",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      }
-    ],
-    "market": "US"
-  },
-  {
-    "ticker": "ARKQ",
-    "name": "ARK Autonomous Tech ETF",
-    "score": 5,
-    "max": 12,
-    "signals": [
-      "RSI oversold on DAILY, WEEKLY",
-      "\u26a0\ufe0f Below 200MA",
-      "\u26a1 Bullish RSI Divergence",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
-    ],
-    "ma": {
-      "price": 105.12,
-      "ma50": 118.8,
-      "ma200": 123.62,
-      "ma_signal": "\u26a0\ufe0f Below 200MA"
-    },
-    "ad": {
-      "signal": "\u26a0\ufe0f A/D declining"
-    },
-    "patterns": [
-      "\u26a1 Bullish RSI Divergence",
+      "\ud83d\udccd Near Support: $162.14",
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "fundamentals": {},
@@ -3346,132 +3359,377 @@
       {
         "pattern": "GANN",
         "direction": "LONG",
-        "anchor_low": 98.24,
+        "anchor_low": 162.14,
         "anchor_low_bar": 124,
-        "anchor_high": 144.42,
-        "anchor_high_bar": 12,
-        "atr": 3.07,
-        "bull_angle_now": 101.31,
-        "bear_angle_now": -202.27,
-        "intersection_price": -87.3,
-        "bars_to_intersection": -61.5,
+        "anchor_high": 203.25,
+        "anchor_high_bar": 102,
+        "atr": 4.06,
+        "bull_angle_now": 166.2,
+        "bear_angle_now": 109.93,
+        "intersection_price": -275.8,
+        "bars_to_intersection": -108.9,
         "liquidity_sweep": true,
         "confluence": "4/5",
-        "entry_price": 101.31,
-        "stop_price": 97.95,
-        "target_1": 104.38,
-        "target_2": 109.41,
-        "target_3": 144.42,
-        "risk_reward": 0.91,
+        "entry_price": 166.2,
+        "stop_price": 161.65,
+        "target_1": 171.18,
+        "target_2": 179.49,
+        "target_3": 203.25,
+        "risk_reward": 1.1,
         "gates_cleared": 3,
         "max_gates": 5,
-        "thesis": "Gann 1\u00d71 dual-anchor: bullish from structural low 98.24 + bearish from high 144.42. Price-Time square at -87.30 (in -61 bars). ATR=3.07. Liquidity swept \u2014 hidden demand. Confluence 4/5. Entry at bull angle 101.31, stop 97.95 (below sweep). TP1 at 2\u00d71 angle 104.38, TP2 109.41, TP3 structural high 144.42.",
+        "thesis": "Gann 1\u00d71 dual-anchor: bullish from structural low 162.14 + bearish from high 203.25. Price-Time square at -275.80 (in -109 bars). ATR=4.06. Liquidity swept \u2014 hidden demand. Confluence 4/5. Entry at bull angle 166.20, stop 161.65 (below sweep). TP1 at 2\u00d71 angle 171.18, TP2 179.49, TP3 structural high 203.25.",
         "drawings": [
           {
             "type": "horizontal_line",
-            "price": 101.30804710388183,
+            "price": 166.1974983215332,
             "color": "cyan",
             "label": "Gann 1\u00d71 Bull Angle"
           },
           {
             "type": "horizontal_line",
-            "price": -202.27356376647947,
+            "price": 109.92752456665039,
             "color": "orange",
             "label": "Gann 1\u00d71 Bear Angle"
           },
           {
             "type": "horizontal_line",
-            "price": -87.29934921264646,
+            "price": -275.8023796081543,
             "color": "yellow",
-            "label": "Gann Square Point (-61 bars)"
+            "label": "Gann Square Point (-109 bars)"
           },
           {
             "type": "horizontal_line",
-            "price": 98.23999786376953,
+            "price": 162.13999938964844,
             "color": "white",
             "label": "Gann Anchor Low"
           },
           {
             "type": "horizontal_line",
-            "price": 144.41600036621094,
+            "price": 203.25,
             "color": "white",
             "label": "Gann Anchor High"
           },
           {
             "type": "horizontal_line",
-            "price": 97.94527787017822,
+            "price": 161.6535793914795,
             "color": "red",
             "label": "Stop (below sweep)"
           },
           {
             "type": "horizontal_line",
-            "price": 104.37609634399413,
+            "price": 171.1834232711792,
             "color": "green",
             "label": "TP1: 2\u00d71 Angle"
           },
           {
             "type": "horizontal_line",
-            "price": 144.41600036621094,
+            "price": 203.25,
             "color": "lime",
             "label": "TP3: Structural High"
           }
         ],
-        "symbol": "ARKQ",
-        "position_size_pct": 7.0,
-        "position_size_usd": 12810
-      },
-      {
-        "pattern": "DIVERGENCE",
-        "direction": "LONG",
-        "divergence_type": "REGULAR_BULLISH",
-        "low1_price": 111.4,
-        "low1_rsi": 33.54,
-        "low2_price": 110.26,
-        "low2_rsi": 39.04,
-        "entry_price": 105.12,
-        "stop_price": 109.71,
-        "target_1": 117.22,
-        "target_2": 120.74,
-        "target_3": 126.6,
-        "risk_reward": 0.0,
-        "gates_cleared": 2,
-        "max_gates": 4,
-        "thesis": "REGULAR BULLISH: Price 111.40\u2192110.26 (LL), RSI 33.5\u219239.0 (HL). RSI=39.0 . Entry 105.12, stop 109.71, TP1 117.22, R:R 0.0.",
-        "drawings": [
-          {
-            "type": "horizontal_line",
-            "price": 110.26000213623047,
-            "color": "yellow",
-            "label": "REGULAR_BULLISH \u2014 RSI 39"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 109.70870212554932,
-            "color": "red",
-            "label": "Divergence Stop"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 117.22000122070312,
-            "color": "green",
-            "label": "Div TP1"
-          }
-        ],
-        "symbol": "ARKQ",
+        "symbol": "XLK",
         "position_size_pct": 7.0,
         "position_size_usd": 12810
       }
     ],
     "top_pattern": "GANN",
     "top_pattern_gates": 3,
-    "news_signals": [
+    "news_signals": [],
+    "market": "US"
+  },
+  {
+    "ticker": "ARKG",
+    "name": "ARK Genomic Revolution ETF",
+    "score": 4,
+    "max": 12,
+    "signals": [
+      "RSI oversold on DAILY",
+      "\u2705 Golden Cross active",
+      "\u2705 Above 200MA",
+      "\ud83d\udccd Near Support: $43.89",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+    ],
+    "ma": {
+      "price": 45.14,
+      "ma50": 49.73,
+      "ma200": 37.73,
+      "ma_signal": "\u2705 Above 200MA",
+      "cross": "\u2705 Golden Cross active"
+    },
+    "ad": {
+      "signal": "\u26a0\ufe0f A/D declining"
+    },
+    "patterns": [
+      "\ud83d\udccd Near Support: $43.89",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+    ],
+    "fundamentals": {},
+    "buy_rating": "BUY",
+    "conviction": "MEDIUM",
+    "v2_patterns": [
       {
-        "title": "RKLB Stock Eyes Worst Month Ever, But Cathie Wood Keeps Buying \u2014 ARK Adds Rocket Lab, Cuts Exposure To $8B Takeover Target - TradingView",
-        "source": "News",
-        "score": 2,
-        "bull": true
+        "pattern": "FVG",
+        "direction": "LONG",
+        "fvg_top": 34.845001220703125,
+        "fvg_bottom": 34.439998626708984,
+        "midpoint": 34.642499923706055,
+        "size_pct": 1.154,
+        "bars_ago": 101,
+        "entry_price": 34.64,
+        "stop_price": 34.41,
+        "target_1": 36.59,
+        "target_2": 38.33,
+        "target_3": 40.25,
+        "risk_reward": 8.21,
+        "gates_cleared": 3,
+        "max_gates": 9,
+        "thesis": "Bullish FVG 34.44\u201334.85 (1.154%). Fresh (101 bars ago), unfilled. Entry midpoint 34.64.",
+        "drawings": [
+          {
+            "type": "rectangle",
+            "top": 34.845001220703125,
+            "bottom": 34.439998626708984,
+            "color": "cyan",
+            "label": "FVG Zone"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 34.642499923706055,
+            "color": "cyan",
+            "label": "FVG Entry"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 34.405558628082275,
+            "color": "red",
+            "label": "FVG Stop"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 36.58725128173828,
+            "color": "green",
+            "label": "FVG TP1"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 38.32950134277344,
+            "color": "lime",
+            "label": "FVG TP2"
+          }
+        ],
+        "symbol": "ARKG",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
       }
     ],
+    "top_pattern": "FVG",
+    "top_pattern_gates": 3,
+    "news_signals": [],
+    "market": "US"
+  },
+  {
+    "ticker": "WCLD",
+    "name": "WisdomTree Cloud Computing",
+    "score": 4,
+    "max": 12,
+    "signals": [
+      "RSI oversold on DAILY",
+      "\u2705 Golden Cross active",
+      "\u2705 Above 200MA",
+      "\ud83d\udccd Near Support: $40.27",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+    ],
+    "ma": {
+      "price": 40.88,
+      "ma50": 42.19,
+      "ma200": 33.81,
+      "ma_signal": "\u2705 Above 200MA",
+      "cross": "\u2705 Golden Cross active"
+    },
+    "ad": {
+      "signal": "\u26a0\ufe0f A/D declining"
+    },
+    "patterns": [
+      "\ud83d\udccd Near Support: $40.27",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+    ],
+    "fundamentals": {},
+    "buy_rating": "BUY",
+    "conviction": "MEDIUM",
+    "v2_patterns": [
+      {
+        "pattern": "FVG",
+        "direction": "LONG",
+        "fvg_top": 31.09000015258789,
+        "fvg_bottom": 30.760000228881836,
+        "midpoint": 30.925000190734863,
+        "size_pct": 1.046,
+        "bars_ago": 92,
+        "entry_price": 30.93,
+        "stop_price": 30.73,
+        "target_1": 32.64,
+        "target_2": 34.2,
+        "target_3": 35.91,
+        "risk_reward": 8.78,
+        "gates_cleared": 3,
+        "max_gates": 9,
+        "thesis": "Bullish FVG 30.76\u201331.09 (1.046%). Fresh (92 bars ago), unfilled. Entry midpoint 30.93.",
+        "drawings": [
+          {
+            "type": "rectangle",
+            "top": 31.09000015258789,
+            "bottom": 30.760000228881836,
+            "color": "cyan",
+            "label": "FVG Zone"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 30.925000190734863,
+            "color": "cyan",
+            "label": "FVG Entry"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 30.729240228652955,
+            "color": "red",
+            "label": "FVG Stop"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 32.644500160217284,
+            "color": "green",
+            "label": "FVG TP1"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 34.199000167846684,
+            "color": "lime",
+            "label": "FVG TP2"
+          }
+        ],
+        "symbol": "WCLD",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      }
+    ],
+    "top_pattern": "FVG",
+    "top_pattern_gates": 3,
+    "news_signals": [],
+    "market": "US"
+  },
+  {
+    "ticker": "ROBT",
+    "name": "First Trust Nasdaq AI & Robotics",
+    "score": 4,
+    "max": 12,
+    "signals": [
+      "RSI oversold on DAILY, WEEKLY",
+      "\u2705 Golden Cross active",
+      "\u26a0\ufe0f Below 200MA",
+      "\ud83d\udccd Near Support: $52.03",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+    ],
+    "ma": {
+      "price": 52.79,
+      "ma50": 58.2,
+      "ma200": 54.46,
+      "ma_signal": "\u26a0\ufe0f Below 200MA",
+      "cross": "\u2705 Golden Cross active"
+    },
+    "ad": {
+      "signal": "\u26a0\ufe0f A/D declining"
+    },
+    "patterns": [
+      "\ud83d\udccd Near Support: $52.03",
+      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
+    ],
+    "fundamentals": {},
+    "buy_rating": "BUY",
+    "conviction": "MEDIUM",
+    "v2_patterns": [
+      {
+        "pattern": "GANN",
+        "direction": "LONG",
+        "anchor_low": 52.03,
+        "anchor_low_bar": 124,
+        "anchor_high": 61.72,
+        "anchor_high_bar": 102,
+        "atr": 1.07,
+        "bull_angle_now": 53.1,
+        "bear_angle_now": 37.2,
+        "intersection_price": -63.59,
+        "bars_to_intersection": -109.5,
+        "liquidity_sweep": true,
+        "confluence": "4/5",
+        "entry_price": 53.1,
+        "stop_price": 51.87,
+        "target_1": 54.69,
+        "target_2": 57.34,
+        "target_3": 61.72,
+        "risk_reward": 1.3,
+        "gates_cleared": 3,
+        "max_gates": 5,
+        "thesis": "Gann 1\u00d71 dual-anchor: bullish from structural low 52.03 + bearish from high 61.72. Price-Time square at -63.59 (in -109 bars). ATR=1.07. Liquidity swept \u2014 hidden demand. Confluence 4/5. Entry at bull angle 53.10, stop 51.87 (below sweep). TP1 at 2\u00d71 angle 54.69, TP2 57.34, TP3 structural high 61.72.",
+        "drawings": [
+          {
+            "type": "horizontal_line",
+            "price": 53.09609832763672,
+            "color": "cyan",
+            "label": "Gann 1\u00d71 Bull Angle"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 37.199711608886716,
+            "color": "orange",
+            "label": "Gann 1\u00d71 Bear Angle"
+          },
+          {
+            "type": "horizontal_line",
+            "price": -63.59424896240233,
+            "color": "yellow",
+            "label": "Gann Square Point (-109 bars)"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 52.029998779296875,
+            "color": "white",
+            "label": "Gann Anchor Low"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 61.720001220703125,
+            "color": "white",
+            "label": "Gann Anchor High"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 51.873908782958985,
+            "color": "red",
+            "label": "Stop (below sweep)"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 54.68898127746582,
+            "color": "green",
+            "label": "TP1: 2\u00d71 Angle"
+          },
+          {
+            "type": "horizontal_line",
+            "price": 61.720001220703125,
+            "color": "lime",
+            "label": "TP3: Structural High"
+          }
+        ],
+        "symbol": "ROBT",
+        "position_size_pct": 7.0,
+        "position_size_usd": 12810
+      }
+    ],
+    "top_pattern": "GANN",
+    "top_pattern_gates": 3,
+    "news_signals": [],
     "market": "US"
   },
   {
@@ -3486,9 +3744,9 @@
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "ma": {
-      "price": 334.07,
-      "ma50": 444.87,
-      "ma200": 445.36,
+      "price": 332.72,
+      "ma50": 444.84,
+      "ma200": 445.35,
       "ma_signal": "\u26a0\ufe0f Below 200MA",
       "cross": "\ud83d\udd34 DEATH CROSS"
     },
@@ -3688,163 +3946,20 @@
     "market": "US"
   },
   {
-    "ticker": "GOOGL",
-    "name": "Alphabet (Google)",
-    "score": 4,
-    "max": 12,
-    "signals": [
-      "RSI oversold on DAILY, WEEKLY",
-      "\u26a0\ufe0f Below 200MA"
-    ],
-    "ma": {
-      "price": 285.49,
-      "ma50": 332.94,
-      "ma200": 339.52,
-      "ma_signal": "\u26a0\ufe0f Below 200MA"
-    },
-    "ad": {
-      "signal": "\u26a0\ufe0f A/D declining"
-    },
-    "patterns": [],
-    "fundamentals": {},
-    "buy_rating": "BUY",
-    "conviction": "MEDIUM",
-    "v2_patterns": [
-      {
-        "pattern": "ELLIOTT_WAVE",
-        "direction": "LONG",
-        "w1_origin": 341.16,
-        "w1_peak": 359.4,
-        "w1_length": 18.24,
-        "wave_a_low": 316.6,
-        "wave_b_high": 326.41,
-        "wave_c_target": 283.61,
-        "fib_618": 348.13,
-        "fib_500": 350.28,
-        "c_equals_a": false,
-        "entry_price": 348.13,
-        "stop_price": 340.99,
-        "target_1": 359.4,
-        "target_2": 370.67,
-        "target_3": 388.91,
-        "risk_reward": 1.58,
-        "gates_cleared": 3,
-        "max_gates": 5,
-        "thesis": "Prechter W2\u2192W3: Wave 1 origin 341.16\u2192peak 359.40 (+5.3%, 5-wave validated). Wave 2 ABC: A low=316.60, B high=326.41, C=A target=283.61. Near 61.8% zone. Entry at 61.8% 348.13, hard stop at Wave 1 origin 340.99. TP1=359.40 (100%), TP2=370.67 (161.8%), TP3=388.91 (261.8%).",
-        "drawings": [
-          {
-            "type": "text",
-            "price": 341.1600036621094,
-            "label": "W1 Origin",
-            "color": "white"
-          },
-          {
-            "type": "text",
-            "price": 359.3999938964844,
-            "label": "\u2460 Peak",
-            "color": "white"
-          },
-          {
-            "type": "text",
-            "price": 316.6000061035156,
-            "label": "A",
-            "color": "orange"
-          },
-          {
-            "type": "text",
-            "price": 326.4100036621094,
-            "label": "B",
-            "color": "orange"
-          },
-          {
-            "type": "text",
-            "price": 283.6100158691406,
-            "label": "C (proj)",
-            "color": "orange"
-          },
-          {
-            "type": "rectangle",
-            "top": 348.1276799316406,
-            "bottom": 344.6464031323242,
-            "color": "cyan",
-            "label": "Entry Zone 61.8%"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 348.1276799316406,
-            "color": "cyan",
-            "label": "61.8% Entry"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 350.2799987792969,
-            "color": "blue",
-            "label": "50% Support"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 340.98942366027836,
-            "color": "red",
-            "label": "\u26d4 W1 Origin / Hard Stop"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 359.3999938964844,
-            "color": "green",
-            "label": "TP1: 100% W1 Peak"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 370.67230786132814,
-            "color": "lime",
-            "label": "TP2: 161.8% Extension"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 388.91229809570314,
-            "color": "white",
-            "label": "TP3: 261.8% Runner"
-          }
-        ],
-        "symbol": "GOOGL",
-        "position_size_pct": 7.0,
-        "position_size_usd": 12810
-      }
-    ],
-    "top_pattern": "ELLIOTT_WAVE",
-    "top_pattern_gates": 3,
-    "news_signals": [
-      {
-        "title": "Google falls more than 6% on capex growth expectations despite earnings beat - Yahoo Finance",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      },
-      {
-        "title": "Google Stock Soars On Q1 Earnings As Analysts Trumpet 'Full Stack' AI Platform - Investor's Business Daily",
-        "source": "News",
-        "score": 2,
-        "bull": true
-      }
-    ],
-    "market": "US"
-  },
-  {
-    "ticker": "NOW",
-    "name": "ServiceNow",
-    "score": 4,
+    "ticker": "ARKK",
+    "name": "ARK Innovation ETF",
+    "score": 3,
     "max": 12,
     "signals": [
       "RSI oversold on DAILY, WEEKLY",
       "\u2705 Golden Cross active",
       "\u26a0\ufe0f Below 200MA",
-      "\ud83d\udccd Near Support: $100.55",
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "ma": {
-      "price": 101.99,
-      "ma50": 136.3,
-      "ma200": 114.44,
+      "price": 75.58,
+      "ma50": 85.46,
+      "ma200": 78.2,
       "ma_signal": "\u26a0\ufe0f Below 200MA",
       "cross": "\u2705 Golden Cross active"
     },
@@ -3852,183 +3967,14 @@
       "signal": "\u26a0\ufe0f A/D declining"
     },
     "patterns": [
-      "\ud83d\udccd Near Support: $100.55",
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "fundamentals": {},
-    "buy_rating": "BUY",
-    "conviction": "MEDIUM",
-    "v2_patterns": [
-      {
-        "pattern": "FVG",
-        "direction": "LONG",
-        "fvg_top": 91.97000122070312,
-        "fvg_bottom": 88.58000183105469,
-        "midpoint": 90.2750015258789,
-        "size_pct": 3.746,
-        "bars_ago": 122,
-        "entry_price": 90.28,
-        "stop_price": 88.49,
-        "target_1": 96.57,
-        "target_2": 101.17,
-        "target_3": 106.23,
-        "risk_reward": 3.53,
-        "gates_cleared": 3,
-        "max_gates": 9,
-        "thesis": "Bullish FVG 88.58\u201391.97 (3.746%). Fresh (122 bars ago), unfilled. Entry midpoint 90.28.",
-        "drawings": [
-          {
-            "type": "rectangle",
-            "top": 91.97000122070312,
-            "bottom": 88.58000183105469,
-            "color": "cyan",
-            "label": "FVG Zone"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 90.2750015258789,
-            "color": "cyan",
-            "label": "FVG Entry"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 88.49142182922363,
-            "color": "red",
-            "label": "FVG Stop"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 96.56850128173828,
-            "color": "green",
-            "label": "FVG TP1"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 101.16700134277345,
-            "color": "lime",
-            "label": "FVG TP2"
-          }
-        ],
-        "symbol": "NOW",
-        "position_size_pct": 7.0,
-        "position_size_usd": 12810
-      }
-    ],
-    "top_pattern": "FVG",
-    "top_pattern_gates": 3,
-    "news_signals": [],
-    "market": "US"
-  },
-  {
-    "ticker": "XLK",
-    "name": "Technology Select Sector SPDR",
-    "score": 4,
-    "max": 12,
-    "signals": [
-      "RSI oversold on DAILY, WEEKLY",
-      "\u2705 Golden Cross active",
-      "\u26a0\ufe0f Below 200MA",
-      "\ud83d\udccd Near Support: $162.14",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
-    ],
-    "ma": {
-      "price": 165.18,
-      "ma50": 188.45,
-      "ma200": 170.2,
-      "ma_signal": "\u26a0\ufe0f Below 200MA",
-      "cross": "\u2705 Golden Cross active"
-    },
-    "ad": {
-      "signal": "\u26a0\ufe0f A/D declining"
-    },
-    "patterns": [
-      "\ud83d\udccd Near Support: $162.14",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
-    ],
-    "fundamentals": {},
-    "buy_rating": "BUY",
-    "conviction": "MEDIUM",
-    "v2_patterns": [
-      {
-        "pattern": "GANN",
-        "direction": "LONG",
-        "anchor_low": 162.14,
-        "anchor_low_bar": 124,
-        "anchor_high": 203.25,
-        "anchor_high_bar": 102,
-        "atr": 4.06,
-        "bull_angle_now": 166.2,
-        "bear_angle_now": 109.93,
-        "intersection_price": -275.8,
-        "bars_to_intersection": -108.9,
-        "liquidity_sweep": true,
-        "confluence": "4/5",
-        "entry_price": 166.2,
-        "stop_price": 161.65,
-        "target_1": 171.18,
-        "target_2": 179.49,
-        "target_3": 203.25,
-        "risk_reward": 1.1,
-        "gates_cleared": 3,
-        "max_gates": 5,
-        "thesis": "Gann 1\u00d71 dual-anchor: bullish from structural low 162.14 + bearish from high 203.25. Price-Time square at -275.80 (in -109 bars). ATR=4.06. Liquidity swept \u2014 hidden demand. Confluence 4/5. Entry at bull angle 166.20, stop 161.65 (below sweep). TP1 at 2\u00d71 angle 171.18, TP2 179.49, TP3 structural high 203.25.",
-        "drawings": [
-          {
-            "type": "horizontal_line",
-            "price": 166.1974983215332,
-            "color": "cyan",
-            "label": "Gann 1\u00d71 Bull Angle"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 109.92752456665039,
-            "color": "orange",
-            "label": "Gann 1\u00d71 Bear Angle"
-          },
-          {
-            "type": "horizontal_line",
-            "price": -275.8023796081543,
-            "color": "yellow",
-            "label": "Gann Square Point (-109 bars)"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 162.13999938964844,
-            "color": "white",
-            "label": "Gann Anchor Low"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 203.25,
-            "color": "white",
-            "label": "Gann Anchor High"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 161.6535793914795,
-            "color": "red",
-            "label": "Stop (below sweep)"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 171.1834232711792,
-            "color": "green",
-            "label": "TP1: 2\u00d71 Angle"
-          },
-          {
-            "type": "horizontal_line",
-            "price": 203.25,
-            "color": "lime",
-            "label": "TP3: Structural High"
-          }
-        ],
-        "symbol": "XLK",
-        "position_size_pct": 7.0,
-        "position_size_usd": 12810
-      }
-    ],
-    "top_pattern": "GANN",
-    "top_pattern_gates": 3,
+    "buy_rating": "WATCH",
+    "conviction": "LOW",
+    "v2_patterns": [],
+    "top_pattern": "NONE",
+    "top_pattern_gates": 0,
     "news_signals": [],
     "market": "US"
   },
@@ -4044,7 +3990,7 @@
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "ma": {
-      "price": 188.2,
+      "price": 188.19,
       "ma50": 219.84,
       "ma200": 204.68,
       "ma_signal": "\u26a0\ufe0f Below 200MA",
@@ -4250,7 +4196,7 @@
       "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
     ],
     "ma": {
-      "price": 692.8,
+      "price": 692.49,
       "ma50": 961.69,
       "ma200": 756.74,
       "ma_signal": "\u26a0\ufe0f Below 200MA",
@@ -4446,7 +4392,7 @@
         "low1_rsi": 34.02,
         "low2_price": 849.25,
         "low2_rsi": 38.16,
-        "entry_price": 693.05,
+        "entry_price": 692.41,
         "stop_price": 845.0,
         "target_1": 990.0,
         "target_2": 1019.7,
@@ -4454,7 +4400,7 @@
         "risk_reward": 0.0,
         "gates_cleared": 2,
         "max_gates": 4,
-        "thesis": "REGULAR BULLISH: Price 858.00\u2192849.25 (LL), RSI 34.0\u219238.2 (HL). RSI=38.2 . Entry 693.05, stop 845.00, TP1 990.00, R:R 0.0.",
+        "thesis": "REGULAR BULLISH: Price 858.00\u2192849.25 (LL), RSI 34.0\u219238.2 (HL). RSI=38.2 . Entry 692.41, stop 845.00, TP1 990.00, R:R 0.0.",
         "drawings": [
           {
             "type": "horizontal_line",
@@ -4482,39 +4428,6 @@
     ],
     "top_pattern": "FIBONACCI",
     "top_pattern_gates": 3,
-    "news_signals": [],
-    "market": "US"
-  },
-  {
-    "ticker": "ARKK",
-    "name": "ARK Innovation ETF",
-    "score": 3,
-    "max": 12,
-    "signals": [
-      "RSI oversold on DAILY, WEEKLY",
-      "\u2705 Golden Cross active",
-      "\u26a0\ufe0f Below 200MA",
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
-    ],
-    "ma": {
-      "price": 75.46,
-      "ma50": 85.46,
-      "ma200": 78.2,
-      "ma_signal": "\u26a0\ufe0f Below 200MA",
-      "cross": "\u2705 Golden Cross active"
-    },
-    "ad": {
-      "signal": "\u26a0\ufe0f A/D declining"
-    },
-    "patterns": [
-      "\ud83d\udcc9 Downtrend: Lower Highs & Lows"
-    ],
-    "fundamentals": {},
-    "buy_rating": "WATCH",
-    "conviction": "LOW",
-    "v2_patterns": [],
-    "top_pattern": "NONE",
-    "top_pattern_gates": 0,
     "news_signals": [],
     "market": "US"
   }
